@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Collections;
-using System.Windows.Forms;
 
 namespace TEST
 {
@@ -31,7 +30,9 @@ namespace TEST
             }
             catch (Exception e)
             {
-                MessageBox.Show("Problems with the Database connection:" + e);
+
+                
+                //MessageBox.Show("Problems with the Database connection:" + e);
                 throw;
             }
         }
@@ -48,13 +49,16 @@ namespace TEST
             }
             catch (Exception e)
             {
-                MessageBox.Show("Problems with writing to the Database:" + e);
+                //MessageBox.Show("Problems with writing to the Database:" + e);
                 throw;
             }
         }
 
 
-        public ArrayList Read(string p_command)
+
+
+// chunnt no
+        public void Read(string p_command)
         {
             try
             {
@@ -64,7 +68,6 @@ namespace TEST
                 //READ LOGIK
 
                 ArrayList dataArray = new ArrayList();
-
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -79,13 +82,11 @@ namespace TEST
                     }
                       
                 }
-
-                return dataArray;
             }
 
             catch (Exception e)
             {
-                MessageBox.Show("Datenbankserver nicht erreichbar");
+                //MessageBox.Show("Datenbankserver nicht erreichbar");
                 //return new ArrayList(); //??
             }
         }
