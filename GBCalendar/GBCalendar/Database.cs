@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Collections;
 
-namespace TEST
+namespace GBCalendar
 {
     class Database
     {
@@ -30,8 +30,6 @@ namespace TEST
             }
             catch (Exception e)
             {
-
-                
                 //MessageBox.Show("Problems with the Database connection:" + e);
                 throw;
             }
@@ -65,7 +63,6 @@ namespace TEST
                 OpenConnection(); //aufrufen der Connect Funktion
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandText = p_command;
-                //READ LOGIK
 
                 ArrayList dataArray = new ArrayList();
                 MySqlDataReader reader = command.ExecuteReader();
@@ -83,16 +80,11 @@ namespace TEST
                       
                 }
             }
-
             catch (Exception e)
             {
                 //MessageBox.Show("Datenbankserver nicht erreichbar");
                 //return new ArrayList(); //??
             }
         }
-
-
-
-
     }
 }
