@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBCalendar.Android", "GBCalendar\GBCalendar.Android\GBCalendar.Android.csproj", "{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBCalendar", "GBCalendar\GBCalendar\GBCalendar.csproj", "{1A3BAAA2-89F1-4B08-9550-72B8B06A16FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6474A6DC-0561-4ECA-97AF-89D8BBEB4564}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1A3BAAA2-89F1-4B08-9550-72B8B06A16FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3BAAA2-89F1-4B08-9550-72B8B06A16FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3BAAA2-89F1-4B08-9550-72B8B06A16FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3BAAA2-89F1-4B08-9550-72B8B06A16FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAA449DC-2607-4937-9944-7BEE70E7DD76}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GBCalendar.LoginPage"
+             Title="GBCalendar">
+
+    <StackLayout Padding = "20" >
+
+        <Label Text = "Melden Sie sich mit Ihrer Email Adresse sowie mit Ihrem Kennwort an"
+               HorizontalOptions="Center"/>
+
+        <Entry x:Name="entryMail"
+               Placeholder="jemand@example.com" />
+
+        <Entry x:Name="entryPassword"
+               Placeholder="Kennwort"
+               IsPassword="true"/>
+
+        <Button Text = "Anmelden"
+                Clicked="OnLoginClicked" />
+
+    </StackLayout>
+</ContentPage>

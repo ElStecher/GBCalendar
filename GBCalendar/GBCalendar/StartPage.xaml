@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GBCalendar"
+             x:Class="GBCalendar.StartPage"
+             Title="GBCalendar">
+
+    <StackLayout Padding="20">
+
+        <Label Text="Melden Sie sich mit einem dieser Konten an." 
+               HorizontalOptions="Center"/>
+
+        <Button Text="Schüler"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnStudentClicked"/>
+
+        <Button Text="Lehrer" 
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnTeacherClicked"/>
+
+    </StackLayout>
+
+</ContentPage>
