@@ -38,7 +38,7 @@ namespace GBCalendar
         {
             App.IsUserLoggedIn = false;
             Navigation.InsertPageBefore(new StartPage(), this);
-            await Navigation.PopAsync();
+            await Navigation.PopToRootAsync();
         }
     }
 }
