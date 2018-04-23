@@ -27,11 +27,11 @@ namespace GBCalendar
         {
             get
             {
-                return this.classname;
+                return this.className;
             }
             private set
             {
-                this.classname = ClassName;
+                this.className = ClassName;
             }
         }
 
