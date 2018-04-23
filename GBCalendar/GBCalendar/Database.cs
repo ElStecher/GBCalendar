@@ -13,9 +13,9 @@
 //        private MySqlConnection connection;
 //        private string server = "maissen.internet-box.ch";
 //        private string database = "Prototype_GBCDrive";
-//        private string user = "IDPA";
+//        private string user = "App_User";
 //        private string port = "2100";
-//        private string password = "2018fadasaIDPA";
+//        private string password = "!KalenderApp_User100";
 //        private string connectionString;
 
 
@@ -31,7 +31,7 @@
 //            catch (Exception e)
 //            {
 
-                
+
 //                //MessageBox.Show("Problems with the Database connection:" + e);
 //                throw;
 //            }
@@ -74,13 +74,13 @@
 //                    Object[] values = new Object[reader.FieldCount];
 //                    int fieldCount = reader.GetValues(values);
 
-         
+
 //                    for (int i = 0; i < fieldCount; i++)
 //                    {
 //                        Console.WriteLine(values[i]);
-                       
+
 //                    }
-                      
+
 //                }
 //            }
 
