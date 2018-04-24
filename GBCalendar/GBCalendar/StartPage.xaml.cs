@@ -30,5 +30,13 @@ namespace GBCalendar
             IdRole = 1;
             await Navigation.PushAsync(new LoginPage(IdRole));
         }
+
+        async void OnTESTINGClicked(object sender, EventArgs args)
+        {
+            Navigation.InsertPageBefore(new Database_TEST(), this);
+            await Navigation.PopAsync();
+        }
+
+
     }
 }

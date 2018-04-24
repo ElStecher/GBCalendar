@@ -41,5 +41,5 @@ namespace GBCalendar
                 return (!string.IsNullOrWhiteSpace(entryMail.Text) || !string.IsNullOrWhiteSpace(entryPassword.Text));
             }   
         }
-    }
+     }
 }

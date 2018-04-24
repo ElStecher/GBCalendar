@@ -20,6 +20,9 @@
                 HorizontalOptions="FillAndExpand"
                 Clicked="OnTeacherClicked"/>
 
+        <Button Text = "TESTING"
+                Clicked="OnTESTINGClicked" />
+
     </StackLayout>
 
 </ContentPage>

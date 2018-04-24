@@ -18,6 +18,5 @@
 
         <Button Text = "Anmelden"
                 Clicked="OnLoginClicked" />
-
     </StackLayout>
 </ContentPage>
