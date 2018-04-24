@@ -39,11 +39,7 @@ namespace GBCalendar
             {
                 Debug.WriteLine(entryMail.Text + " " + entryPassword.Text);
                 return (!string.IsNullOrWhiteSpace(entryMail.Text) || !string.IsNullOrWhiteSpace(entryPassword.Text));
-            }
-
-            
-                
-            
+            }   
         }
     }
 }
