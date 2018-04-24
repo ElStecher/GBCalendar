@@ -20,8 +20,11 @@
                 HorizontalOptions="FillAndExpand"
                 Clicked="OnTeacherClicked"/>
 
-      <!--  <Button Text = "TESTING"
-                Clicked="OnTESTINGClicked" /> -->
+        <Button Text="TEST" 
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnTESTClicked"/>
+
 
     </StackLayout>
 
