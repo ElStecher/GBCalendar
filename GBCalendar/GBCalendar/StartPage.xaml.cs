@@ -31,11 +31,11 @@ namespace GBCalendar
             await Navigation.PushAsync(new LoginPage(IdRole));
         }
 
-        async void OnTESTINGClicked(object sender, EventArgs args)
-        {
-            Navigation.InsertPageBefore(new Database_TEST(), this);
-            await Navigation.PopAsync();
-        }
+        //async void OnTESTINGClicked(object sender, EventArgs args)
+        //{
+        //    Navigation.InsertPageBefore(new Database_TEST(), this);
+        //    await Navigation.PopAsync();
+        //}
 
 
     }

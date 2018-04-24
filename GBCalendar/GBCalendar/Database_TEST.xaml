@@ -8,8 +8,8 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Button Text = "Database Test"
-                Clicked="OnDatabaseTestClicked" />
+                <Button Text = "Database Test"
+                Clicked="OnDatabaseTestClicked" /> 
 
 
         </StackLayout>

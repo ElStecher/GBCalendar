@@ -21,15 +21,15 @@ namespace GBCalendar
         {
             
 
-            try
-            {
-                Database database_1 = new Database();
-                database_1.Write("TEST");
-            }
-            catch (Exception e)
-            {
-                DisplayAlert("Alert", e.Message.ToString(), "OK");
-            }  
+            //try
+            //{
+            //    Database database_1 = new Database();
+            //    database_1.Write("TEST");
+            //}
+            //catch (Exception e)
+            //{
+            //    DisplayAlert("Alert", e.Message.ToString(), "OK");
+            //}  
         }
 
 
