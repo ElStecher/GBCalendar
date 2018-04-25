@@ -4,6 +4,7 @@ using System.Text;
 using MySql.Data.MySqlClient;
 
 
+
 namespace GBCalendar
 {
     class Database_Connector
@@ -40,10 +41,9 @@ namespace GBCalendar
                 connection.Open();
 
             }
-            catch (Exception)
-            {
-
-                throw;
+            catch (Exception ex)
+            {    
+                throw ex;
             }
         }
 

@@ -15,31 +15,49 @@ namespace GBCalendar
         public New_Appointment ()
 		{
             InitializeComponent();
+            
 
-            //Fill up Classes for Appointment
-            Database_Reader readerclasses = new Database_Reader();
-
-            //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-            List<Class> classes = readerclasses.ReadClass(8);
-
-            foreach(Class c in classes)
+            try
             {
-                Classpicker.Items.Add(c.ClassName);
+                //Fill up Classes for Appointment
+                Database_Reader readerclasses = new Database_Reader();
+
+                //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
+                List<Class> classes = readerclasses.ReadClass(8);
+
+                foreach (Class c in classes)
+                {
+                    Classpicker.Items.Add(c.ClassName);
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            
             }
 
 
-            //Fill up Rooms for Appointment
-            Database_Reader readerrooms = new Database_Reader();
-
-            List<Room> rooms = readerrooms.ReadRoom();
-
-            foreach (Room r in rooms)
+            try
             {
-                Roompicker.Items.Add(r.RoomName);
+                //Fill up Rooms for Appointment
+                Database_Reader readerrooms = new Database_Reader();
+
+                List<Room> rooms = readerrooms.ReadRoom();
+
+                foreach (Room r in rooms)
+                {
+                    Roompicker.Items.Add(r.RoomName);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
         }
-
 
     }
 }

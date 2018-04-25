@@ -16,28 +16,38 @@ namespace GBCalendar
 
         public List<Class> ReadClass(int IdPerson)
         {
-            
-            //instanzierung
-            Database_Connector Connect = new Database_Connector();
-            Connect.OpenConnection();
-
-            MySqlCommand command = Connect.Connection.CreateCommand();
-            // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT Classname FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson +");";
-
-            MySqlDataReader reader = command.ExecuteReader();
-            
-            while (reader.Read())
+            try
             {
-                classlist.Add(new Class(reader.GetValue(0).ToString()));
+                //instanzierung
+                Database_Connector Connect = new Database_Connector();
+                Connect.OpenConnection();
+
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT Classname FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson + ");";
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    classlist.Add(new Class(reader.GetValue(0).ToString()));
+                }
+
+                reader.Close();
+
+                //Connection schliessen
+                Connect.CloseConnection();
+
+                return classlist;
+
             }
 
-            reader.Close();
-
-            //Connection schliessen
-            Connect.CloseConnection();
-
-            return classlist;
+            catch (Exception)
+            {
+               
+                throw;
+            }
+            
         }
 
 
@@ -51,31 +61,40 @@ namespace GBCalendar
         public List<Room> ReadRoom()
         {
 
-            //instanzierung
-            Database_Connector Connect = new Database_Connector();
-            Connect.OpenConnection();
-
-            MySqlCommand command = Connect.Connection.CreateCommand();
-            // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT Roomname FROM Room;";
-
-            MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                roomlist.Add(new Room(reader.GetValue(0).ToString()));
+                //instanzierung
+                Database_Connector Connect = new Database_Connector();
+                Connect.OpenConnection();
+
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT Roomname FROM Room;";
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    roomlist.Add(new Room(reader.GetValue(0).ToString()));
+                }
+
+                reader.Close();
+
+                //Connection schliessen
+                Connect.CloseConnection();
+
+                return roomlist;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            reader.Close();
-
-            //Connection schliessen
-            Connect.CloseConnection();
-
-            return roomlist;
+            
         }
-
-
-
 
     }
 }

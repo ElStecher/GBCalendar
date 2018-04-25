@@ -33,8 +33,17 @@ namespace GBCalendar
 
         async void OnTESTClicked(object sender, EventArgs args)
         {
-            Navigation.InsertPageBefore(new New_Appointment(), this);
-            await Navigation.PopAsync();
+            try
+            {
+                Navigation.InsertPageBefore(new New_Appointment(), this);
+                await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Test", ex.Message.ToString(), "OK");
+            }
+
+           
 
         }
 
