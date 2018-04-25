@@ -42,8 +42,8 @@ namespace GBCalendar
 
             }
             catch (Exception ex)
-            {    
-                throw ex;
+            {
+                throw new Exception("Fehler bei der Datenbankverbindung: " + ex.Message.ToString());
             }
         }
 
@@ -53,10 +53,9 @@ namespace GBCalendar
             {
                 connection.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Fehler bei der Datenbankverbindung: " +  ex.Message.ToString());
             }
             
         }

@@ -42,10 +42,9 @@ namespace GBCalendar
 
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-               
-                throw;
+                throw new Exception("Fehler beim lesen der Klassen: " + ex.Message.ToString());
             }
             
         }
@@ -87,13 +86,12 @@ namespace GBCalendar
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
             }
 
-            
+
         }
 
     }
