@@ -9,7 +9,7 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse Class
         private string idClass;
         private string className;
-        private List<string> appointmentList;
+        private List<Appointment> appointmentList;
 
         public string IdClass
         {
@@ -35,7 +35,7 @@ namespace GBCalendar
             }
         }
 
-        public List<string> AppointmentList
+        public List<Appointment> AppointmentList
         {
             get
             {
@@ -81,7 +81,10 @@ namespace GBCalendar
         /// </summary>
         public void AddAppointment(string title, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, Person Creator)
         {
+            Appointment newAppointment = new Appointment(title, room, startTime, endTime, allDayEvent, Creator);
+            AppointmentList.Add(newAppointment);
 
+            
         }
 
         /// <summary>

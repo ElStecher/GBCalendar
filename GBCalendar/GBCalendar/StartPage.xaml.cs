@@ -35,12 +35,12 @@ namespace GBCalendar
         {
             try
             {
-                Navigation.InsertPageBefore(new New_Appointment(), this);
+                Navigation.InsertPageBefore(new NewAppointment(), this);
                 await Navigation.PopAsync();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                DisplayAlert("Fehler", ex.Message.ToString(), "OK");
+                DisplayAlert("Fehler", e.Message.ToString(), "OK");
             }
 
            

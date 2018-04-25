@@ -5,21 +5,49 @@ using MySql.Data.MySqlClient;
 
 namespace GBCalendar
 {
-    class Database_Reader
+    class DatabaseReader
     {
+        #region Felder und Eigenschaften der Klasse DatabaseReader
+        private List<Class> classList = new List<Class>();
+        private List<Room> roomList = new List<Room>();
+
+        public List<Class> ClassList
+        {
+            get
+            {
+                return this.classList;
+            }
+            private set
+            {
+                this.classList = ClassList;
+            }
+        }
+        public List<Room> RoomList
+        {
+            get
+            {
+                return this.roomList;
+            }
+            private set
+            {
+                this.roomList = RoomList;
+            }
+        }
+        #endregion
+        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
+        #region Methoden der Klasse DatabaseReader
 
         /// <summary>
-        /// Reads Classes from Teacher
+        /// List alle Klassen für die angemeldete Person aus der Datenbank heraus
         /// </summary>
-
-        private List<Class> classlist = new List<Class>();
-
+        /// <param name="IdPerson">ID der angemeldeten Person</param>
+        /// <returns>Eine Liste aller Klassen auf welche die angemeldete Person Zugriff hat</returns>
         public List<Class> ReadClass(int IdPerson)
         {
             try
             {
-                //instanzierung
-                Database_Connector Connect = new Database_Connector();
+                // Instanziierung
+                DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
@@ -30,7 +58,7 @@ namespace GBCalendar
 
                 while (reader.Read())
                 {
-                    classlist.Add(new Class(reader.GetValue(0).ToString()));
+                    classList.Add(new Class(reader.GetValue(0).ToString()));
                 }
 
                 reader.Close();
@@ -38,32 +66,25 @@ namespace GBCalendar
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return classlist;
-
+                return classList;
             }
-
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Fehler beim lesen der Klassen: " + ex.Message.ToString());
+                throw new Exception("Fehler beim lesen der Klassen: " + e.Message.ToString());
             }
             
         }
 
-
-
         /// <summary>
-        /// Reads All Rooms
+        /// List alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
         /// </summary>
-
-        private List<Room> roomlist = new List<Room>();
-
+        /// <returns>Liste aller vorhandenen Räume</returns>
         public List<Room> ReadRoom()
         {
-
             try
             {
                 //instanzierung
-                Database_Connector Connect = new Database_Connector();
+                DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
@@ -74,7 +95,7 @@ namespace GBCalendar
 
                 while (reader.Read())
                 {
-                    roomlist.Add(new Room(reader.GetValue(0).ToString()));
+                    roomList.Add(new Room(reader.GetValue(0).ToString()));
                 }
 
                 reader.Close();
@@ -82,17 +103,14 @@ namespace GBCalendar
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return roomlist;
-
-
+                return roomList;
             }
             catch (Exception ex)
             {
                 throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
             }
-
-
         }
+        #endregion
 
     }
 }

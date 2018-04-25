@@ -5,15 +5,21 @@ using MySql.Data.MySqlClient;
 
 namespace GBCalendar
 {
-    class Database_Writer
+    class DatabaseWriter
     {
+        #region Felder und Eigenschaften der Klasse DatabaseWriter
 
+        #endregion
+        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
+        #region Methoden der Klasse DatabaseWriter
+
+        // @Sam ToDo: Methode Write anpassen und Parameter erweitern um SQL-String korrekt zusammenzustellen
         public void Write(string Command)
         {
             try
             {
                 //instanzierung
-                Database_Connector Connect = new Database_Connector();
+                DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
@@ -28,6 +34,7 @@ namespace GBCalendar
             }
             
         }
-
+        // @Sam ToDo: Methode erstellen um Daten in der Datenbank upzudaten
+        #endregion
     }
 }

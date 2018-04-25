@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace GBCalendar
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class New_Appointment : ContentPage
+	public partial class NewAppointment : ContentPage
 	{
-        public New_Appointment ()
+        public NewAppointment ()
 		{
             InitializeComponent();
             
@@ -21,7 +21,7 @@ namespace GBCalendar
             try
             {
                 //Fill up Classes for Appointment
-                Database_Reader readerclasses = new Database_Reader();
+                DatabaseReader readerclasses = new DatabaseReader();
 
                 //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
                 List<Class> classes = readerclasses.ReadClass(8);
@@ -42,7 +42,7 @@ namespace GBCalendar
             try
             {
                 //Fill up Rooms for Appointment
-                Database_Reader readerrooms = new Database_Reader();
+                DatabaseReader readerrooms = new DatabaseReader();
 
                 List<Room> rooms = readerrooms.ReadRoom();
 
