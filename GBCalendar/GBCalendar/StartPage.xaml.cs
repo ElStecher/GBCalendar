@@ -40,7 +40,7 @@ namespace GBCalendar
             }
             catch (Exception ex)
             {
-                DisplayAlert("Test", ex.Message.ToString(), "OK");
+                DisplayAlert("Fehler", ex.Message.ToString(), "OK");
             }
 
            

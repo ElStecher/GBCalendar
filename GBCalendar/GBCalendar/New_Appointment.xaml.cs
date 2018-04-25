@@ -17,6 +17,7 @@ namespace GBCalendar
             InitializeComponent();
             
 
+
             try
             {
                 //Fill up Classes for Appointment
@@ -38,8 +39,6 @@ namespace GBCalendar
             }
 
 
-
-
             try
             {
                 //Fill up Rooms for Appointment
@@ -59,7 +58,43 @@ namespace GBCalendar
                 throw;
             }
 
+           
         }
 
+       
+
+        void OnToggled(object sender, ToggledEventArgs e)
+        {
+            if (e.Value == true)
+            {
+                LabelBegin.IsVisible = false;
+                TimePickerStart_Time.IsVisible = false;
+                LabelEnd.IsVisible = false;
+                TimePickerEnd_Time.IsVisible = false;
+
+            }
+
+            if (e.Value == false)
+            {
+                LabelBegin.IsVisible = true;
+                TimePickerStart_Time.IsVisible = true;
+                LabelEnd.IsVisible = true;
+                TimePickerEnd_Time.IsVisible = true;
+            }
+        }
+
+        void OnEreignisErstellenClicked(object sender, EventArgs args)
+        {
+            //Class c = new Class(Classpicker.SelectedItem.ToString());
+
+            //Console.WriteLine(DatePicker.Date.ToString("dd-MM-yyyy"));
+
+
+            DateTime starttime = DateTime.Parse(DatePicker.Date.ToString("dd-MM-yyyy") + " " + TimePickerStart_Time.Time.ToString());
+
+            Console.WriteLine(starttime);
+            
+            //c.AddAppointment(AppointmentTitel.ToString(),xy,)
+        }
     }
 }

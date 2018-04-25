@@ -47,29 +47,35 @@
                 </DatePicker.MaximumDate>
             </DatePicker>
 
-
             <Label
-                Text="Ganztägig" 
+                Text="Ganztägiges Ereignis:" 
                 HorizontalOptions="StartAndExpand"
                 HorizontalTextAlignment="Start" />
             <Switch
-                HorizontalOptions="EndAndExpand" 
+                HorizontalOptions="Start"
+                Toggled="OnToggled"
                 IsToggled="False"
                 />
-
+            
             <Label Text="Begin:" 
-               HorizontalOptions="Start"/>
+               HorizontalOptions="Start"
+               x:Name="LabelBegin"/>
 
             <TimePicker x:Name="TimePickerStart_Time"
-                HorizontalOptions="FillAndExpand" />
+                HorizontalOptions="FillAndExpand" 
+                  />
 
             <Label Text="Ende:" 
-               HorizontalOptions="Start"/>
+               HorizontalOptions="Start"
+               x:Name="LabelEnd"/>
 
             <TimePicker x:Name="TimePickerEnd_Time"
                 HorizontalOptions="FillAndExpand" />
 
-
+            <Button Text="Ereignis erstellen" 
+                HorizontalOptions="FillAndExpand"
+                Clicked="OnEreignisErstellenClicked"/>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
