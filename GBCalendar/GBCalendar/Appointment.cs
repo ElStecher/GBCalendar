@@ -14,6 +14,53 @@ namespace GBCalendar
         private DateTime endTime;
         private bool allDayEvent;
         private Person creator;
+        private string description;
+        private string category;
+        private int classId;
+
+
+        public int ClassId
+        {
+            get
+            {
+                return this.classId;
+            }
+
+            set
+            {
+                this.classId = this.ClassId;
+            }
+        }
+
+
+
+        public string Category
+        {
+            get
+            {
+                return this.category;
+            }
+
+            set
+            {
+                this.category = this.Category;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+
+            set
+            {
+                this.description = this.Description;
+            }
+        }
+
+
 
         public Person Creator
         {
@@ -102,8 +149,9 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(string title, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, Person creator)
+        public Appointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, Person creator)
         {
+            this.classId = classId;
             this.title = title;
             this.room = room;
             this.startTime = startTime;

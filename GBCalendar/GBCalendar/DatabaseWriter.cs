@@ -14,7 +14,7 @@ namespace GBCalendar
         #region Methoden der Klasse DatabaseWriter
 
         // @Sam ToDo: Methode Write anpassen und Parameter erweitern um SQL-String korrekt zusammenzustellen
-        public void Write(string Command)
+        public void WriteAppointment(Appointment A)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = Command;
+                command.CommandText = "INSERT VALUES(" + A.Title + ", " + A.ClassId + ", " + A.StartTime + ", " + A.EndTime + ", " + A.Description + ", " + A.AllDayEvent + ", " + A.Category + ") INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent, Category) ";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 
