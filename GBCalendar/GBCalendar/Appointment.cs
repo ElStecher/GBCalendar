@@ -149,7 +149,7 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, Person creator)
+        public Appointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, string description, string category, Person creator)
         {
             this.classId = classId;
             this.title = title;
@@ -157,6 +157,8 @@ namespace GBCalendar
             this.startTime = startTime;
             this.endTime = endTime;
             this.allDayEvent = allDayEvent;
+            this.description = description;
+            this.category = category;
             this.creator = creator;
         }
 

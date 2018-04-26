@@ -79,10 +79,25 @@ namespace GBCalendar
         /// Fügt einen neuen Termin zur Liste
         /// und zur Datenbank hinzu
         /// </summary>
-        public void AddAppointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, Person Creator)
+        public void AddAppointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, string description, string category, Person Creator)
         {
-            Appointment newAppointment = new Appointment(title, classId, room, startTime, endTime, allDayEvent, Creator);
-            AppointmentList.Add(newAppointment);
+
+            try
+            {
+                Appointment newAppointment = new Appointment(title, classId, room, startTime, endTime, allDayEvent, description, category, Creator);
+                //Zuerst in Datenbank schreiben
+                DatabaseWriter Writer = new DatabaseWriter();
+                Writer.WriteAppointment(newAppointment);
+
+                //Appointment zur Liste ergänzen
+                AppointmentList.Add(newAppointment);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
 

@@ -86,15 +86,15 @@ namespace GBCalendar
         void OnEreignisErstellenClicked(object sender, EventArgs args)
         {
             //Class c = new Class(Classpicker.SelectedItem.ToString());
+            DateTime startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
+            DateTime endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
 
-            //Console.WriteLine(DatePicker.Date.ToString("dd-MM-yyyy"));
 
 
-            DateTime starttime = DateTime.Parse(DatePicker.Date.ToString("dd-MM-yyyy") + " " + TimePickerStart_Time.Time.ToString());
 
-            Console.WriteLine(starttime);
+            Console.WriteLine(startTime);
             
-            //c.AddAppointment(AppointmentTitel.ToString(),xy,)
+            //c.AddAppointment(AppointmentTitel.ToString(),
         }
     }
 }

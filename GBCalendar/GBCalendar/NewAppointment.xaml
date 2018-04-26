@@ -3,79 +3,100 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GBCalendar.NewAppointment"
-             Title="New Appointment">
+             Title="Neues Ereignis">
     <ContentPage.Content>
-        <StackLayout Padding = "20">
+        <ScrollView>
+            <StackLayout Padding = "20">
+                <Label Text="Titel für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Label Text="Titel für Ereignis:" 
-               HorizontalOptions="Start"/>
+                <Entry x:Name="AppointmentTitel"
+                   Placeholder="z.B Deutsch Prüfung"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Entry x:Name="AppointmentTitel"
-               Placeholder="z.B Deutsch Prüfung"
-               HorizontalOptions="FillAndExpand"/>
+                <Label Text="Beschreibung für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Label Text="Raum auswählen:" 
-               HorizontalOptions="Start"/>
+                <Entry x:Name="AppointmentDescription"
+                   Placeholder="z.B Verben, Adjektive gemäss Kapitel 5"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Picker x:Name="Roompicker"
-                HorizontalOptions="FillAndExpand" />
+                <Label Text="Raum auswählen:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Label Text="Klasse auswählen:" 
-               HorizontalOptions="Start"/>
+                <Picker x:Name="Roompicker"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
 
-            <Picker x:Name="Classpicker"
-                HorizontalOptions="FillAndExpand" />
+                <Label Text="Klasse auswählen:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Label Text="Datum:" 
-               HorizontalOptions="Start"/>
+                <Picker x:Name="Classpicker"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
 
-            <DatePicker x:Name="DatePicker" HorizontalOptions="FillAndExpand" >
-                <DatePicker.Format>dd-MM-yyyy</DatePicker.Format>
-                <DatePicker.MinimumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Jan 1 2000</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MinimumDate>
-                <DatePicker.MaximumDate>
-                    <sys:DateTime x:FactoryMethod="Parse">
-                        <x:Arguments>
-                            <x:String>Dec 31 2050</x:String>
-                        </x:Arguments>
-                    </sys:DateTime>
-                </DatePicker.MaximumDate>
-            </DatePicker>
+                <Label Text="Datum:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
 
-            <Label
-                Text="Ganztägiges Ereignis:" 
-                HorizontalOptions="StartAndExpand"
-                HorizontalTextAlignment="Start" />
-            <Switch
-                HorizontalOptions="Start"
-                Toggled="OnToggled"
-                IsToggled="False"
-                />
-            
-            <Label Text="Begin:" 
-               HorizontalOptions="Start"
-               x:Name="LabelBegin"/>
+                <DatePicker x:Name="DatePicker" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <DatePicker.Format>dd-MM-yyyy</DatePicker.Format>
+                    <DatePicker.MinimumDate>
+                        <sys:DateTime x:FactoryMethod="Parse">
+                            <x:Arguments>
+                                <x:String>Jan 1 2000</x:String>
+                            </x:Arguments>
+                        </sys:DateTime>
+                    </DatePicker.MinimumDate>
+                    <DatePicker.MaximumDate>
+                        <sys:DateTime x:FactoryMethod="Parse">
+                            <x:Arguments>
+                                <x:String>Dec 31 2050</x:String>
+                            </x:Arguments>
+                        </sys:DateTime>
+                    </DatePicker.MaximumDate>
+                </DatePicker>
 
-            <TimePicker x:Name="TimePickerStart_Time"
-                HorizontalOptions="FillAndExpand" 
-                  />
+                <Label
+                    Text="Ganztägiges Ereignis:" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start" />
+                <Switch
+                    HorizontalOptions="Start"
+                    Toggled="OnToggled"
+                    IsToggled="False"
+                    />
 
-            <Label Text="Ende:" 
-               HorizontalOptions="Start"
-               x:Name="LabelEnd"/>
+                <Label Text="Begin:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"
+                   x:Name="LabelBegin"/>
 
-            <TimePicker x:Name="TimePickerEnd_Time"
-                HorizontalOptions="FillAndExpand" />
+                <TimePicker x:Name="TimePickerStart_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
 
-            <Button Text="Ereignis erstellen" 
-                HorizontalOptions="FillAndExpand"
-                Clicked="OnEreignisErstellenClicked"/>
-            
-        </StackLayout>
+                <Label Text="Ende:" 
+                   HorizontalOptions="Start"
+                   x:Name="LabelEnd"/>
+
+                <TimePicker x:Name="TimePickerEnd_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
+
+                <Button Text="Ereignis erstellen" 
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="OnEreignisErstellenClicked"
+                    VerticalOptions="FillAndExpand"/>
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
