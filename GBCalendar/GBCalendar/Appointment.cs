@@ -12,23 +12,23 @@ namespace GBCalendar
         private Room room;
         private DateTime startTime;
         private DateTime endTime;
-        private bool allDayEvent;
+        private string allDayEvent;
         private Person creator;
         private string description;
         private string category;
-        private int classId;
+        private Class clas;
 
 
-        public int ClassId
+        public Class Clas
         {
             get
             {
-                return this.classId;
+                return this.clas;
             }
 
             set
             {
-                this.classId = this.ClassId;
+                this.clas = this.Clas;
             }
         }
 
@@ -74,7 +74,7 @@ namespace GBCalendar
             }
         }
 
-        public bool AllDayEvent
+        public string AllDayEvent
         {
             get
             {
@@ -149,9 +149,9 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(string title, int classId, Room room, DateTime startTime, DateTime endTime, bool allDayEvent, string description, string category, Person creator)
+        public Appointment(string title, Class clas, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, string category, Person creator)
         {
-            this.classId = classId;
+            this.clas = clas;
             this.title = title;
             this.room = room;
             this.startTime = startTime;

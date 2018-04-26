@@ -12,6 +12,10 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
+
+        private string alldayevent = "N";
+
+
         public NewAppointment ()
 		{
             InitializeComponent();
@@ -72,6 +76,10 @@ namespace GBCalendar
                 LabelEnd.IsVisible = false;
                 TimePickerEnd_Time.IsVisible = false;
 
+
+                alldayevent = "Y";
+
+
             }
 
             if (e.Value == false)
@@ -80,15 +88,20 @@ namespace GBCalendar
                 TimePickerStart_Time.IsVisible = true;
                 LabelEnd.IsVisible = true;
                 TimePickerEnd_Time.IsVisible = true;
+
+
+                alldayevent = "N";
             }
         }
 
         void OnEreignisErstellenClicked(object sender, EventArgs args)
         {
+
+            
+
             //Class c = new Class(Classpicker.SelectedItem.ToString());
             DateTime startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
             DateTime endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
-
 
 
 
