@@ -10,6 +10,7 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse DatabaseReader
         private List<Class> classList = new List<Class>();
         private List<Room> roomList = new List<Room>();
+        private List<Appointment> appointmentList = new List<Appointment>();
 
         public List<Class> ClassList
         {
@@ -110,6 +111,47 @@ namespace GBCalendar
                 throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
             }
         }
+
+
+
+        /// <summary>
+        /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
+        /// </summary>
+        /// <returns>Liste aller vorhandenen Appointments für Klasse</returns>
+        public List<Appointment> ReadAppointments(Class c)
+        {
+            try
+            {
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
+
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT idAppointment, Title, Person_idPerson, Class_idClass, Room_idRoom, Start_Time, End_Time, Description, Alldayevent FROM Appointment WHERE Class_idClass=" + c.IdClass + ";";
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //appointmentList.Add(new Appointment(reader.GetValue(1).ToString(),)
+      
+                }
+
+                reader.Close();
+
+                //Connection schliessen
+                Connect.CloseConnection();
+
+                return appointmentList;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         #endregion
 
     }
