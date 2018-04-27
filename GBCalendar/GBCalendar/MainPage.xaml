@@ -4,15 +4,21 @@
              xmlns:local="clr-namespace:GBCalendar"
              x:Class="GBCalendar.MainPage"
              Title="GBCalendar">
-   
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
+
+    <!--https://stackoverflow.com/questions/44305187/how-to-design-header-with-3-buttons-in-xamarin-forms  -->
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ToolbarItemClass" Clicked="OnKlasseAuswaehlenClicked" Order="Primary" Priority="0" Text="Klasse Auswählen"/>
+        <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
     
     <StackLayout Padding="20">
-                      
+
+    </StackLayout>
 
 
-    </StackLayout>-->
+
+
+
 
 </ContentPage>

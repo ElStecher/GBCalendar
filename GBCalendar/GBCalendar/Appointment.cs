@@ -15,7 +15,6 @@ namespace GBCalendar
         private string allDayEvent;
         private Person creator;
         private string description;
-        private string category;
         private Class clas;
 
 
@@ -29,21 +28,6 @@ namespace GBCalendar
             set
             {
                 this.clas = this.Clas;
-            }
-        }
-
-
-
-        public string Category
-        {
-            get
-            {
-                return this.category;
-            }
-
-            set
-            {
-                this.category = this.Category;
             }
         }
 
@@ -149,7 +133,7 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(string title, Class clas, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, string category, Person creator)
+        public Appointment(string title, Class clas, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description,Person creator)
         {
             this.clas = clas;
             this.title = title;
@@ -158,7 +142,6 @@ namespace GBCalendar
             this.endTime = endTime;
             this.allDayEvent = allDayEvent;
             this.description = description;
-            this.category = category;
             this.creator = creator;
         }
 

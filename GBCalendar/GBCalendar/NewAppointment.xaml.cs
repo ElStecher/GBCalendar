@@ -12,8 +12,15 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
-
+       
         private string alldayevent = "N";
+        private DateTime startTime;
+        private DateTime endTime;
+
+        private List<Room> rooms;
+       
+
+
 
 
         public NewAppointment ()
@@ -21,34 +28,12 @@ namespace GBCalendar
             InitializeComponent();
             
 
-
-            try
-            {
-                //Fill up Classes for Appointment
-                DatabaseReader readerclasses = new DatabaseReader();
-
-                //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-                List<Class> classes = readerclasses.ReadClass(8);
-
-                foreach (Class c in classes)
-                {
-                    Classpicker.Items.Add(c.ClassName);
-                }
-
-            }
-            catch (Exception)
-            {
-                throw;
-
-            }
-
-
             try
             {
                 //Fill up Rooms for Appointment
                 DatabaseReader readerrooms = new DatabaseReader();
 
-                List<Room> rooms = readerrooms.ReadRoom();
+                rooms = readerrooms.ReadRoom();
 
                 foreach (Room r in rooms)
                 {
@@ -78,6 +63,7 @@ namespace GBCalendar
 
 
                 alldayevent = "Y";
+                
 
 
             }
@@ -97,17 +83,22 @@ namespace GBCalendar
         void OnEreignisErstellenClicked(object sender, EventArgs args)
         {
 
-            
+            //Wird nur zum testen gebraucht bis Objekte zur verfügung stehen
+            Class c = new Class("TBM76B");
+            Person logged = new Person("samuel.maissen@hotmail.com", "TEST123", 1);
+   
+            Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+            //Console.WriteLine(r.RoomName);
 
-            //Class c = new Class(Classpicker.SelectedItem.ToString());
-            DateTime startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
-            DateTime endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
+            if (alldayevent == "J")
+            {
+                startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
+                endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
+
+            }
 
 
-
-            Console.WriteLine(startTime);
-            
-            //c.AddAppointment(AppointmentTitel.ToString(),
+            c.AddAppointment(AppointmentTitel.Text, c, r, startTime, endTime, alldayevent, AppointmentDescription.Text, logged);
         }
     }
 }
