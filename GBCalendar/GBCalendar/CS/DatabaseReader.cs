@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using MySql.Data.MySqlClient;
 
@@ -10,6 +11,7 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse DatabaseReader
         private List<Class> classList = new List<Class>();
         private List<Room> roomList = new List<Room>();
+        private List<string> userList = new List<string>();
 
         public List<Class> ClassList
         {
@@ -33,12 +35,24 @@ namespace GBCalendar
                 this.roomList = RoomList;
             }
         }
+
+        public List<string> UserList
+        {
+            get
+            {
+                return this.userList;
+            }
+            private set
+            {
+                this.roomList = RoomList;
+            }
+        }
         #endregion
         // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseReader
 
         /// <summary>
-        /// List alle Klassen für die angemeldete Person aus der Datenbank heraus
+        /// Liest alle Klassen für die angemeldete Person aus der Datenbank heraus
         /// </summary>
         /// <param name="IdPerson">ID der angemeldeten Person</param>
         /// <returns>Eine Liste aller Klassen auf welche die angemeldete Person Zugriff hat</returns>
@@ -76,7 +90,7 @@ namespace GBCalendar
         }
 
         /// <summary>
-        /// List alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
+        /// Liest alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Räume</returns>
         public List<Room> ReadRoom()
@@ -109,6 +123,35 @@ namespace GBCalendar
             {
                 throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
             }
+        }
+
+        public bool AreUserCredentialsCorrect(string email, string password, string idRole)
+        {
+            //instanzierung
+            DatabaseConnector Connect = new DatabaseConnector();
+            Connect.OpenConnection();
+
+            MySqlCommand command = Connect.Connection.CreateCommand();
+            // query liest nur bestimmte Klassen einer Person Aus!
+            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole + "';";
+
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                userList.Add(reader.GetValue(0).ToString());
+            }
+
+            if (!(userList.Count == 0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+           
         }
         #endregion
 

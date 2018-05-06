@@ -22,16 +22,6 @@ namespace GBCalendar
             ToolbarItems.Add(toolbarItem);
 
             Title = "Main Page";
-            Content = new StackLayout
-            {
-                Children = {
-                    new Label {
-                        Text = "Main app content goes here",
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.CenterAndExpand
-                    }
-                }
-            };
         }
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
@@ -39,6 +29,16 @@ namespace GBCalendar
             App.IsUserLoggedIn = false;
             Navigation.InsertPageBefore(new StartPage(), this);
             await Navigation.PopToRootAsync();
+        }
+
+        async void OpenCalendar(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Calendar(/*selectedClass*/));
+        }
+
+        async void LoadClass(object sender, EventArgs e)
+        {
+            await DisplayAlert("TEst", "test", "test");
         }
     }
 }

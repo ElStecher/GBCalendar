@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GBCalendar"
+             x:Class="GBCalendar.MainPage"
+             Title="GBCalendar">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="chooseClass" Order="Primary" Text="Klasse" Priority="0" Activated="LoadClass"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid Padding = "20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Text="Kalender" Grid.Row="0" Grid.Column="0" Clicked="OpenCalendar"/>
+        <Button Text="..." Grid.Row="0" Grid.Column="1"/>
+        <Button Text="..." Grid.Row="1" Grid.Column="0"/>
+        <Button Text="..." Grid.Row="1" Grid.Column="1"/>
+      
+    </Grid>
+
+</ContentPage>
