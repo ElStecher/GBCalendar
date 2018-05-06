@@ -9,19 +9,37 @@ namespace GBCalendar
 {
     public partial class MainPage : ContentPage
     {
-       
+        private List<Class> classes;
+        private Class selectedclass;
+
+        //public Class Selectedclass
+        //{
+        //    get
+        //    {
+        //        return this.selectedclass;
+        //    }
+
+        //}
+
+
         public MainPage()
         {
             InitializeComponent();
 
-            var toolbarItem = new ToolbarItem
+            try
             {
-                Text = "Logout"
-            };
-            toolbarItem.Clicked += OnLogoutButtonClicked;
-            ToolbarItems.Add(toolbarItem);
+                //Fill up Classes for Appointment
+                DatabaseReader readerclasses = new DatabaseReader();
 
-            Title = "Main Page";
+                //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
+                classes = readerclasses.ReadClass(8);
+
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
         }
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
@@ -31,14 +49,20 @@ namespace GBCalendar
             await Navigation.PopToRootAsync();
         }
 
-        async void OpenCalendar(object sender, EventArgs e)
+
+        async void OnKlasseAuswaehlenClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new Calendar(/*selectedClass*/));
+
+            //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
+            string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(Class => Class.ClassName).ToArray());
+
+            if (action != "Cancel")
+            {
+                ToolbarItemClass.Text = action;
+                selectedclass = classes.Find(Class => Class.ClassName == action);
+            }
+
         }
 
-        async void LoadClass(object sender, EventArgs e)
-        {
-            await DisplayAlert("TEst", "test", "test");
-        }
     }
 }

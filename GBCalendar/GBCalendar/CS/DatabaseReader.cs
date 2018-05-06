@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using MySql.Data.MySqlClient;
 
@@ -11,7 +10,7 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse DatabaseReader
         private List<Class> classList = new List<Class>();
         private List<Room> roomList = new List<Room>();
-        private List<string> userList = new List<string>();
+        private List<Appointment> appointmentList = new List<Appointment>();
 
         public List<Class> ClassList
         {
@@ -35,24 +34,12 @@ namespace GBCalendar
                 this.roomList = RoomList;
             }
         }
-
-        public List<string> UserList
-        {
-            get
-            {
-                return this.userList;
-            }
-            private set
-            {
-                this.roomList = RoomList;
-            }
-        }
         #endregion
         // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseReader
 
         /// <summary>
-        /// Liest alle Klassen für die angemeldete Person aus der Datenbank heraus
+        /// List alle Klassen für die angemeldete Person aus der Datenbank heraus
         /// </summary>
         /// <param name="IdPerson">ID der angemeldeten Person</param>
         /// <returns>Eine Liste aller Klassen auf welche die angemeldete Person Zugriff hat</returns>
@@ -90,7 +77,7 @@ namespace GBCalendar
         }
 
         /// <summary>
-        /// Liest alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
+        /// List alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Räume</returns>
         public List<Room> ReadRoom()
@@ -125,34 +112,46 @@ namespace GBCalendar
             }
         }
 
-        public bool AreUserCredentialsCorrect(string email, string password, string idRole)
+
+
+        /// <summary>
+        /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
+        /// </summary>
+        /// <returns>Liste aller vorhandenen Appointments für Klasse</returns>
+        public List<Appointment> ReadAppointments(Class c)
         {
-            //instanzierung
-            DatabaseConnector Connect = new DatabaseConnector();
-            Connect.OpenConnection();
-
-            MySqlCommand command = Connect.Connection.CreateCommand();
-            // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole + "';";
-
-            MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                userList.Add(reader.GetValue(0).ToString());
-            }
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
 
-            if (!(userList.Count == 0))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT idAppointment, Title, Person_idPerson, Class_idClass, Room_idRoom, Start_Time, End_Time, Description, Alldayevent FROM Appointment WHERE Class_idClass=" + c.IdClass + ";";
 
-           
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    //appointmentList.Add(new Appointment(reader.GetValue(1).ToString(),)
+      
+                }
+
+                reader.Close();
+
+                //Connection schliessen
+                Connect.CloseConnection();
+
+                return appointmentList;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+
         #endregion
 
     }

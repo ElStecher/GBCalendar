@@ -36,10 +36,11 @@ namespace GBCalendar
             try
             {
                 await Navigation.PushAsync(new NewAppointment());
+     
             }
             catch (Exception e)
             {
-                await DisplayAlert("Fehler", e.Message.ToString(), "OK");
+                DisplayAlert("Fehler", e.Message.ToString(), "OK");
             }
 
            

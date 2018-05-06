@@ -33,14 +33,6 @@
                     HorizontalOptions="FillAndExpand" 
                     VerticalOptions="FillAndExpand"/>
 
-                <Label Text="Klasse auswählen:" 
-                   HorizontalOptions="Start"
-                   VerticalOptions="FillAndExpand"/>
-
-                <Picker x:Name="Classpicker"
-                    HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand"/>
-
                 <Label Text="Datum:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"/>

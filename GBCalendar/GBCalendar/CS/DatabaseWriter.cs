@@ -22,7 +22,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "INSERT VALUES(" + A.Title + ", " + A.Clas.IdClass + ", " + A.Room.IdRoom + ", " + A.StartTime + ", " + A.EndTime + ", " + A.Description + ", " + A.AllDayEvent + ", " + A.Category + ") INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent, Category) ";
+                command.CommandText = "INSERT VALUES(" + A.Title + ", " + A.Clas.IdClass + ", " + A.Room.IdRoom + ", " + A.StartTime + ", " + A.EndTime + ", " + A.Description + ", " + A.AllDayEvent + ") INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent) ";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 
@@ -44,7 +44,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "UPDATE Appointment SET Title =" + A.Title + ", Class_idClass=" + A.Clas.IdClass + ", Room_idRoom=" + A.Room.IdRoom + ", Start_Time=" + A.StartTime + ", End_Time=" + A.EndTime + ", " + A.Description + ", Alldayevent=" + A.AllDayEvent + ", Category=" + A.Category + ") WHERE idAppointment=" + A.IdAppointment + ";";
+                command.CommandText = "UPDATE Appointment SET Title =" + A.Title + ", Class_idClass=" + A.Clas.IdClass + ", Room_idRoom=" + A.Room.IdRoom + ", Start_Time=" + A.StartTime + ", End_Time=" + A.EndTime + ", " + A.Description + ", Alldayevent=" + A.AllDayEvent + ", Category=" + ") WHERE idAppointment=" + A.IdAppointment + ";";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 
