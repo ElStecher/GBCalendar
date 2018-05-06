@@ -11,6 +11,7 @@ namespace GBCalendar
         private List<Class> classList = new List<Class>();
         private List<Room> roomList = new List<Room>();
         private List<Appointment> appointmentList = new List<Appointment>();
+        private List<string> userList = new List<string>();
 
         public List<Class> ClassList
         {
@@ -151,6 +152,41 @@ namespace GBCalendar
             }
         }
 
+        /// <summary>
+        /// Überprüft auf einen User in der Datenbank mit den übergebenen Parametern und übergibt diesen User falls vorhanden
+        /// </summary>
+        /// <param name="email">Mail des Users</param>
+        /// <param name="password">Passwort des Users</param>
+        /// <param name="idRole">Rolle des USers</param>
+        /// <returns>user object</returns>
+        public bool AreUserCredentialsCorrect(string email, string password, string idRole)
+        {
+            //instanzierung
+            DatabaseConnector Connect = new DatabaseConnector();
+            Connect.OpenConnection();
+
+            MySqlCommand command = Connect.Connection.CreateCommand();
+            // query liest nur bestimmte Klassen einer Person Aus!
+            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole + "';";
+
+            MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                userList.Add(reader.GetValue(0).ToString());
+            }
+
+            if (!(userList.Count == 0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
 
         #endregion
 

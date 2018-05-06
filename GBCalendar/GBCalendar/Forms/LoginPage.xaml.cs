@@ -22,7 +22,7 @@ namespace GBCalendar
         async void OnLoginClicked(object sender, EventArgs args)
         {
 
-            var isValid = AreCredentialsCorrect(); //Person Objekt wird übergegeben
+            var isValid = AreCredentialsCorrect(); 
 
             if (isValid)
             {
@@ -51,7 +51,7 @@ namespace GBCalendar
                     }
                     else
                     {
-                        Error = "Passwort oder E-Mail nicht korrekt, bitte versuche es erneut";
+                        Error = "Passwort oder E-Mail nicht korrekt, bitte versuche es erneut und überprüfen Sie ob sie beim Start Schüler oder Lehrer ausgesucht haben.";
                         return false;
                     }
                 }

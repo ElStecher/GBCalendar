@@ -12,16 +12,6 @@ namespace GBCalendar
         private List<Class> classes;
         private Class selectedclass;
 
-        //public Class Selectedclass
-        //{
-        //    get
-        //    {
-        //        return this.selectedclass;
-        //    }
-
-        //}
-
-
         public MainPage()
         {
             InitializeComponent();

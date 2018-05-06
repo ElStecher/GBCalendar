@@ -4,27 +4,16 @@
              xmlns:local="clr-namespace:GBCalendar"
              x:Class="GBCalendar.MainPage"
              Title="GBCalendar">
-    
+
+    <!--https://stackoverflow.com/questions/44305187/how-to-design-header-with-3-buttons-in-xamarin-forms  -->
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="chooseClass" Order="Primary" Text="Klasse" Priority="0" Activated="LoadClass"/>
+        <ToolbarItem x:Name="ToolbarItemClass" Clicked="OnKlasseAuswaehlenClicked" Order="Primary" Priority="0" Text="Klasse Auswählen"/>
+        <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
+    
+    <StackLayout Padding="20">
 
-    <Grid Padding = "20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <Button Text="Kalender" Grid.Row="0" Grid.Column="0" Clicked="OpenCalendar"/>
-        <Button Text="..." Grid.Row="0" Grid.Column="1"/>
-        <Button Text="..." Grid.Row="1" Grid.Column="0"/>
-        <Button Text="..." Grid.Row="1" Grid.Column="1"/>
-      
-    </Grid>
+    </StackLayout>
 
 </ContentPage>
