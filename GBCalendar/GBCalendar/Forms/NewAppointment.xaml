@@ -85,7 +85,7 @@
 
                 <Button Text="Ereignis erstellen" 
                     HorizontalOptions="FillAndExpand"
-                    Clicked="OnEreignisErstellenClicked"
+                    Clicked="OnCreateAppointmentClicked"
                     VerticalOptions="FillAndExpand"/>
 
             </StackLayout>

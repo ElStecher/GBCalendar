@@ -12,7 +12,7 @@ namespace GBCalendar
         private List<Class> classes;
         private Class selectedclass;
 
-        public MainPage()
+        public MainPage(Person loggedInPerson)
         {
             InitializeComponent();
 
@@ -22,7 +22,7 @@ namespace GBCalendar
                 DatabaseReader readerclasses = new DatabaseReader();
 
                 //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-                classes = readerclasses.ReadClass(8);
+                classes = readerclasses.ReadClass(loggedInPerson.IdPerson);
 
             }
             catch (Exception)
@@ -34,7 +34,7 @@ namespace GBCalendar
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
-            App.IsUserLoggedIn = false;
+            App.UserLoggedIn = null;
             Navigation.InsertPageBefore(new StartPage(), this);
             await Navigation.PopToRootAsync();
         }

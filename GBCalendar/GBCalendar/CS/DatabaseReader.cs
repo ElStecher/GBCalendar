@@ -159,36 +159,40 @@ namespace GBCalendar
         /// <param name="password">Passwort des Users</param>
         /// <param name="idRole">Rolle des USers</param>
         /// <returns>user object</returns>
-        public bool AreUserCredentialsCorrect(string email, string password, string idRole)
+        public bool AreUserCredentialsCorrect(string email, string password, int idRole)
         {
+            int idPerson = 0;
+            string firstName = null;
+            string lastName = null;
             //instanzierung
             DatabaseConnector Connect = new DatabaseConnector();
             Connect.OpenConnection();
 
             MySqlCommand command = Connect.Connection.CreateCommand();
             // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole + "';";
+            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
 
             MySqlDataReader reader = command.ExecuteReader();
 
+
             while (reader.Read())
             {
-                userList.Add(reader.GetValue(0).ToString());
+                //userList.Add(reader.GetValue(0).ToString());
+                idPerson = (int)reader.GetValue(0);
+                firstName = (string)reader.GetValue(1);
+                lastName = (string)reader.GetValue(2);
             }
 
-            if (!(userList.Count == 0))
+            if (idPerson != 0)
             {
+                App.UserLoggedIn = new Person(idPerson, firstName, lastName,  email, password, idRole);
                 return true;
             }
             else
             {
                 return false;
             }
-
-
         }
-
         #endregion
-
     }
 }

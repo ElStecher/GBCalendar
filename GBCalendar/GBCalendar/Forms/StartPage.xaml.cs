@@ -31,21 +31,18 @@ namespace GBCalendar
             await Navigation.PushAsync(new LoginPage(IdRole));
         }
 
-        async void OnTESTClicked(object sender, EventArgs args)
-        {
-            try
-            {
-                Navigation.InsertPageBefore(new NewAppointment(), this);
-                await Navigation.PopAsync();
-            }
-            catch (Exception e)
-            {
-                await DisplayAlert("Fehler", e.Message.ToString(), "OK");
-            }
-
-           
-
-        }
+        //async void OnTESTClicked(object sender, EventArgs args)
+        //{
+        //    try
+        //    {
+        //        Navigation.InsertPageBefore(new NewAppointment(), this);
+        //        await Navigation.PopAsync();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        await DisplayAlert("Fehler", e.Message.ToString(), "OK");
+        //    }      
+        //}
 
     }
 }

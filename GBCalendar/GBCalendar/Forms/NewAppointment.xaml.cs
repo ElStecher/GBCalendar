@@ -12,16 +12,11 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
-       
         private string alldayevent = "N";
         private DateTime startTime;
         private DateTime endTime;
 
         private List<Room> rooms;
-       
-
-
-
 
         public NewAppointment ()
 		{
@@ -80,25 +75,25 @@ namespace GBCalendar
             }
         }
 
-        void OnEreignisErstellenClicked(object sender, EventArgs args)
+        void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
 
-            //Wird nur zum testen gebraucht bis Objekte zur verfügung stehen
-            Class c = new Class("TBM76B");
-            Person logged = new Person("samuel.maissen@hotmail.com", "TEST123", 1);
+        //    //Wird nur zum testen gebraucht bis Objekte zur verfügung stehen
+        //    Class c = new Class("TBM76B");
+        //    Person logged = new Person("samuel.maissen@hotmail.com", "TEST123", 1);
    
-            Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-            //Console.WriteLine(r.RoomName);
+        //    Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+        //    //Console.WriteLine(r.RoomName);
 
-            if (alldayevent == "J")
-            {
-                startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
-                endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
+        //    if (alldayevent == "J")
+        //    {
+        //        startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
+        //        endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
 
-            }
+        //    }
 
 
-            c.AddAppointment(AppointmentTitel.Text, c, r, startTime, endTime, alldayevent, AppointmentDescription.Text, logged);
+        //    c.AddAppointment(AppointmentTitel.Text, c, r, startTime, endTime, alldayevent, AppointmentDescription.Text, logged);
         }
     }
 }

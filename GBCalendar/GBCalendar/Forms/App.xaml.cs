@@ -9,7 +9,7 @@ namespace GBCalendar
 {
 	public partial class App : Application
 	{
-        public static bool IsUserLoggedIn { get; set; }
+        public static Person UserLoggedIn{ get; set; }
 
 		public App ()
 		{
@@ -26,21 +26,21 @@ namespace GBCalendar
 		{
             // Handle when your app sleeps
             System.Threading.Thread.Sleep(300000);
-            IsUserLoggedIn = false;
+            UserLoggedIn = null;
         }
 
 		protected override void OnResume ()
 		{
-            // Handle when your app resumes
-            //Sets the right starter page
-            if (!IsUserLoggedIn)
-            {
-                MainPage = new NavigationPage(new StartPage());
-            }
-            else
-            {
-                MainPage = new NavigationPage(new MainPage());
-            }
+            //// Handle when your app resumes
+            ////Sets the right starter page
+            //if (!IsUserLoggedIn)
+            //{
+            //    MainPage = new NavigationPage(new StartPage());
+            //}
+            //else
+            //{
+            //    MainPage = new NavigationPage(new MainPage());
+            //}
         }
 	}
 }

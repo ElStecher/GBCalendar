@@ -11,6 +11,7 @@ namespace GBCalendar
 	{
         private Int16 IdRole { get; set; }
         private string Error = "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"; 
+        private Person loggedInPerson;
 
         public LoginPage(Int16 idRole)
         {
@@ -26,8 +27,8 @@ namespace GBCalendar
 
             if (isValid)
             {
-                App.IsUserLoggedIn = true;
-                Navigation.InsertPageBefore(new MainPage(), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
+                //App.UserLoggedIn = loggedInPerson;
+                Navigation.InsertPageBefore(new MainPage(App.UserLoggedIn), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
                 await Navigation.PopAsync();
             }
             else
@@ -45,7 +46,7 @@ namespace GBCalendar
                 else
                 {
                     DatabaseReader checkUser = new DatabaseReader();
-                    if(checkUser.AreUserCredentialsCorrect(entryMail.Text, entryPassword.Text, IdRole.ToString()))
+                    if(checkUser.AreUserCredentialsCorrect(entryMail.Text, entryPassword.Text, IdRole))
                     {
                         return true;
                     }
