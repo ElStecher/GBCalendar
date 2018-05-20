@@ -41,11 +41,7 @@ namespace GBCalendar
 
                 throw;
             }
-
-           
         }
-
-       
 
         void OnToggled(object sender, ToggledEventArgs e)
         {
@@ -58,9 +54,6 @@ namespace GBCalendar
 
 
                 alldayevent = "Y";
-                
-
-
             }
 
             if (e.Value == false)
@@ -69,8 +62,6 @@ namespace GBCalendar
                 TimePickerStart_Time.IsVisible = true;
                 LabelEnd.IsVisible = true;
                 TimePickerEnd_Time.IsVisible = true;
-
-
                 alldayevent = "N";
             }
         }

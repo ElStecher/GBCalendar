@@ -75,7 +75,7 @@ namespace GBCalendar
             {
                 var button = new Button();
                 button.Text = item.Title;
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
+                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
 
                 layout.Children.Add(button);
             }

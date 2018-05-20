@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GBCalendar
 {
-    class Room
+    public class Room
     {
         #region Felder und Eigenschaften der Klasse Room
         private int idRoom;
