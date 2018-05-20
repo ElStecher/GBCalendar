@@ -12,8 +12,9 @@
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
 
-    <StackLayout x:Name="layout">
+    <ScrollView>
+        <StackLayout x:Name="layout">
        
-    </StackLayout>
-
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
