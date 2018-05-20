@@ -13,7 +13,7 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout x:Name="layout">
-        <Button Text="add" Clicked="Addbutton"/>
+       
     </StackLayout>
 
 </ContentPage>

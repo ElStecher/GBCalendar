@@ -61,6 +61,7 @@ namespace GBCalendar
             {
                 ToolbarItemClass.Text = action;
                 selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                ShowAppointments();
             }
         }
         private async void OnCallNewAppointmentPageClicked(object sender, EventArgs e)
@@ -68,5 +69,16 @@ namespace GBCalendar
             await Navigation.PushAsync(new NewAppointment());
         }
 
+        void ShowAppointments()
+        {
+            foreach (var item in selectedclass.AppointmentList)
+            {
+                var button = new Button();
+                button.Text = item.Title;
+                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
+
+                layout.Children.Add(button);
+            }
+        }
     }
 }
