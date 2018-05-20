@@ -180,13 +180,17 @@ namespace GBCalendar
                     //int id = (int)reader.GetValue(0);
                     //string title = (string)reader.GetValue(1);
                     //Room classRoom = ReadRoom((int)reader.GetValue(4));
-                    //string startTime = reader.GetValue(5).ToString();
-                    //string endTime = reader.GetValue(6).ToString();
+                    DateTime startTimeObj = reader.GetDateTime(5);
+                    string startTime = startTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
+
+                    DateTime endTimeObj = reader.GetDateTime(6);
+                    string endTime = endTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
+
                     //string ade = (string)reader.GetValue(9);
                     //string desc = (string)reader.GetValue(7);
 
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
-                      reader.GetValue(5).ToString(), reader.GetValue(6).ToString(), (string)reader.GetValue(9), (string)reader.GetValue(7));
+                      startTime, endTime, (string)reader.GetValue(9), (string)reader.GetValue(7));
 
                     appointmentList.Add(a);
                 }

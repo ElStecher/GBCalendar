@@ -73,9 +73,12 @@ namespace GBCalendar
         {
             foreach (var item in selectedclass.AppointmentList)
             {
-                var button = new Button();
-                button.Text = item.Title;
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
+                var button = new Button
+                {
+                    Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
+                    item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
+                };
+                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
 
                 layout.Children.Add(button);
             }
