@@ -17,5 +17,16 @@ namespace GBCalendar.Forms
 			InitializeComponent ();
 
 		}
-	}
+
+        private void OnToggled(object sender, ToggledEventArgs e)
+        {
+            
+        }
+
+        private void OnCreateAppointmentClicked()
+        {
+
+        }
+
+    }
 }

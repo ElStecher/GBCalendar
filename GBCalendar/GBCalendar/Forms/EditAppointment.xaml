@@ -88,6 +88,6 @@
                     VerticalOptions="FillAndExpand"/>
 
             </StackLayout>
-        </ScrollView>c
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

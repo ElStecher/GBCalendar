@@ -9,8 +9,8 @@ namespace GBCalendar
 {
     public partial class MainPage : ContentPage
     {
-        private List<Class> classes;
-        private Class selectedclass;
+        private List<SchoolClass> classes;
+        private SchoolClass selectedclass;
 
         public MainPage()
         {
@@ -33,7 +33,7 @@ namespace GBCalendar
                 DatabaseReader readerclasses = new DatabaseReader();
 
                 //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-                classes = readerclasses.ReadClass(App.UserLoggedIn.IdPerson);
+                classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
 
             }
             catch (Exception)
@@ -55,12 +55,12 @@ namespace GBCalendar
         {
 
             //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
-            string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(Class => Class.ClassName).ToArray());
+            string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
             if (action != "Cancel")
             {
                 ToolbarItemClass.Text = action;
-                selectedclass = classes.Find(Class => Class.ClassName == action);
+                selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
             }
         }
         private async void OnCallNewAppointmentPageClicked(object sender, EventArgs e)
