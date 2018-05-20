@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using MySql.Data.MySqlClient;
 
@@ -8,12 +9,12 @@ namespace GBCalendar
     class DatabaseReader
     {
         #region Felder und Eigenschaften der Klasse DatabaseReader
-        private List<Class> classList = new List<Class>();
+        private List<SchoolClass> classList = new List<SchoolClass>();
         private List<Room> roomList = new List<Room>();
         private List<Appointment> appointmentList = new List<Appointment>();
         private List<string> userList = new List<string>();
 
-        public List<Class> ClassList
+        public List<SchoolClass> ClassList
         {
             get
             {
@@ -44,7 +45,7 @@ namespace GBCalendar
         /// </summary>
         /// <param name="IdPerson">ID der angemeldeten Person</param>
         /// <returns>Eine Liste aller Klassen auf welche die angemeldete Person Zugriff hat</returns>
-        public List<Class> ReadClass(int IdPerson)
+        public List<SchoolClass> ReadClasses(int IdPerson)
         {
             try
             {
@@ -54,13 +55,18 @@ namespace GBCalendar
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT Classname FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson + ");";
+                command.CommandText = "SELECT * FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson + ");";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    classList.Add(new Class(reader.GetValue(0).ToString()));
+                    classList.Add(new SchoolClass((int)reader.GetValue(0), reader.GetValue(1).ToString()));
+                }
+
+                foreach(SchoolClass schoolClass in classList)
+                {
+                    schoolClass.AppointmentList = ReadAppointments(schoolClass);
                 }
 
                 reader.Close();
@@ -77,11 +83,12 @@ namespace GBCalendar
             
         }
 
+        
         /// <summary>
         /// List alle in der Datenbank vorhandenen Räume heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Räume</returns>
-        public List<Room> ReadRoom()
+        public List<Room> ReadRooms()
         {
             try
             {
@@ -91,13 +98,13 @@ namespace GBCalendar
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT Roomname FROM Room;";
+                command.CommandText = "SELECT * FROM Room;";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    roomList.Add(new Room(reader.GetValue(0).ToString()));
+                    roomList.Add(new Room((int)reader.GetValue(0),reader.GetValue(1).ToString()));
                 }
 
                 reader.Close();
@@ -113,13 +120,48 @@ namespace GBCalendar
             }
         }
 
+        
+        public Room ReadRoom(int idRoom)
+        {
 
+            try
+            {
+                string roomName = null;
+
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
+
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT * FROM Room WHERE idRoom = " + idRoom + ";";
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    roomName = (string)reader.GetValue(1);
+                }
+
+                reader.Close();
+
+                //Connection schliessen
+                Connect.CloseConnection();
+
+                Room room = new Room(idRoom, roomName);
+                return room;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
+            }
+        }
 
         /// <summary>
         /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Appointments für Klasse</returns>
-        public List<Appointment> ReadAppointments(Class c)
+        public List<Appointment> ReadAppointments(SchoolClass schoolClass)
         {
             try
             {
@@ -129,14 +171,24 @@ namespace GBCalendar
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT idAppointment, Title, Person_idPerson, Class_idClass, Room_idRoom, Start_Time, End_Time, Description, Alldayevent FROM Appointment WHERE Class_idClass=" + c.IdClass + ";";
+                command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
+                while(reader.Read())
                 {
-                    //appointmentList.Add(new Appointment(reader.GetValue(1).ToString(),)
-      
+                    //int id = (int)reader.GetValue(0);
+                    //string title = (string)reader.GetValue(1);
+                    //Room classRoom = ReadRoom((int)reader.GetValue(4));
+                    //string startTime = reader.GetValue(5).ToString();
+                    //string endTime = reader.GetValue(6).ToString();
+                    //string ade = (string)reader.GetValue(9);
+                    //string desc = (string)reader.GetValue(7);
+
+                    Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
+                      reader.GetValue(5).ToString(), reader.GetValue(6).ToString(), (string)reader.GetValue(9), (string)reader.GetValue(7));
+
+                    appointmentList.Add(a);
                 }
 
                 reader.Close();
@@ -146,8 +198,9 @@ namespace GBCalendar
 
                 return appointmentList;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
                 throw;
             }
         }

@@ -11,9 +11,9 @@
         <ToolbarItem x:Name="ToolbarItemClass" Clicked="OnClassSelectedClicked" Order="Primary" Priority="0" Text="Klasse Auswählen"/>
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
-    
-    <StackLayout Padding="20">
 
+    <StackLayout x:Name="layout">
+        <Button Text="add" Clicked="Addbutton"/>
     </StackLayout>
 
 </ContentPage>

@@ -4,14 +4,14 @@ using System.Text;
 
 namespace GBCalendar
 {
-    class Class
+    class SchoolClass
     {
         #region Felder und Eigenschaften der Klasse Class
-        private string idClass;
+        private int idClass;
         private string className;
-        private List<Appointment> appointmentList;
+        public List<Appointment> AppointmentList { get; set; }
 
-        public string IdClass
+        public int IdClass
         {
             get
             {
@@ -35,17 +35,17 @@ namespace GBCalendar
             }
         }
 
-        public List<Appointment> AppointmentList
-        {
-            get
-            {
-                return this.appointmentList;
-            }
-            private set 
-            {
-                this.appointmentList = AppointmentList;
-            }
-        }
+        //public List<Appointment> AppointmentList1
+        //{
+        //    get
+        //    {
+        //        return this.appointmentList;
+        //    }
+        //    set
+        //    {
+        //        this.appointmentList = AppointmentList1;
+        //    }
+        //}
         #endregion
 
         #region Methoden der Klasse Class
@@ -53,8 +53,9 @@ namespace GBCalendar
         /// Konstruktor
         /// </summary>
         /// <param name="className">Name der Schulklasse</param>
-        public Class(string className)
+        public SchoolClass(int idClass, string className)
         {
+            this.idClass = idClass;
             this.className = className;
         }
 
@@ -79,12 +80,12 @@ namespace GBCalendar
         /// Fügt einen neuen Termin zur Liste
         /// und zur Datenbank hinzu
         /// </summary>
-        public void AddAppointment(string title, Class clas, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person Creator)
+        public void AddAppointment(int idAppointment, string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person Creator)
         {
 
             try
             {
-                Appointment newAppointment = new Appointment(title, clas, room, startTime, endTime, allDayEvent, description, Creator);
+                Appointment newAppointment = new Appointment(idAppointment, title, room, startTime, endTime, allDayEvent, description);
                 //Zuerst in Datenbank schreiben
                 DatabaseWriter Writer = new DatabaseWriter();
                 Writer.WriteAppointment(newAppointment);

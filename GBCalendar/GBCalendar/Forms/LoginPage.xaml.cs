@@ -11,7 +11,6 @@ namespace GBCalendar
 	{
         private Int16 IdRole { get; set; }
         private string Error = "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"; 
-        private Person loggedInPerson;
 
         public LoginPage(Int16 idRole)
         {

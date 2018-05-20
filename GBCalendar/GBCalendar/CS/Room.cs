@@ -38,8 +38,9 @@ namespace GBCalendar
         #endregion
 
         #region Methoden der Klasse Room
-        public Room(string roomName)
+        public Room(int idRoom, string roomName)
         {
+            this.idRoom = idRoom;
             this.roomName = roomName;
         }
         #endregion
