@@ -13,8 +13,8 @@ namespace GBCalendar
 	public partial class NewAppointment : ContentPage
 	{
         private string alldayevent = "N";
-        private DateTime startTime;
-        private DateTime endTime;
+        private string startTime;
+        private string endTime;
 
         private List<Room> rooms;
 
@@ -28,7 +28,7 @@ namespace GBCalendar
                 //Fill up Rooms for Appointment
                 DatabaseReader readerrooms = new DatabaseReader();
 
-                rooms = readerrooms.ReadRoom();
+                rooms = readerrooms.ReadRooms();
 
                 foreach (Room r in rooms)
                 {

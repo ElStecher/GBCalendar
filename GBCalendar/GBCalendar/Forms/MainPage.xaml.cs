@@ -9,8 +9,8 @@ namespace GBCalendar
 {
     public partial class MainPage : ContentPage
     {
-        private List<Class> classes;
-        private Class selectedclass;
+        private List<SchoolClass> classes;
+        private SchoolClass selectedclass;
 
         public MainPage(Person loggedInPerson)
         {
@@ -22,7 +22,7 @@ namespace GBCalendar
                 DatabaseReader readerclasses = new DatabaseReader();
 
                 //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-                classes = readerclasses.ReadClass(loggedInPerson.IdPerson);
+                classes = readerclasses.ReadClasses(loggedInPerson.IdPerson);
 
             }
             catch (Exception)
@@ -51,8 +51,21 @@ namespace GBCalendar
                 ToolbarItemClass.Text = action;
                 selectedclass = classes.Find(Class => Class.ClassName == action);
             }
-
+            
         }
 
+
+
+        //void LoadAppointments()
+        //{
+        //    foreach (var item in selectedclass.AppointmentList)
+        //    {
+        //        var button = new Button();
+        //        button.Text = item.Title;
+        //        button.Clicked += async delegate { await Navigation.PushAsync(); };
+
+        //        stack.Children.Add(button);
+        //    }
+        //}
     }
 }
