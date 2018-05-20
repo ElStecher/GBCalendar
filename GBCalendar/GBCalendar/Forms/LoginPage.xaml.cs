@@ -28,7 +28,7 @@ namespace GBCalendar
             if (isValid)
             {
                 //App.UserLoggedIn = loggedInPerson;
-                Navigation.InsertPageBefore(new MainPage(App.UserLoggedIn), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.InsertPageBefore(new MainPage(), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
                 await Navigation.PopAsync();
             }
             else

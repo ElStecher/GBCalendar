@@ -26,21 +26,21 @@ namespace GBCalendar
 		{
             // Handle when your app sleeps
             System.Threading.Thread.Sleep(300000);
-            UserLoggedIn = null;
+             UserLoggedIn = null;
         }
 
 		protected override void OnResume ()
-		{
-            //// Handle when your app resumes
-            ////Sets the right starter page
-            //if (!IsUserLoggedIn)
-            //{
-            //    MainPage = new NavigationPage(new StartPage());
-            //}
-            //else
-            //{
-            //    MainPage = new NavigationPage(new MainPage());
-            //}
+        {
+            // Handle when your app resumes
+            //Sets the right starter page
+            if (UserLoggedIn != null)
+            {
+                MainPage = new NavigationPage(new StartPage());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new MainPage());
+            }
         }
 	}
 }

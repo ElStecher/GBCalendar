@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GBCalendar.Forms.EditAppointment">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding = "20">
+                <Label Text="Titel für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Entry x:Name="AppointmentTitel"
+                   Placeholder="z.B Deutsch Prüfung"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Label Text="Beschreibung für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Entry x:Name="AppointmentDescription"
+                   Placeholder="z.B Verben, Adjektive gemäss Kapitel 5"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Label Text="Raum auswählen:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Picker x:Name="Roompicker"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
+
+                <Label Text="Datum:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+                <DatePicker x:Name="DatePicker" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <DatePicker.Format>dd-MM-yyyy</DatePicker.Format>
+                    <DatePicker.MinimumDate>
+                        <sys:DateTime x:FactoryMethod="Parse">
+                            <x:Arguments>
+                                <x:String>Jan 1 2000</x:String>
+                            </x:Arguments>
+                        </sys:DateTime>
+                    </DatePicker.MinimumDate>
+                    <DatePicker.MaximumDate>
+                        <sys:DateTime x:FactoryMethod="Parse">
+                            <x:Arguments>
+                                <x:String>Dec 31 2050</x:String>
+                            </x:Arguments>
+                        </sys:DateTime>
+                    </DatePicker.MaximumDate>
+                </DatePicker>
+
+                <Label
+                    Text="Ganztägiges Ereignis:" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start" />
+                <Switch
+                    HorizontalOptions="Start"
+                    Toggled="OnToggled"
+                    IsToggled="False"
+                    />
+
+                <Label Text="Begin:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"
+                   x:Name="LabelBegin"/>
+
+                <TimePicker x:Name="TimePickerStart_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
+
+                <Label Text="Ende:" 
+                   HorizontalOptions="Start"
+                   x:Name="LabelEnd"/>
+
+                <TimePicker x:Name="TimePickerEnd_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"/>
+
+                <Button Text="Ereignis erstellen" 
+                    HorizontalOptions="FillAndExpand"
+                    Clicked="OnCreateAppointmentClicked"
+                    VerticalOptions="FillAndExpand"/>
+
+            </StackLayout>
+        </ScrollView>c
+    </ContentPage.Content>
+</ContentPage>

@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace GBCalendar
+namespace GBCalendar.Forms
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Calendar : ContentPage
+	public partial class EditAppointment : ContentPage
 	{
-		public Calendar (/*Class selectedClass*/)
+		public EditAppointment ()
 		{
 			InitializeComponent ();
-            
-            // Funktion für Auslesen von Appointments und dynamisches Anzeigen in Xamarin Forms
+
 		}
 	}
 }
