@@ -70,17 +70,20 @@ namespace GBCalendar
         }
 
         void ShowAppointments()
-        {
+        { 
+            var layout = new StackLayout();
             foreach (var item in selectedclass.AppointmentList)
             {
+               
                 var button = new Button
                 {
-                    Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
-                    item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
+                Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
+                item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
                 };
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
+                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
 
                 layout.Children.Add(button);
+                Content = layout;
             }
         }
     }
