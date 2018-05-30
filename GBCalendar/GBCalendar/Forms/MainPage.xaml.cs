@@ -10,7 +10,20 @@ namespace GBCalendar
     public partial class MainPage : ContentPage
     {
         private List<SchoolClass> classes;
-        private SchoolClass selectedclass;
+        private static SchoolClass selectedclass;
+
+        public static SchoolClass Selectedclass
+        {
+            get
+            {
+                return selectedclass;
+            }
+            private set
+            {
+                selectedclass = value;
+            }
+        }
+
 
         public MainPage()
         {

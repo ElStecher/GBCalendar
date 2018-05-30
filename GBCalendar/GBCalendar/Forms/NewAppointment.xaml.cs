@@ -69,32 +69,31 @@ namespace GBCalendar
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
 
-            //zum testen
-            Person p = new Person(1, "Samuel", "Maissen", "samuel.maissen@hotmail.com", "test123", 1);
-
-
             Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
 
             if (alldayevent == "N")
             {
-                //startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
-                //endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
-
                 startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
                 endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
-
 
             }
             else
             {
                 startTime = "00:00:00";
                 endTime = "23:59:59";
-
             }
+
+            //if (AppointmentTitel.Text -like "")
+            //{
+            //};
 
 
 
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
+            Application.Current.MainPage.Navigation.PopAsync();
+
+            // problem: refresh der Seite mit Appointments muss noch implementiert werden
+        
         }
     }
 }
