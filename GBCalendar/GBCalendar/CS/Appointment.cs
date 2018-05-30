@@ -144,6 +144,18 @@ namespace GBCalendar
             this.description = description;
         }
 
+        public Appointment(string title, Room room, SchoolClass schoolClass, string startTime, string endTime, string allDayEvent, string description, Person creator)
+        {
+            this.title = title;
+            this.room = room;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.allDayEvent = allDayEvent;
+            this.description = description;
+            this.schoolClass = schoolClass;
+            this.creator = creator;
+        }
+
         #endregion
     }
 }

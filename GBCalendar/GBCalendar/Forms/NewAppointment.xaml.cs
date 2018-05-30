@@ -69,22 +69,32 @@ namespace GBCalendar
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
 
-        //    //Wird nur zum testen gebraucht bis Objekte zur verfügung stehen
-        //    Class c = new Class("TBM76B");
-        //    Person logged = new Person("samuel.maissen@hotmail.com", "TEST123", 1);
-   
-        //    Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-        //    //Console.WriteLine(r.RoomName);
-
-        //    if (alldayevent == "J")
-        //    {
-        //        startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
-        //        endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
-
-        //    }
+            //zum testen
+            Person p = new Person(1, "Samuel", "Maissen", "samuel.maissen@hotmail.com", "test123", 1);
 
 
-        //    c.AddAppointment(AppointmentTitel.Text, c, r, startTime, endTime, alldayevent, AppointmentDescription.Text, logged);
+            Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+
+            if (alldayevent == "N")
+            {
+                //startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
+                //endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
+
+                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
+                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
+
+
+            }
+            else
+            {
+                startTime = "00:00:00";
+                endTime = "23:59:59";
+
+            }
+
+
+
+            MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
         }
     }
 }

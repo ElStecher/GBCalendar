@@ -10,7 +10,21 @@ namespace GBCalendar
     public partial class MainPage : ContentPage
     {
         private List<SchoolClass> classes;
-        private SchoolClass selectedclass;
+        private static SchoolClass selectedclass;
+
+        public static SchoolClass Selectedclass
+        {
+            get
+            {
+                return selectedclass;
+            }
+
+            private set
+            {
+               selectedclass = Selectedclass;
+            }
+        }
+
 
         public MainPage()
         {
@@ -78,7 +92,7 @@ namespace GBCalendar
                     Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
                     item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
                 };
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
+               // button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment()); };
 
                 layout.Children.Add(button);
             }

@@ -80,12 +80,15 @@ namespace GBCalendar
         /// Fügt einen neuen Termin zur Liste
         /// und zur Datenbank hinzu
         /// </summary>
-        public void AddAppointment(int idAppointment, string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person Creator)
+        public void AddAppointment(string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
         {
 
             try
-            {
-                Appointment newAppointment = new Appointment(idAppointment, title, room, startTime, endTime, allDayEvent, description);
+            { 
+                //problem: Neu erstelltes Appointment wird ohne ID in die AppointmentList geadded, da ID über Datenbannk kommt, funktionalität muss noch erweritert werden
+
+
+                Appointment newAppointment = new Appointment(title, room, schoolClass, startTime, endTime, allDayEvent, description, creator);
                 //Zuerst in Datenbank schreiben
                 DatabaseWriter Writer = new DatabaseWriter();
                 Writer.WriteAppointment(newAppointment);
