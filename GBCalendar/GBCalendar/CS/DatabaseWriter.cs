@@ -13,7 +13,7 @@ namespace GBCalendar
         // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseWriter
 
-        public void WriteAppointment(Appointment A)
+        public void WriteAppointment(Appointment appointment)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "INSERT VALUES(" + A.Title + ", " + A.SchoolClass.IdClass + ", " + A.Room.IdRoom + ", " + A.StartTime + ", " + A.EndTime + ", " + A.Description + ", " + A.AllDayEvent + ") INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent) ";
+                command.CommandText = "INSERT VALUES(" + appointment.Title + ", " + appointment.SchoolClass.IdClass + ", " + appointment.Room.IdRoom + ", " + appointment.StartTime + ", " + appointment.EndTime + ", " + appointment.Description + ", " + appointment.AllDayEvent + ") INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent) ";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 
@@ -35,7 +35,7 @@ namespace GBCalendar
         }
         // @Sam ToDo: Methode erstellen um Daten in der Datenbank upzudaten
 
-        public void UpdateAppointment(Appointment A)
+        public void UpdateAppointment(Appointment appointment)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "UPDATE Appointment SET Title =" + A.Title + ", Class_idClass=" + A.SchoolClass.IdClass + ", Room_idRoom=" + A.Room.IdRoom + ", Start_Time=" + A.StartTime + ", End_Time=" + A.EndTime + ", " + A.Description + ", Alldayevent=" + A.AllDayEvent + ", Category=" + ") WHERE idAppointment=" + A.IdAppointment + ";";
+                command.CommandText = "UPDATE Appointment SET Title =" + appointment.Title + ", Class_idClass=" + appointment.SchoolClass.IdClass + ", Room_idRoom=" + appointment.Room.IdRoom + ", Start_Time=" + appointment.StartTime + ", End_Time=" + appointment.EndTime + ", " + appointment.Description + ", Alldayevent=" + appointment.AllDayEvent + ", Category=" + ") WHERE idAppointment=" + appointment.IdAppointment + ";";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 

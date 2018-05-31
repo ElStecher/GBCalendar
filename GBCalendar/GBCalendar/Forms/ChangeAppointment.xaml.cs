@@ -28,6 +28,20 @@ namespace GBCalendar
                     Roompicker.Items.Add(r.RoomName);
                 }
 
+                if (appointment.AllDayEvent == "Y")
+                {
+                    this.AllDayEventSwitch.IsToggled = true;
+                }
+                else
+                {
+                    this.AllDayEventSwitch.IsToggled = false;
+                }
+                //string date = appointment.StartTime.Remove(11, 8);
+                //string startTimeFull = appointment.StartTime.Remove(0, 11).Remove(5, 3);
+                //string endTime = appointment.EndTime.Remove(0, 10).Remove(5, 3);
+
+                //TimeSpan startTime = new TimeSpan(startTimeFull.Remove(2),)
+
             }
             catch (Exception e)
             {
@@ -37,7 +51,7 @@ namespace GBCalendar
 
         void OnToggled(object sender, ToggledEventArgs e)
         {
-            
+        
         }
 
         void OnSaveAppointmentClicked(object sender, EventArgs args)

@@ -60,6 +60,7 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start" />
                 <Switch
+                    x:Name="AllDayEventSwitch"
                     HorizontalOptions="Start"
                     Toggled="OnToggled"
                     IsToggled="False"

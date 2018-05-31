@@ -133,6 +133,16 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
+        /// <summary>
+        /// Standartkonstruktor
+        /// </summary>
+        /// <param name="idAppointment">ID des Appointments</param>
+        /// <param name="title">Titel des Appointments</param>
+        /// <param name="room">Zimmer in welchem das Appointment stattfindet</param>
+        /// <param name="startTime">Startzeit des Appointments</param>
+        /// <param name="endTime">Endzeit des Appointments</param>
+        /// <param name="allDayEvent">Angabe ob das Appointment ganztägig ist</param>
+        /// <param name="description">Beschrebung des Appointments</param>
         public Appointment(int idAppointment, string title, Room room, string startTime, string endTime, string allDayEvent, string description)
         {
             this.idAppointment = idAppointment;
