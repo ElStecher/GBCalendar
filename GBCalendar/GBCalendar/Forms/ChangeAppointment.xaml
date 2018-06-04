@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GBCalendar.NewAppointment"
-             Title="Neues Ereignis">
+             x:Class="GBCalendar.ChangeAppointment">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding = "20">
@@ -83,12 +82,16 @@
                     HorizontalOptions="FillAndExpand" 
                     VerticalOptions="FillAndExpand"/>
 
-                <Button Text="Ereignis erstellen" 
+                <Button Text="Ereignis speichern" 
                     HorizontalOptions="FillAndExpand"
-                    Clicked="OnEreignisErstellenClicked"
+                    Clicked="OnSaveAppointmentClicked"
                     VerticalOptions="FillAndExpand"/>
 
+                <Button Text="Ereignis löschen"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnDeleteAppointmentClicked"
+                        VerticalOptions="FillAndExpand"/>
             </StackLayout>
-        </ScrollView>
+            </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GBCalendar
 {
-    class Person
+    public class Person
     {
         #region Felder und Eigenschaften der Klasse Person
         private int idPerson;
@@ -84,8 +84,11 @@ namespace GBCalendar
         /// <param name="email">Email den angemeldeten Benutzers</param>
         /// <param name="password">Passwort des angemeldeten Benutzers</param>
         /// <param name="role">Rolle des angemeldteten Benutzers</param>
-        public Person(string email, string password, int role)
+        public Person(int id, string firstName, string lastName, string email, string password, int role)
         {
+            this.idPerson = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
             this.email = email;
             this.password = password;
             this.role = role;

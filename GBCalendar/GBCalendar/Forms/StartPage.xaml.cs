@@ -31,21 +31,5 @@ namespace GBCalendar
             await Navigation.PushAsync(new LoginPage(IdRole));
         }
 
-        async void OnTESTClicked(object sender, EventArgs args)
-        {
-            try
-            {
-                await Navigation.PushAsync(new NewAppointment());
-     
-            }
-            catch (Exception e)
-            {
-                DisplayAlert("Fehler", e.Message.ToString(), "OK");
-            }
-
-           
-
-        }
-
     }
 }

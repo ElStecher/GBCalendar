@@ -12,16 +12,11 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
-       
         private string alldayevent = "N";
-        private DateTime startTime;
-        private DateTime endTime;
+        private string startTime;
+        private string endTime;
 
         private List<Room> rooms;
-       
-
-
-
 
         public NewAppointment ()
 		{
@@ -33,7 +28,7 @@ namespace GBCalendar
                 //Fill up Rooms for Appointment
                 DatabaseReader readerrooms = new DatabaseReader();
 
-                rooms = readerrooms.ReadRoom();
+                rooms = readerrooms.ReadRooms();
 
                 foreach (Room r in rooms)
                 {
@@ -46,11 +41,7 @@ namespace GBCalendar
 
                 throw;
             }
-
-           
         }
-
-       
 
         void OnToggled(object sender, ToggledEventArgs e)
         {
@@ -63,9 +54,6 @@ namespace GBCalendar
 
 
                 alldayevent = "Y";
-                
-
-
             }
 
             if (e.Value == false)
@@ -74,31 +62,38 @@ namespace GBCalendar
                 TimePickerStart_Time.IsVisible = true;
                 LabelEnd.IsVisible = true;
                 TimePickerEnd_Time.IsVisible = true;
-
-
                 alldayevent = "N";
             }
         }
 
-        void OnEreignisErstellenClicked(object sender, EventArgs args)
+        void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
 
-            //Wird nur zum testen gebraucht bis Objekte zur verfügung stehen
-            Class c = new Class("TBM76B");
-            Person logged = new Person("samuel.maissen@hotmail.com", "TEST123", 1);
-   
             Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-            //Console.WriteLine(r.RoomName);
 
-            if (alldayevent == "J")
+            if (alldayevent == "N")
             {
-                startTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString());
-                endTime = DateTime.Parse(DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString());
+                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
+                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
 
             }
+            else
+            {
+                startTime = "00:00:00";
+                endTime = "23:59:59";
+            }
+
+            //if (AppointmentTitel.Text -like "")
+            //{
+            //};
 
 
-            c.AddAppointment(AppointmentTitel.Text, c, r, startTime, endTime, alldayevent, AppointmentDescription.Text, logged);
+
+            MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
+            Application.Current.MainPage.Navigation.PopAsync();
+
+            // problem: refresh der Seite mit Appointments muss noch implementiert werden
+        
         }
     }
 }

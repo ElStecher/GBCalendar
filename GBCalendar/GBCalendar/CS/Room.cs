@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GBCalendar
 {
-    class Room
+    public class Room
     {
         #region Felder und Eigenschaften der Klasse Room
         private int idRoom;
@@ -38,8 +38,9 @@ namespace GBCalendar
         #endregion
 
         #region Methoden der Klasse Room
-        public Room(string roomName)
+        public Room(int idRoom, string roomName)
         {
+            this.idRoom = idRoom;
             this.roomName = roomName;
         }
         #endregion

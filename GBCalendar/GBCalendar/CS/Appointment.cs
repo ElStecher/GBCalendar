@@ -4,30 +4,30 @@ using System.Text;
 
 namespace GBCalendar
 {
-    class Appointment
+    public class Appointment
     {
         #region Felder und Eigenschaften der Klasse Appointment
         private int idAppointment;
         private string title;
         private Room room;
-        private DateTime startTime;
-        private DateTime endTime;
+        private string startTime;
+        private string endTime;
         private string allDayEvent;
         private Person creator;
         private string description;
-        private Class clas;
+        private SchoolClass schoolClass;
 
 
-        public Class Clas
+        public SchoolClass SchoolClass
         {
             get
             {
-                return this.clas;
+                return this.schoolClass;
             }
 
             set
             {
-                this.clas = this.Clas;
+                this.schoolClass = this.SchoolClass;
             }
         }
 
@@ -70,7 +70,7 @@ namespace GBCalendar
             }
         }
 
-        public DateTime EndTime
+        public string EndTime
         {
             get
             {
@@ -82,7 +82,7 @@ namespace GBCalendar
             }
         }
 
-        public DateTime StartTime
+        public string StartTime
         {
             get
             {
@@ -133,15 +133,26 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(string title, Class clas, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description,Person creator)
+        public Appointment(int idAppointment, string title, Room room, string startTime, string endTime, string allDayEvent, string description)
         {
-            this.clas = clas;
+            this.idAppointment = idAppointment;
             this.title = title;
             this.room = room;
             this.startTime = startTime;
             this.endTime = endTime;
             this.allDayEvent = allDayEvent;
             this.description = description;
+        }
+
+        public Appointment(string title, Room room, SchoolClass schoolClass, string startTime, string endTime, string allDayEvent, string description, Person creator)
+        {
+            this.title = title;
+            this.room = room;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.allDayEvent = allDayEvent;
+            this.description = description;
+            this.schoolClass = schoolClass;
             this.creator = creator;
         }
 
