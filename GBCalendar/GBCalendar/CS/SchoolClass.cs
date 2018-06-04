@@ -93,7 +93,7 @@ namespace GBCalendar
                 DatabaseWriter Writer = new DatabaseWriter();
                 appointmentId = Writer.WriteAppointment(newAppointmentWithoutId);
 
-                Console.WriteLine(appointmentId);
+
                 //Appointment zur Liste ergänzen
                 Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description);
 
