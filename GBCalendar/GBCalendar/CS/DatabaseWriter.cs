@@ -13,19 +13,22 @@ namespace GBCalendar
         // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseWriter
 
-        public void WriteAppointment(Appointment A)
+        public int WriteAppointment(Appointment A)
         {
             try
             {
                 //instanzierung
+                int Id;
                 DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 command.CommandText = "INSERT INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent, Person_idPerson) VALUES('" + A.Title + "', " + A.SchoolClass.IdClass + ", " + A.Room.IdRoom + ", '" + A.StartTime + "', '" + A.EndTime + "', '" + A.Description + "', '" + A.AllDayEvent + "', " + A.Creator.IdPerson + ")";
                 command.ExecuteNonQuery();
-                Connect.CloseConnection();
+                Id = (int)command.LastInsertedId;
 
+                Connect.CloseConnection();
+                return Id;
             }
             catch (Exception)
             {
