@@ -12,7 +12,7 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ChangeAppointment : ContentPage
 	{
-		public ChangeAppointment (Appointment appointment)
+        public ChangeAppointment (Appointment appointment)
 		{
             try
             {
@@ -23,9 +23,9 @@ namespace GBCalendar
 
                 List<Room> rooms = readerrooms.ReadRooms();
 
-                foreach (Room r in rooms)
+                foreach (Room room in rooms)
                 {
-                    Roompicker.Items.Add(r.RoomName);
+                    Roompicker.Items.Add(room.RoomName);
                 }
 
                 if (appointment.AllDayEvent == "Y")
@@ -36,11 +36,7 @@ namespace GBCalendar
                 {
                     this.AllDayEventSwitch.IsToggled = false;
                 }
-                //string date = appointment.StartTime.Remove(11, 8);
-                //string startTimeFull = appointment.StartTime.Remove(0, 11).Remove(5, 3);
-                //string endTime = appointment.EndTime.Remove(0, 10).Remove(5, 3);
-
-                //TimeSpan startTime = new TimeSpan(startTimeFull.Remove(2),)
+                // Siehe in OnSaveAppointmentClicked()
 
             }
             catch (Exception e)
@@ -51,17 +47,31 @@ namespace GBCalendar
 
         void OnToggled(object sender, ToggledEventArgs e)
         {
-        
+            
         }
 
         void OnSaveAppointmentClicked(object sender, EventArgs args)
         {
+            string startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
+            string endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
 
+            string allDayEvent;
+            if (this.AllDayEventSwitch.IsToggled == true)
+            {
+                allDayEvent = "Y";
+            }
+            else
+            {
+                allDayEvent = "N";
+            }
+
+            //new DatabaseWriter().UpdateAppointment(new Appointment(1, this.AppointmentTitel.Text, new DatabaseReader().ReadRooms().Find(room => room.RoomName == Roompicker.SelectedItem.ToString()), MainPage.SelectedClass, startTime, endTime, allDayEvent, this.AppointmentDescription.Text));
+            
         }
 
+        // @stecher TODO: Methode implementieren welche ein Appointment löschen kann
         void OnDeleteAppointmentClicked(object sender, EventArgs args)
         {
-
         }
 
     }

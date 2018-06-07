@@ -4,7 +4,7 @@
              x:Class="GBCalendar.LoginPage"
              Title="GBCalendar">
 
-    <StackLayout Padding = "20" >
+    <StackLayout x:Name="layout" Padding = "20" >
 
         <Label Text = "Melden Sie sich mit Ihrer Email Adresse sowie mit Ihrem Kennwort an"
                HorizontalOptions="Center"/>
@@ -18,5 +18,9 @@
 
         <Button Text = "Anmelden"
                 Clicked="OnLoginClicked" />
+        
+        <!--<Label x:Name="loginIn" Text = "Wird angemeldet..."
+               HorizontalOptions="Center"
+               IsVisible="False"/>-->
     </StackLayout>
 </ContentPage>

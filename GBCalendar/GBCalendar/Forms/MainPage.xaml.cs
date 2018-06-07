@@ -10,7 +10,7 @@ namespace GBCalendar
     public partial class MainPage : ContentPage
     {
         private List<SchoolClass> classes;
-        private SchoolClass selectedclass;
+        public static SchoolClass SelectedClass { get; private set; }
 
         public MainPage()
         {
@@ -60,7 +60,7 @@ namespace GBCalendar
             if (action != "Cancel")
             {
                 ToolbarItemClass.Text = action;
-                selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                SelectedClass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
                 ShowAppointments();
             }
         }
@@ -70,17 +70,26 @@ namespace GBCalendar
         }
 
         void ShowAppointments()
-        {
-            foreach (var item in selectedclass.AppointmentList)
+        { 
+            var layout = new StackLayout();
+            
+            foreach (var item in SelectedClass.AppointmentList)
             {
+
                 var button = new Button
                 {
                     Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
-                    item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
+                item.StartTime.Remove(0, 11).Remove(5, 3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
                 };
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
+
+                if (App.UserLoggedIn.Role == 1)
+                {
+                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
+                }
 
                 layout.Children.Add(button);
+                Content = layout;
+
             }
         }
     }

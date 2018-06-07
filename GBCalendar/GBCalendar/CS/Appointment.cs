@@ -154,6 +154,27 @@ namespace GBCalendar
             this.description = description;
         }
 
+        /// <summary>
+        /// Konstruktor um ein Appointment in die Datenbank zu schreiben
+        /// </summary>
+        /// <param name="idAppointment">ID des Appointments</param>
+        /// <param name="title">Titel des Appointments</param>
+        /// <param name="room">Zimmer in welchem das Appointment stattfindet</param>
+        /// <param name="startTime">Startzeit des Appointments</param>
+        /// <param name="endTime">Endzeit des Appointments</param>
+        /// <param name="allDayEvent">Angabe ob das Appointment ganztägig ist</param>
+        /// <param name="description">Beschrebung des Appointments</param>
+        public Appointment(string title, Room room, SchoolClass schoolClass, string startTime, string endTime, string allDayEvent, string description)
+        {
+            this.title = title;
+            this.room = room;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.allDayEvent = allDayEvent;
+            this.description = description;
+            this.schoolClass = schoolClass;
+        }
+
         #endregion
     }
 }

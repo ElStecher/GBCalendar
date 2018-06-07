@@ -21,7 +21,7 @@ namespace GBCalendar
 
         async void OnLoginClicked(object sender, EventArgs args)
         {
-
+            //this.loginIn.IsVisible = true;
             var isValid = AreCredentialsCorrect(); 
 
             if (isValid)
