@@ -177,18 +177,14 @@ namespace GBCalendar
 
                 while(reader.Read())
                 {
-                    //int id = (int)reader.GetValue(0);
-                    //string title = (string)reader.GetValue(1);
-                    //Room classRoom = ReadRoom((int)reader.GetValue(4));
+                    //Formatierung Zeit/Datum
                     DateTime startTimeObj = reader.GetDateTime(5);
                     string startTime = startTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
 
                     DateTime endTimeObj = reader.GetDateTime(6);
                     string endTime = endTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
 
-                    //string ade = (string)reader.GetValue(9);
-                    //string desc = (string)reader.GetValue(7);
-
+                    //Instanzierung
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
                       startTime, endTime, (string)reader.GetValue(9), (string)reader.GetValue(7));
 

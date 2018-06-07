@@ -37,7 +37,6 @@ namespace GBCalendar
                     this.AllDayEventSwitch.IsToggled = false;
                 }
                 // Siehe in OnSaveAppointmentClicked()
-
             }
             catch (Exception e)
             {
@@ -64,8 +63,6 @@ namespace GBCalendar
             {
                 allDayEvent = "N";
             }
-
-            //new DatabaseWriter().UpdateAppointment(new Appointment(1, this.AppointmentTitel.Text, new DatabaseReader().ReadRooms().Find(room => room.RoomName == Roompicker.SelectedItem.ToString()), MainPage.SelectedClass, startTime, endTime, allDayEvent, this.AppointmentDescription.Text));
             
         }
 

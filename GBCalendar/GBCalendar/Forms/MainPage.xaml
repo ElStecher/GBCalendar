@@ -6,15 +6,14 @@
              Title="GBCalendar">
 
     <!--https://stackoverflow.com/questions/44305187/how-to-design-header-with-3-buttons-in-xamarin-forms  -->
-
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="ToolbarItemClass" Clicked="OnClassSelectedClicked" Order="Primary" Priority="0" Text="Klasse Auswählen"/>
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
-
-    <ScrollView>
-        <StackLayout x:Name="layout">
-       
-        </StackLayout>
-    </ScrollView>
+    <ContentPage.Content>
+        <ScrollView x:Name="scrollView">
+            <StackLayout x:Name="layout" Padding = "20">
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

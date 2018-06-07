@@ -10,7 +10,20 @@ namespace GBCalendar
     public partial class MainPage : ContentPage
     {
         private List<SchoolClass> classes;
-        public static SchoolClass SelectedClass { get; private set; }
+        private static SchoolClass selectedclass;
+
+        public static SchoolClass Selectedclass
+        {
+            get
+            {
+                return selectedclass;
+            }
+            private set
+            {
+                selectedclass = value;
+            }
+        }
+
 
         public MainPage()
         {
@@ -60,7 +73,7 @@ namespace GBCalendar
             if (action != "Cancel")
             {
                 ToolbarItemClass.Text = action;
-                SelectedClass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
                 ShowAppointments();
             }
         }
@@ -71,20 +84,23 @@ namespace GBCalendar
 
         void ShowAppointments()
         { 
-            var layout = new StackLayout();
-            
-            foreach (var item in SelectedClass.AppointmentList)
-            {
+            StackLayout layout = new StackLayout();
 
+            foreach (Appointment appointment in selectedclass.AppointmentList)
+            {
+               
                 var button = new Button
                 {
-                    Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
-                item.StartTime.Remove(0, 11).Remove(5, 3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
+                Text = appointment.Title + "\n" + appointment.StartTime.Remove(11, 8) + "\n" +
+                appointment.StartTime.Remove(0,11).Remove(5,3) + " -" + appointment.EndTime.Remove(0, 10).Remove(5, 3)
                 };
-
                 if (App.UserLoggedIn.Role == 1)
                 {
-                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
+                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+                }
+                else
+                {
+                    button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
                 }
 
                 layout.Children.Add(button);

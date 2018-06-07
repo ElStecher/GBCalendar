@@ -59,7 +59,9 @@
                     Text="Ganztägiges Ereignis:" 
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Start" />
+                    HorizontalTextAlignment="Start" 
+                    />
+                
                 <Switch
                     HorizontalOptions="Start"
                     Toggled="OnToggled"

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             x:Class="GBCalendar.Forms.ShowAppointmentForStudent">
+    <ScrollView>
+        <StackLayout Padding = "20">
+            <Label Text="Titel für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+            <Entry x:Name="AppointmentTitel"
+                   Placeholder="z.B Deutsch Prüfung"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   IsEnabled="False"/>
+
+            <Label Text="Beschreibung für Ereignis:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+            <Entry x:Name="AppointmentDescription"
+                   Placeholder="z.B Verben, Adjektive gemäss Kapitel 5"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   IsEnabled="False"/>
+
+            <Label Text="Raum auswählen:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+            <Entry x:Name="RoomEntry"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"
+                    IsEnabled="False"/>
+
+            <Label Text="Datum:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+            <Entry x:Name="Entry_Date"
+                   HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"
+                    IsEnabled="False"/>
+            
+            <Label x:Name="Label_AllDayEvent"
+                    Text="Ganztägiges Ereignis:" 
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start" 
+                    />
+            
+            <Entry x:Name="AllDayEventEntry"
+                    HorizontalOptions="Start"
+                    IsEnabled="False"
+                    />
+
+            <Label Text="Begin:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"
+                   x:Name="LabelBegin"/>
+
+            <Entry x:Name="EntryStart_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"
+                        IsEnabled="False"/>
+
+            <Label Text="Ende:" 
+                   HorizontalOptions="Start"
+                   x:Name="LabelEnd"/>
+
+            <Entry x:Name="EntryEnd_Time"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand"
+                        IsEnabled="False"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
