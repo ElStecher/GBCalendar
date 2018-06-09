@@ -19,9 +19,10 @@
         <Button x:Name="LoginButton"
                 Text = "Anmelden"
                 Clicked="OnLoginClicked" />
-        
-        <Label x:Name="loginIn" Text = "Wird angemeldet..."
+
+        <!--<Label x:Name="loginText"
+               Text = "Wird angemeldet..."
                HorizontalOptions="Center"
-               IsVisible="False"/>
+               IsVisible="False"/>-->
     </StackLayout>
 </ContentPage>

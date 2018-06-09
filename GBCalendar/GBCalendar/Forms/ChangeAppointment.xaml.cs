@@ -12,17 +12,20 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ChangeAppointment : ContentPage
 	{
+        private Appointment selectedAppointment { get; set; }
+
         public ChangeAppointment (Appointment appointment)
 		{
             try
             {
                 InitializeComponent();
-                this.AppointmentTitel.Text = appointment.Title;
-                this.AppointmentDescription.Text = appointment.Description;
+                this.selectedAppointment = appointment;
+                this.AppointmentTitel.Text = this.selectedAppointment.Title;
+                this.AppointmentDescription.Text = this.selectedAppointment.Description;
+
                 DatabaseReader readerrooms = new DatabaseReader();
-
                 List<Room> rooms = readerrooms.ReadRooms();
-
+         
                 foreach (Room room in rooms)
                 {
                     Roompicker.Items.Add(room.RoomName);
@@ -66,9 +69,12 @@ namespace GBCalendar
             
         }
 
-        // @stecher TODO: Methode implementieren welche ein Appointment löschen kann
-        void OnDeleteAppointmentClicked(object sender, EventArgs args)
+        async void OnDeleteAppointmentClicked(object sender, EventArgs args)
         {
+            DatabaseWriter databaseWriter = new DatabaseWriter();
+            databaseWriter.DelteAppointment(this.selectedAppointment);
+            await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
+            await Navigation.PushAsync(new MainPage());
         }
 
     }

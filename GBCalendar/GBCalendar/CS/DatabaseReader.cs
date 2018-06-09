@@ -37,7 +37,6 @@ namespace GBCalendar
             }
         }
         #endregion
-        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseReader
 
         /// <summary>

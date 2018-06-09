@@ -58,9 +58,21 @@ namespace GBCalendar
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
-            App.UserLoggedIn = null;
-            Navigation.InsertPageBefore(new StartPage(), this);
-            await Navigation.PopToRootAsync();
+            bool result = await DisplayAlert("Abmelden", "Sie werden abgemeldet", "OK", "Cancel");
+
+            // Falls der Button "Cancel" bedrückt wurde, wird der Benutzer abgemeldet
+            // https://forums.xamarin.com/discussion/71594/displayalert-detect-cancel-button-is-clicked-or-not
+            if (result == true)
+            {
+                App.UserLoggedIn = null;
+                Navigation.InsertPageBefore(new StartPage(), this);
+                await Navigation.PopToRootAsync();
+            }
+            else
+            {
+                // Kehrt zur MainPage zurück
+                return;
+            }
         }
 
 
@@ -86,26 +98,35 @@ namespace GBCalendar
         { 
             StackLayout layout = new StackLayout();
 
-            foreach (Appointment appointment in selectedclass.AppointmentList)
+            if (selectedclass.AppointmentList.Count == 0)
             {
-               
-                var button = new Button
+                // https://forums.xamarin.com/discussion/69446/adding-label-to-page
+                Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center};
+                Content = label;
+            }
+            else
+            {
+                foreach (Appointment appointment in selectedclass.AppointmentList)
                 {
-                Text = appointment.Title + "\n" + appointment.StartTime.Remove(11, 8) + "\n" +
-                appointment.StartTime.Remove(0,11).Remove(5,3) + " -" + appointment.EndTime.Remove(0, 10).Remove(5, 3)
-                };
-                if (App.UserLoggedIn.Role == 1)
-                {
-                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
-                }
-                else
-                {
-                    button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
-                }
 
-                layout.Children.Add(button);
-                Content = layout;
+                    var button = new Button
+                    {
+                        Text = appointment.Title + "\n" + appointment.StartTime.Remove(11, 8) + "\n" +
+                    appointment.StartTime.Remove(0, 11).Remove(5, 3) + " -" + appointment.EndTime.Remove(0, 10).Remove(5, 3)
+                    };
+                    if (App.UserLoggedIn.Role == 1)
+                    {
+                        button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+                    }
+                    else
+                    {
+                        button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
+                    }
 
+                    layout.Children.Add(button);
+                    Content = layout;
+
+                }
             }
         }
     }

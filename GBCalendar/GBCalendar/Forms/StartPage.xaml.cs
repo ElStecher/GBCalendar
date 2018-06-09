@@ -9,7 +9,9 @@ using Xamarin.Forms.Xaml;
 
 namespace GBCalendar
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    // Link zum Einfügen eines neuen Icons
+    //https://stackoverflow.com/questions/37945767/how-to-change-application-icon-in-xamarin-forms
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartPage : ContentPage
 	{
         private Int16 IdRole { get; set; }

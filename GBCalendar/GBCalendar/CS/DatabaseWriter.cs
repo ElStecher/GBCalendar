@@ -52,11 +52,28 @@ namespace GBCalendar
                 Connect.CloseConnection();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
 
+        }
+        public void DelteAppointment(Appointment appointment)
+        {
+            try
+            {
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
+
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                command.CommandText = "DELETE FROM Appointment WHERE idAppointment=" + appointment.IdAppointment.ToString() + ";";
+                command.ExecuteNonQuery();
+                Connect.CloseConnection();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         #endregion
