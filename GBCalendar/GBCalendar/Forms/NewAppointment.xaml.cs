@@ -100,8 +100,8 @@ namespace GBCalendar
             }
             else
             {
-                startTime = "00:00:00";
-                endTime = "23:59:59";
+                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "00:00:00";
+                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "23:59:59";
             }
 
             //instanzierung Appointment
@@ -112,6 +112,20 @@ namespace GBCalendar
 
             DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
            
+        }
+
+        private DateTime FormatDate(string date, string time)
+        {
+            int year = 0;
+            int month = 0;
+            int day = 0;
+            int hour = 0;
+            int minute = 0;
+            int second = 0;
+
+            DateTime formatedDate = new DateTime(year, month, day, hour, minute, second);
+
+            return formatedDate;
         }
     }
 }
