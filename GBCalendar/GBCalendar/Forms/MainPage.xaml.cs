@@ -108,12 +108,32 @@ namespace GBCalendar
             {
                 foreach (Appointment appointment in selectedclass.AppointmentList)
                 {
+                    string appointmentDate = appointment.StartTime.Remove(11, 8);
+                    string appointmentStart = "";
+                    string appointmentEnd = "";
+                    string showingText;
+
+                    if (appointment.StartTime.Contains("00:00") && appointment.EndTime.Contains("23:59"))
+                    {
+                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
+                    }
+                    else
+                    {
+                        appointmentDate = appointment.StartTime.Remove(11, 8);
+                        appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
+                        appointmentEnd = appointment.EndTime.Remove(0, 10).Remove(5, 3);
+
+                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
+                    }
 
                     var button = new Button
                     {
-                        Text = appointment.Title + "\n" + appointment.StartTime.Remove(11, 8) + "\n" +
-                    appointment.StartTime.Remove(0, 11).Remove(5, 3) + " -" + appointment.EndTime.Remove(0, 10).Remove(5, 3)
+                        Text = showingText,
+                        BackgroundColor = Color.White,
+                        BorderWidth = 2,
+                        BorderColor = Color.Black
                     };
+
                     if (App.UserLoggedIn.Role == 1)
                     {
                         button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };

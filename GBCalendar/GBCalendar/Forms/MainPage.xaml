@@ -12,7 +12,8 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView x:Name="scrollView">
-            <StackLayout x:Name="layout" Padding = "20">
+            <StackLayout Spacing="0">
+                
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
