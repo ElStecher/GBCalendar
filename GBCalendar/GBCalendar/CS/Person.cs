@@ -26,9 +26,9 @@ namespace GBCalendar
         /// <param name="role">Rolle des angemeldteten Benutzers</param>
         public Person(int id, string firstName, string lastName)
         {
-            this.idPerson = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
+            this.IdPerson = id;
+            this.FirstName = firstName;
+            this.LastName = lastName;
         }
 
 
