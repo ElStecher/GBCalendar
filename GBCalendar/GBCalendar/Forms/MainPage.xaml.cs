@@ -95,8 +95,17 @@ namespace GBCalendar
         }
 
         void ShowAppointments()
-        { 
-            StackLayout layout = new StackLayout();
+        {
+            var scrollView = new ScrollView();
+            
+            var layout = new StackLayout
+            {
+                Padding = 0,
+                Margin = 0,
+                Spacing = 0
+            };
+            scrollView.Content = layout;
+            Content = scrollView;
 
             if (selectedclass.AppointmentList.Count == 0)
             {
@@ -129,9 +138,11 @@ namespace GBCalendar
                     var button = new Button
                     {
                         Text = showingText,
-                        BackgroundColor = Color.White,
-                        BorderWidth = 2,
-                        BorderColor = Color.Black
+                        BackgroundColor = Color.LightGray,
+                        BorderWidth = 0.5,
+                        CornerRadius = 0,
+                        BorderColor = Color.Black,
+                        Margin = new Thickness(10,0,10,0)
                     };
 
                     if (App.UserLoggedIn.Role == 1)
@@ -144,7 +155,7 @@ namespace GBCalendar
                     }
 
                     layout.Children.Add(button);
-                    Content = layout;
+                    
 
                 }
             }

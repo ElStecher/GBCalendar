@@ -178,10 +178,10 @@ namespace GBCalendar
                 {
                     //Formatierung Zeit/Datum
                     DateTime startTimeObj = reader.GetDateTime(5);
-                    string startTime = startTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
+                    string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                     DateTime endTimeObj = reader.GetDateTime(6);
-                    string endTime = endTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
+                    string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                     //Instanzierung
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),

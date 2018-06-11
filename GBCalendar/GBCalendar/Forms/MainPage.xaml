@@ -10,11 +10,4 @@
         <ToolbarItem x:Name="ToolbarItemClass" Clicked="OnClassSelectedClicked" Order="Primary" Priority="0" Text="Klasse Auswählen"/>
         <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <ScrollView x:Name="scrollView">
-            <StackLayout Spacing="0">
-                
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
 </ContentPage>
