@@ -9,20 +9,9 @@ namespace GBCalendar
 {
     public partial class MainPage : ContentPage
     {
-        private List<SchoolClass> classes;
-        private static SchoolClass selectedclass;
-
-        public static SchoolClass Selectedclass
-        {
-            get
-            {
-                return selectedclass;
-            }
-            private set
-            {
-                selectedclass = value;
-            }
-        }
+        public List<SchoolClass> classes;
+        public static SchoolClass Selectedclass { get; set; }
+        
 
 
         public MainPage()
@@ -45,7 +34,6 @@ namespace GBCalendar
                 //Fill up Classes for Appointment
                 DatabaseReader readerclasses = new DatabaseReader();
 
-                //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
                 classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
 
             }
@@ -85,7 +73,7 @@ namespace GBCalendar
             if (action != "Cancel")
             {
                 ToolbarItemClass.Text = action;
-                selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
                 ShowAppointments();
             }
         }
@@ -107,7 +95,7 @@ namespace GBCalendar
             scrollView.Content = layout;
             Content = scrollView;
 
-            if (selectedclass.AppointmentList.Count == 0)
+            if (Selectedclass.AppointmentList.Count == 0)
             {
                 // https://forums.xamarin.com/discussion/69446/adding-label-to-page
                 Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center};
@@ -115,7 +103,7 @@ namespace GBCalendar
             }
             else
             {
-                foreach (Appointment appointment in selectedclass.AppointmentList)
+                foreach (Appointment appointment in Selectedclass.AppointmentList)
                 {
                     string appointmentDate = appointment.StartTime.Remove(11, 8);
                     string appointmentStart = "";

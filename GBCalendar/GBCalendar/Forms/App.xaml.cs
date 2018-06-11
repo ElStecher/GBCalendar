@@ -9,7 +9,7 @@ namespace GBCalendar
 {
 	public partial class App : Application
 	{
-        public static Person UserLoggedIn{ get; set; }
+        public static Person UserLoggedIn { get; set; }
 
 		public App ()
 		{
@@ -26,7 +26,7 @@ namespace GBCalendar
 		{
             // Handle when your app sleeps
             System.Threading.Thread.Sleep(300000);
-             UserLoggedIn = null;
+            UserLoggedIn = null;
         }
 
 		protected override void OnResume ()

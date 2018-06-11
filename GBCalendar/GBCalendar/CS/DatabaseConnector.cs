@@ -10,19 +10,7 @@ namespace GBCalendar
     class DatabaseConnector
     {
         #region Felder und Eigenschaften der Klasse DatabaseConnector
-        private MySqlConnection connection;
-
-        public MySqlConnection Connection
-        {
-            get
-            {
-                return this.connection;
-            }
-            private set
-            {
-                this.connection = Connection;
-            }
-        }
+        public MySqlConnection Connection { get; set; }
 
         #region Eigenschaften um Verbindung mit Datenbank herzustellen
         private string server = "maissen.internet-box.ch";
@@ -45,8 +33,8 @@ namespace GBCalendar
             {
                 connectionString = "SERVER=" + server + ";" + "PORT=" + port + ";" + "DATABASE=" +
                 database + ";" + "UID=" + user + ";" + "PASSWORD=" + password + ";";
-                connection = new MySqlConnection(connectionString);
-                connection.Open();
+                Connection = new MySqlConnection(connectionString);
+                Connection.Open();
 
             }
             catch (Exception e)
@@ -62,7 +50,7 @@ namespace GBCalendar
         {
             try
             {
-                this.connection.Close();
+                this.Connection.Close();
             }
             catch (Exception e)
             {

@@ -12,8 +12,6 @@ namespace GBCalendar.Forms
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShowAppointmentForStudent : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
-
         public ShowAppointmentForStudent(Appointment appointment)
         {
             try
