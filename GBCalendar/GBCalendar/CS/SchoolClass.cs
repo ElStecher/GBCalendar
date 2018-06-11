@@ -7,45 +7,9 @@ namespace GBCalendar
     public class SchoolClass
     {
         #region Felder und Eigenschaften der Klasse Class
-        private int idClass;
-        private string className;
+        public int IdClass { get; set; }
+        public string ClassName { get; set; }
         public List<Appointment> AppointmentList { get; set; }
-
-        public int IdClass
-        {
-            get
-            {
-                return this.idClass;
-            }
-            private set
-            {
-                this.idClass = IdClass;
-            }
-        }
-
-        public string ClassName
-        {
-            get
-            {
-                return this.className;
-            }
-            private set
-            {
-                this.className = ClassName;
-            }
-        }
-
-        //public List<Appointment> AppointmentList1
-        //{
-        //    get
-        //    {
-        //        return this.appointmentList;
-        //    }
-        //    set
-        //    {
-        //        this.appointmentList = AppointmentList1;
-        //    }
-        //}
         #endregion
 
         #region Methoden der Klasse Class
@@ -55,34 +19,12 @@ namespace GBCalendar
         /// <param name="className">Name der Schulklasse</param>
         public SchoolClass(int idClass, string className)
         {
-            this.idClass = idClass;
-            this.className = className;
+            this.IdClass = idClass;
+            this.ClassName = className;
         }
 
-        /// <summary>
-        /// Listet alle Appointments der ausgewählten Schulklasse auf
-        /// </summary>
-        private void ListAppointments()
-        {
-
-        }
-
-        /// <summary>
-        /// Löscht einen Termin aus der Liste 
-        /// und aktualisiert die Datensätze in der Datenbank
-        /// </summary>
-        public void RemoveAppointment()
-        {
-
-        }
-
-        /// <summary>
-        /// Fügt einen neuen Termin zur Liste
-        /// und zur Datenbank hinzu
-        /// </summary>
         public void AddAppointment(string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
         {
-
             try
             { 
                 //Id als Rückgabewert von Appointment welches in Datenbankgeschrieben wird
@@ -102,7 +44,6 @@ namespace GBCalendar
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -115,9 +56,6 @@ namespace GBCalendar
         {
             try
             {
-                
-
-
                 //Zuerst in Datenbank schreiben
                 DatabaseWriter Writer = new DatabaseWriter();
                 Writer.UpdateAppointment(appointment);
@@ -134,9 +72,6 @@ namespace GBCalendar
 
                 throw;
             }
-
-
-
         }
         #endregion
     }

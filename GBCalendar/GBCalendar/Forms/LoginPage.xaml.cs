@@ -20,8 +20,6 @@ namespace GBCalendar
 
         async void OnLoginClicked(object sender, EventArgs args)
         {
-            //this.LoginButton.IsEnabled = false;
-            //this.LoginButton.Text = "Wird angemeldet...";
             try
             {
                 
@@ -35,8 +33,6 @@ namespace GBCalendar
                 else
                 {
                     await DisplayAlert("Fehler", Error, "OK");
-                    //this.LoginButton.IsEnabled = true;
-                    //this.LoginButton.Text = "Anmelden";
                 }
 
                 bool AreCredentialsCorrect()

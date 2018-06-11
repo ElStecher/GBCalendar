@@ -7,10 +7,6 @@ namespace GBCalendar
 {
     class DatabaseWriter
     {
-        #region Felder und Eigenschaften der Klasse DatabaseWriter
-
-        #endregion
-        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
         #region Methoden der Klasse DatabaseWriter
 
         public int WriteAppointment(Appointment appointment)

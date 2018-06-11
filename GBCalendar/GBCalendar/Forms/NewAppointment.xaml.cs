@@ -15,7 +15,6 @@ namespace GBCalendar
         private string alldayevent = "N";
         private string startTime;
         private string endTime;
-
         private List<Room> rooms;
 
         public NewAppointment ()
