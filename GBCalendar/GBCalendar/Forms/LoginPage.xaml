@@ -20,6 +20,9 @@
                 Text = "Anmelden"
                 Clicked="OnLoginClicked" />
 
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           Color="Black" 
+                           IsRunning="false" />
         <!--<Label x:Name="loginText"
                Text = "Wird angemeldet..."
                HorizontalOptions="Center"

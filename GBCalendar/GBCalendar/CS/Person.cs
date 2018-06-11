@@ -104,13 +104,7 @@ namespace GBCalendar
             
         }
 
-        /// <summary>
-        /// Schliesst alle offenen Verbindungen und Seiten
-        /// </summary>
-        public void LogOut()
-        {
-
-        }
+        
         #endregion
     }
 }
