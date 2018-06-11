@@ -95,7 +95,7 @@ namespace GBCalendar
 
 
                 //Appointment zur Liste ergänzen
-                Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description);
+                Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description, creator);
 
                 AppointmentList.Add(newAppointment);
 

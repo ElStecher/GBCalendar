@@ -156,6 +156,7 @@ namespace GBCalendar
             }
         }
 
+
         /// <summary>
         /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
         /// </summary>
@@ -170,22 +171,26 @@ namespace GBCalendar
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+                //command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+                command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname FROM Person AS p, Appointment AS a WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + ";";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read())
                 {
-                    //Formatierung Zeit/Datum
+                    // Formatierung Zeit/Datum
                     DateTime startTimeObj = reader.GetDateTime(5);
                     string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                     DateTime endTimeObj = reader.GetDateTime(6);
                     string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
-                    //Instanzierung
+                    // Instanzierung Person
+                    Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
+
+                    //Instanzierung Appointment
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
-                      startTime, endTime, (string)reader.GetValue(9), (string)reader.GetValue(7));
+                      startTime, endTime, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
                     appointmentList.Add(a);
                 }

@@ -22,7 +22,7 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(int idAppointment, string title, Room room, string startTime, string endTime, string allDayEvent, string description)
+        public Appointment(int idAppointment, string title, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
         {
             this.IdAppointment = idAppointment;
             this.Title = title;
@@ -31,6 +31,7 @@ namespace GBCalendar
             this.EndTime = endTime;
             this.AllDayEvent = allDayEvent;
             this.Description = description;
+            this.Creator = creator;
         }
 
         public Appointment(string title, Room room, SchoolClass schoolClass, string startTime, string endTime, string allDayEvent, string description, Person creator)

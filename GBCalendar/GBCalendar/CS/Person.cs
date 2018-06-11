@@ -84,6 +84,14 @@ namespace GBCalendar
         /// <param name="email">Email den angemeldeten Benutzers</param>
         /// <param name="password">Passwort des angemeldeten Benutzers</param>
         /// <param name="role">Rolle des angemeldteten Benutzers</param>
+        public Person(int id, string firstName, string lastName)
+        {
+            this.idPerson = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+
         public Person(int id, string firstName, string lastName, string email, string password, int role)
         {
             this.idPerson = id;
