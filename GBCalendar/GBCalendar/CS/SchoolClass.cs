@@ -85,8 +85,6 @@ namespace GBCalendar
 
             try
             { 
-                //problem: Neu erstelltes Appointment wird ohne ID in die AppointmentList geadded, da ID über Datenbannk kommt, funktionalität muss noch erweritert werden
-
                 //Id als Rückgabewert von Appointment welches in Datenbankgeschrieben wird
                 int appointmentId;
 
@@ -113,9 +111,32 @@ namespace GBCalendar
         /// <summary>
         /// Bearbeitet einen ausgewählten Termin
         /// </summary>
-        public void EditAppointment()
+        public void EditAppointment(Appointment appointment)
         {
-        
+            try
+            {
+                
+
+
+                //Zuerst in Datenbank schreiben
+                DatabaseWriter Writer = new DatabaseWriter();
+                Writer.UpdateAppointment(appointment);
+
+
+                //Appointment zur Liste ergänzen
+                //Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description);
+
+                //AppointmentList.Add(newAppointment);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
         }
         #endregion
     }

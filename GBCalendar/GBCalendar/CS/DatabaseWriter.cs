@@ -47,7 +47,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "UPDATE Appointment SET Title =" + appointment.Title + ", Class_idClass=" + appointment.SchoolClass.IdClass + ", Room_idRoom=" + appointment.Room.IdRoom + ", Start_Time=" + appointment.StartTime + ", End_Time=" + appointment.EndTime + ", " + appointment.Description + ", Alldayevent=" + appointment.AllDayEvent + ", Category=" + ") WHERE idAppointment=" + appointment.IdAppointment + ";";
+                command.CommandText = "UPDATE Appointment SET Title =" + appointment.Title + ", Room_idRoom=" + appointment.Room.IdRoom + ", Start_Time=" + appointment.StartTime + ", End_Time=" + appointment.EndTime + ", " + appointment.Description + ", Alldayevent=" + appointment.AllDayEvent + ", Category=" + ") WHERE idAppointment=" + appointment.IdAppointment + ";";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 
