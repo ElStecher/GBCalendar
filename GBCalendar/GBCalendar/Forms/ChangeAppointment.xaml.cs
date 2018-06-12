@@ -12,11 +12,11 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ChangeAppointment : ContentPage
 	{
-        public Appointment SelectedAppointment { get; set; }
-        public string Alldayevent { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
-        public List<Room> Rooms { get; set; }
+        public Appointment SelectedAppointment { get; private set; }
+        public string Alldayevent { get; private set; }
+        public string StartTime { get; private set; }
+        public string EndTime { get; private set; }
+        public List<Room> Rooms { get; private set; }
 
         public ChangeAppointment (Appointment appointment)
 		{

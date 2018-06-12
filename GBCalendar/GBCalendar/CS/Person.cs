@@ -7,13 +7,13 @@ namespace GBCalendar
     public class Person
     {
         #region Felder und Eigenschaften der Klasse Person
-        public int IdPerson { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        public int IdPerson { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string Email { get; private set; }
         // Da kein Zugriff auf das Passwort möglich sein soll, wurde die Eigenschaft nicht implementiert
-        public string Password { get; }
-        public int Role { get; set; }
+        public string Password { get; private set; }
+        public int Role { get; private set; }
 
         #endregion
 

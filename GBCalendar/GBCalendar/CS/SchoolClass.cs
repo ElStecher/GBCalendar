@@ -7,8 +7,8 @@ namespace GBCalendar
     public class SchoolClass
     {
         #region Felder und Eigenschaften der Klasse Class
-        public int IdClass { get; set; }
-        public string ClassName { get; set; }
+        public int IdClass { get; private set; }
+        public string ClassName { get; private set; }
         public List<Appointment> AppointmentList { get; set; }
         #endregion
 

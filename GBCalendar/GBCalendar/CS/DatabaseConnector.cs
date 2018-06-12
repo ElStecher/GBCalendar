@@ -10,7 +10,7 @@ namespace GBCalendar
     class DatabaseConnector
     {
         #region Felder und Eigenschaften der Klasse DatabaseConnector
-        public MySqlConnection Connection { get; set; }
+        public MySqlConnection Connection { get; private set; }
 
         #region Eigenschaften um Verbindung mit Datenbank herzustellen
         private string server = "maissen.internet-box.ch";

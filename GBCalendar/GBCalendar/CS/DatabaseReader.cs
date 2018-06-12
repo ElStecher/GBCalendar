@@ -9,33 +9,11 @@ namespace GBCalendar
     class DatabaseReader
     {
         #region Felder und Eigenschaften der Klasse DatabaseReader
-        private List<SchoolClass> classList = new List<SchoolClass>();
-        private List<Room> roomList = new List<Room>();
+        public List<SchoolClass> ClassList { get; private set; } = new List<SchoolClass>();
+        public List<Room> roomList { get; private set; } = new List<Room>();
+
         private List<Appointment> appointmentList = new List<Appointment>();
         private List<string> userList = new List<string>();
-
-        public List<SchoolClass> ClassList
-        {
-            get
-            {
-                return this.classList;
-            }
-            private set
-            {
-                this.classList = ClassList;
-            }
-        }
-        public List<Room> RoomList
-        {
-            get
-            {
-                return this.roomList;
-            }
-            private set
-            {
-                this.roomList = RoomList;
-            }
-        }
         #endregion
         #region Methoden der Klasse DatabaseReader
 
@@ -60,10 +38,10 @@ namespace GBCalendar
 
                 while (reader.Read())
                 {
-                    classList.Add(new SchoolClass((int)reader.GetValue(0), reader.GetValue(1).ToString()));
+                    ClassList.Add(new SchoolClass((int)reader.GetValue(0), reader.GetValue(1).ToString()));
                 }
 
-                foreach(SchoolClass schoolClass in classList)
+                foreach(SchoolClass schoolClass in ClassList)
                 {
                     schoolClass.AppointmentList = ReadAppointments(schoolClass);
                 }
@@ -73,7 +51,7 @@ namespace GBCalendar
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return classList;
+                return ClassList;
             }
             catch (Exception e)
             {
@@ -183,16 +161,21 @@ namespace GBCalendar
                     string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                     DateTime endTimeObj = reader.GetDateTime(6);
-                    string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                    
 
-                    // Instanzierung Person
-                    Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
+                    if (endTimeObj > DateTime.Now)
+                    {
+                        string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
-                    //Instanzierung Appointment
-                    Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
-                      startTime, endTime, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
+                        // Instanzierung Person
+                        Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
-                    appointmentList.Add(a);
+                        //Instanzierung Appointment
+                        Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
+                          startTime, endTime, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
+
+                        appointmentList.Add(a);
+                    }
                 }
 
                 reader.Close();
