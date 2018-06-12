@@ -70,7 +70,7 @@ namespace GBCalendar
             //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
             string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
-            if (action != "Cancel")
+            if (action != "Cancel" && action != null)
             {
                 ToolbarItemClass.Text = action;
                 Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
@@ -82,69 +82,74 @@ namespace GBCalendar
             await Navigation.PushAsync(new NewAppointment());
         }
 
-        void ShowAppointments()
+        async void ShowAppointments()
         {
-            var scrollView = new ScrollView();
-            
-            var layout = new StackLayout
+            if(Selectedclass == null)
             {
-                Padding = 0,
-                Margin = 0,
-                Spacing = 0
-            };
-            scrollView.Content = layout;
-            Content = scrollView;
-
-            if (Selectedclass.AppointmentList.Count == 0)
-            {
-                // https://forums.xamarin.com/discussion/69446/adding-label-to-page
-                Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center};
-                Content = label;
+                await DisplayAlert("Fehler", "Bitte wählen Sie eine Klasse aus", "OK");
             }
             else
             {
-                foreach (Appointment appointment in Selectedclass.AppointmentList)
+                var scrollView = new ScrollView();
+
+                var layout = new StackLayout
                 {
-                    string appointmentDate = appointment.StartTime.Remove(11, 8);
-                    string appointmentStart = "";
-                    string appointmentEnd = "";
-                    string showingText;
+                    Padding = 0,
+                    Margin = 0,
+                    Spacing = 0
+                };
+                scrollView.Content = layout;
+                Content = scrollView;
 
-                    if (appointment.StartTime.Contains("00:00") && appointment.EndTime.Contains("23:59"))
+                if (Selectedclass.AppointmentList.Count == 0)
+                {
+                    // https://forums.xamarin.com/discussion/69446/adding-label-to-page
+                    Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
+                    Content = label;
+                }
+                else
+                {
+                    foreach (Appointment appointment in Selectedclass.AppointmentList)
                     {
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
+                        string appointmentDate = appointment.StartTime.Remove(11, 8);
+                        string appointmentStart = "";
+                        string appointmentEnd = "";
+                        string showingText;
+
+                        if (appointment.StartTime.Contains("00:00") && appointment.EndTime.Contains("23:59"))
+                        {
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
+                        }
+                        else
+                        {
+                            appointmentDate = appointment.StartTime.Remove(11, 8);
+                            appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
+                            appointmentEnd = appointment.EndTime.Remove(0, 11).Remove(5, 3);
+
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
+                        }
+
+                        var button = new Button
+                        {
+                            Text = showingText,
+                            BackgroundColor = Color.LightGray,
+                            BorderWidth = 0.5,
+                            CornerRadius = 0,
+                            BorderColor = Color.Black,
+                            Margin = new Thickness(10, 0, 10, 0)
+                        };
+
+                        if (App.UserLoggedIn.Role == 1)
+                        {
+                            button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+                        }
+                        else
+                        {
+                            button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
+                        }
+
+                        layout.Children.Add(button);
                     }
-                    else
-                    {
-                        appointmentDate = appointment.StartTime.Remove(11, 8);
-                        appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
-                        appointmentEnd = appointment.EndTime.Remove(0, 11).Remove(5, 3);
-
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
-                    }
-
-                    var button = new Button
-                    {
-                        Text = showingText,
-                        BackgroundColor = Color.LightGray,
-                        BorderWidth = 0.5,
-                        CornerRadius = 0,
-                        BorderColor = Color.Black,
-                        Margin = new Thickness(10,0,10,0)
-                    };
-
-                    if (App.UserLoggedIn.Role == 1)
-                    {
-                        button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
-                    }
-                    else
-                    {
-                        button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
-                    }
-
-                    layout.Children.Add(button);
-                    
-
                 }
             }
         }
