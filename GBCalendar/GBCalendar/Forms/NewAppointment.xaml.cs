@@ -102,9 +102,6 @@ namespace GBCalendar
                 endTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
             }
 
-            await DisplayAlert("Neeeee", DatePicker.Date.ToString(), "OK");
-
-
             //instanzierung Appointment
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
             Application.Current.MainPage.Navigation.PopAsync();
