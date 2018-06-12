@@ -23,8 +23,38 @@ namespace GBCalendar
             try
             {
                 InitializeComponent();
+
+
+                if (App.UserLoggedIn.Role == 0 || App.UserLoggedIn.IdPerson != appointment.Creator.IdPerson)
+                {
+                    AppointmentTitel.IsEnabled = false;
+                    AppointmentDescription.IsEnabled = false;
+                    Roompicker.IsEnabled = false;
+                    DatePicker.IsEnabled = false;
+                    AllDayEventSwitch.IsEnabled = false;
+                    TimePickerStart_Time.IsEnabled = false;
+                    TimePickerEnd_Time.IsEnabled = false;
+                    ButtonDeleteAppointment.IsVisible = false;
+                    ButtonSaveAppointment.IsVisible = false;
+                    AppointmentCreator.IsEnabled = false;
+
+
+
+                }
+                else
+                {
+                    AppointmentLabelCreator.IsVisible = false;
+                    AppointmentCreator.IsVisible = false;
+
+                };
+
+
                 // Ausgewähltes appointment setzen
-                this.SelectedAppointment = appointment;
+                SelectedAppointment = appointment;
+
+
+                //Page Bennenen
+                Title = SelectedAppointment.Title;
 
                 // Räume auslesen und abfüllen
                 DatabaseReader readerrooms = new DatabaseReader();
@@ -35,18 +65,19 @@ namespace GBCalendar
                 }
           
                 // Werte Abfüllen
-                this.AppointmentTitel.Text = this.SelectedAppointment.Title;
-                this.AppointmentDescription.Text = this.SelectedAppointment.Description;
-                Roompicker.SelectedIndex = Roompicker.Items.IndexOf(this.SelectedAppointment.Room.RoomName);
+                AppointmentTitel.Text = SelectedAppointment.Title;
+                AppointmentDescription.Text = SelectedAppointment.Description;
+                Roompicker.SelectedIndex = Roompicker.Items.IndexOf(SelectedAppointment.Room.RoomName);
                 DatePicker.Date = new DateTime(int.Parse(SelectedAppointment.StartTime.Substring(6, 4)), int.Parse(SelectedAppointment.StartTime.Substring(3, 2)), int.Parse(SelectedAppointment.StartTime.Substring(0, 2)));
                 TimePickerStart_Time.Time = TimeSpan.Parse(SelectedAppointment.StartTime.Substring(11, 5));
                 TimePickerEnd_Time.Time = TimeSpan.Parse(SelectedAppointment.EndTime.Substring(11, 5));
                 Alldayevent = SelectedAppointment.AllDayEvent;
+                AppointmentCreator.Text = SelectedAppointment.Creator.FirstName + " " + SelectedAppointment.Creator.LastName;
 
 
                 if (Alldayevent == "Y")
                 {
-                    this.AllDayEventSwitch.IsToggled = true;
+                    AllDayEventSwitch.IsToggled = true;
                     LabelBegin.IsVisible = false;
                     TimePickerStart_Time.IsVisible = false;
                     LabelEnd.IsVisible = false;
@@ -55,7 +86,7 @@ namespace GBCalendar
                 }
                 else
                 {
-                    this.AllDayEventSwitch.IsToggled = false;
+                    AllDayEventSwitch.IsToggled = false;
                    
                 }
 
