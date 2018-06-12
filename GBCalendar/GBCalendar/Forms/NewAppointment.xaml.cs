@@ -65,7 +65,7 @@ namespace GBCalendar
             }
         }
 
-        void OnCreateAppointmentClicked(object sender, EventArgs args)
+        async void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
 
             //Abfragen ob felder Ausgefüllt
@@ -105,11 +105,11 @@ namespace GBCalendar
 
             //instanzierung Appointment
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
-            Application.Current.MainPage.Navigation.PopAsync();
+            await Application.Current.MainPage.Navigation.PopAsync();
 
             // problem: refresh der Seite mit Appointments muss noch implementiert werden
-
-            DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
+            
+            await DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
            
         }
     }

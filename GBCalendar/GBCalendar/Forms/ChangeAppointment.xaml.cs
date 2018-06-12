@@ -38,12 +38,13 @@ namespace GBCalendar
                 this.AppointmentTitel.Text = this.SelectedAppointment.Title;
                 this.AppointmentDescription.Text = this.SelectedAppointment.Description;
                 Roompicker.SelectedIndex = Roompicker.Items.IndexOf(this.SelectedAppointment.Room.RoomName);
-                DatePicker.Date = new DateTime(int.Parse(SelectedAppointment.StartTime.Substring(6, 4)), 
-                    int.Parse(SelectedAppointment.StartTime.Substring(3, 2)), int.Parse(SelectedAppointment.StartTime.Substring(0, 2)));
+                DatePicker.Date = new DateTime(int.Parse(SelectedAppointment.StartTime.Substring(6, 4)), int.Parse(SelectedAppointment.StartTime.Substring(3, 2)), int.Parse(SelectedAppointment.StartTime.Substring(0, 2)));
                 TimePickerStart_Time.Time = TimeSpan.Parse(SelectedAppointment.StartTime.Substring(11, 5));
                 TimePickerEnd_Time.Time = TimeSpan.Parse(SelectedAppointment.EndTime.Substring(11, 5));
+                Alldayevent = SelectedAppointment.AllDayEvent;
 
-                if (appointment.AllDayEvent == "Y")
+
+                if (Alldayevent == "Y")
                 {
                     this.AllDayEventSwitch.IsToggled = true;
                     LabelBegin.IsVisible = false;
