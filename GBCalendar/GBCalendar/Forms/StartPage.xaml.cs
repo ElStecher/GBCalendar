@@ -14,7 +14,7 @@ namespace GBCalendar
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartPage : ContentPage
 	{
-        private Int16 IdRole { get; set; }
+        public Int16 IdRole { get; private set; }
 
         public StartPage ()
 		{

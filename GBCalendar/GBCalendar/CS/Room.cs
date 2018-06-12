@@ -7,8 +7,8 @@ namespace GBCalendar
     public class Room
     {
         #region Felder und Eigenschaften der Klasse Room
-        public int IdRoom { get; set; }
-        public string RoomName { get; set; }
+        public int IdRoom { get; private set; }
+        public string RoomName { get; private set; }
         #endregion
 
         #region Methoden der Klasse Room

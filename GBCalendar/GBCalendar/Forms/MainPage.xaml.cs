@@ -10,12 +10,14 @@ namespace GBCalendar
     public partial class MainPage : ContentPage
     {
         public List<SchoolClass> classes;
-        public static SchoolClass Selectedclass { get; set; }
-        
+        public static SchoolClass Selectedclass { get; private set; }
+
 
 
         public MainPage()
         {
+            NavigationPage.SetHasBackButton(this, false);
+
             InitializeComponent();
 
             if (App.UserLoggedIn.Role == 1)
@@ -70,7 +72,7 @@ namespace GBCalendar
             //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
             string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
-            if (action != "Cancel")
+            if (action != "Cancel" && action != null)
             {
                 ToolbarItemClass.Text = action;
                 Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
@@ -84,8 +86,9 @@ namespace GBCalendar
 
         void ShowAppointments()
         {
-            var scrollView = new ScrollView();
             
+            var scrollView = new ScrollView();
+
             var layout = new StackLayout
             {
                 Padding = 0,
@@ -98,7 +101,7 @@ namespace GBCalendar
             if (Selectedclass.AppointmentList.Count == 0)
             {
                 // https://forums.xamarin.com/discussion/69446/adding-label-to-page
-                Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center};
+                Label label = new Label { Text = "Keine Ereignisse gefunden", HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
                 Content = label;
             }
             else
@@ -118,7 +121,7 @@ namespace GBCalendar
                     {
                         appointmentDate = appointment.StartTime.Remove(11, 8);
                         appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
-                        appointmentEnd = appointment.EndTime.Remove(0, 10).Remove(5, 3);
+                        appointmentEnd = appointment.EndTime.Remove(0, 11).Remove(5, 3);
 
                         showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
                     }
@@ -130,7 +133,7 @@ namespace GBCalendar
                         BorderWidth = 0.5,
                         CornerRadius = 0,
                         BorderColor = Color.Black,
-                        Margin = new Thickness(10,0,10,0)
+                        Margin = new Thickness(10, 0, 10, 0)
                     };
 
                     if (App.UserLoggedIn.Role == 1)
@@ -143,8 +146,6 @@ namespace GBCalendar
                     }
 
                     layout.Children.Add(button);
-                    
-
                 }
             }
         }

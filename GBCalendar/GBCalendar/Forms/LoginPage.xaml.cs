@@ -9,7 +9,7 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
 	{
-        private Int16 IdRole { get; set; }
+        public Int16 IdRole { get; private set; }
         private string Error = "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"; 
 
         public LoginPage(Int16 idRole)
@@ -27,7 +27,7 @@ namespace GBCalendar
 
                 if (isValid)
                 {
-                    Navigation.InsertPageBefore(new MainPage(), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
+                    Navigation.InsertPageBefore(new MainPage(), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
                     await Navigation.PopAsync();
                 }
                 else

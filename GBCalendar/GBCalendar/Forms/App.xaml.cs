@@ -11,7 +11,7 @@ namespace GBCalendar
 	{
         public static Person UserLoggedIn { get; set; }
 
-		public App ()
+        public App ()
 		{
 			InitializeComponent();
 		}
