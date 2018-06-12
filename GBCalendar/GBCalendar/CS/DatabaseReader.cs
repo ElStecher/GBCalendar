@@ -156,17 +156,15 @@ namespace GBCalendar
 
                 while(reader.Read())
                 {
-                    // Formatierung Zeit/Datum
-                    DateTime startTimeObj = reader.GetDateTime(5);
-                    string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
-
                     DateTime endTimeObj = reader.GetDateTime(6);
-                    
 
                     if (endTimeObj > DateTime.Now)
                     {
                         string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
+                        DateTime startTimeObj = reader.GetDateTime(5);
+                        string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                        
                         // Instanzierung Person
                         Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
