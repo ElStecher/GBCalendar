@@ -118,7 +118,7 @@ namespace GBCalendar
                     {
                         appointmentDate = appointment.StartTime.Remove(11, 8);
                         appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
-                        appointmentEnd = appointment.EndTime.Remove(0, 10).Remove(5, 3);
+                        appointmentEnd = appointment.EndTime.Remove(0, 11).Remove(5, 3);
 
                         showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
                     }

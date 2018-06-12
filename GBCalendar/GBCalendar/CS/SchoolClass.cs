@@ -69,7 +69,6 @@ namespace GBCalendar
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
