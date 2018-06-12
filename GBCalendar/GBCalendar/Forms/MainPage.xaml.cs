@@ -132,15 +132,9 @@ namespace GBCalendar
                         Margin = new Thickness(10, 0, 10, 0)
                     };
 
-                    if (App.UserLoggedIn.Role == 1)
-                    {
-                        button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
-                    }
-                    else
-                    {
-                        button.Clicked += async delegate { await Navigation.PushAsync(new Forms.ShowAppointmentForStudent(appointment)); };
-                    }
-
+                   
+                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+                   
                     layout.Children.Add(button);
                 }
             }

@@ -156,6 +156,8 @@ namespace GBCalendar
 
                 while(reader.Read())
                 {
+                    //-- muss über Select abgefangen werden
+
                     DateTime endTimeObj = reader.GetDateTime(6);
 
                     if (endTimeObj > DateTime.Now)
