@@ -23,7 +23,7 @@ namespace GBCalendar
             this.ClassName = className;
         }
 
-        public void AddAppointment(string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
+        public void AddAppointment(string title, SchoolClass schoolClass, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
         {
             try
             { 
@@ -37,12 +37,12 @@ namespace GBCalendar
 
 
                 
-                // Formatierung Zeit/Datum (unterschiedliches Format für Programmund Datenbank)
-                DateTime startTimeObj = new DateTime(int.Parse(startTime.Substring(0, 4)), int.Parse(startTime.Substring(5, 2)),int.Parse(startTime.Substring(8, 2)), int.Parse(startTime.Substring(11, 2)), int.Parse(startTime.Substring(14, 2)), int.Parse(startTime.Substring(17, 2)));
-                startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                //// Formatierung Zeit/Datum (unterschiedliches Format für Programmund Datenbank)
+                //DateTime startTimeObj = new DateTime(int.Parse(startTime.Substring(0, 4)), int.Parse(startTime.Substring(5, 2)),int.Parse(startTime.Substring(8, 2)), int.Parse(startTime.Substring(11, 2)), int.Parse(startTime.Substring(14, 2)), int.Parse(startTime.Substring(17, 2)));
+                //startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
-                DateTime endTimeObj = new DateTime(int.Parse(endTime.Substring(0, 4)), int.Parse(endTime.Substring(5, 2)), int.Parse(endTime.Substring(8, 2)), int.Parse(endTime.Substring(11, 2)), int.Parse(endTime.Substring(14, 2)), int.Parse(endTime.Substring(17, 2)));
-                endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                //DateTime endTimeObj = new DateTime(int.Parse(endTime.Substring(0, 4)), int.Parse(endTime.Substring(5, 2)), int.Parse(endTime.Substring(8, 2)), int.Parse(endTime.Substring(11, 2)), int.Parse(endTime.Substring(14, 2)), int.Parse(endTime.Substring(17, 2)));
+                //endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
 
                 // Appointment zur Liste ergänzen
@@ -68,12 +68,12 @@ namespace GBCalendar
                 DatabaseWriter Writer = new DatabaseWriter();
                 Writer.UpdateAppointment(appointment);
 
-                // Formatierung Zeit/Datum (unterschiedliches Format für Programmund Datenbank)
-                DateTime startTimeObj = new DateTime(int.Parse(appointment.StartTime.Substring(0, 4)), int.Parse(appointment.StartTime.Substring(5, 2)), int.Parse(appointment.StartTime.Substring(8, 2)), int.Parse(appointment.StartTime.Substring(11, 2)), int.Parse(appointment.StartTime.Substring(14, 2)), int.Parse(appointment.StartTime.Substring(17, 2)));
-                appointment.StartTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                // Formatierung Zeit/Datum (unterschiedliches Format für Programm und Datenbank)
+                //DateTime startTimeObj = new DateTime(int.Parse(appointment.StartTime.Substring(0, 4)), int.Parse(appointment.StartTime.Substring(5, 2)), int.Parse(appointment.StartTime.Substring(8, 2)), int.Parse(appointment.StartTime.Substring(11, 2)), int.Parse(appointment.StartTime.Substring(14, 2)), int.Parse(appointment.StartTime.Substring(17, 2)));
+                //appointment.StartTime = appointment.StartTime;
 
-                DateTime endTimeObj = new DateTime(int.Parse(appointment.EndTime.Substring(0, 4)), int.Parse(appointment.EndTime.Substring(5, 2)), int.Parse(appointment.EndTime.Substring(8, 2)), int.Parse(appointment.EndTime.Substring(11, 2)), int.Parse(appointment.EndTime.Substring(14, 2)), int.Parse(appointment.EndTime.Substring(17, 2)));
-                appointment.EndTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                //DateTime endTimeObj = new DateTime(int.Parse(appointment.EndTime.Substring(0, 4)), int.Parse(appointment.EndTime.Substring(5, 2)), int.Parse(appointment.EndTime.Substring(8, 2)), int.Parse(appointment.EndTime.Substring(11, 2)), int.Parse(appointment.EndTime.Substring(14, 2)), int.Parse(appointment.EndTime.Substring(17, 2)));
+                //appointment.EndTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                 // Appointment in Liste bearbeiten(löschen und neu Hinzufügen)
                 MainPage.Selectedclass.AppointmentList.RemoveAt(MainPage.Selectedclass.AppointmentList.FindIndex(a => a.IdAppointment == appointment.IdAppointment));

@@ -13,8 +13,8 @@ namespace GBCalendar
 	public partial class NewAppointment : ContentPage
 	{
         private string alldayevent = "N";
-        private string startTime;
-        private string endTime;
+        private DateTime startTime;
+        private DateTime endTime;
         private List<Room> rooms;
 
         public NewAppointment ()
@@ -67,7 +67,7 @@ namespace GBCalendar
 
         async void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
-
+            DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
             //Abfragen ob felder Ausgefüllt
             if (AppointmentTitel.Text == null)
             {
@@ -93,15 +93,17 @@ namespace GBCalendar
             //Werte setzen für Alldayevent
             if (alldayevent == "N")
             {
-                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
-                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
-
+                startTime = date + TimePickerStart_Time.Time;
+                endTime = date + TimePickerEnd_Time.Time;
             }
             else
             {
-                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "00:00:00";
-                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "23:59:59";
+                startTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
+                endTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
             }
+
+            await DisplayAlert("Neeeee", DatePicker.Date.ToString(), "OK");
+
 
             //instanzierung Appointment
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);

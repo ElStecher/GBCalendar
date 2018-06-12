@@ -12,8 +12,8 @@ namespace GBCalendar
         public string Description { get; set; }
         public Person Creator { get; set; }
         public string AllDayEvent { get; set; }
-        public string EndTime { get; set; }
-        public string StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public DateTime StartTime { get; set; }
         public Room Room { get; set; }
         public string Title { get; set; } 
         public int IdAppointment { get; set; }
@@ -22,7 +22,7 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
-        public Appointment(int idAppointment, string title, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
+        public Appointment(int idAppointment, string title, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
         {
             this.IdAppointment = idAppointment;
             this.Title = title;
@@ -34,7 +34,7 @@ namespace GBCalendar
             this.Creator = creator;
         }
 
-        public Appointment(string title, Room room, SchoolClass schoolClass, string startTime, string endTime, string allDayEvent, string description, Person creator)
+        public Appointment(string title, Room room, SchoolClass schoolClass, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
         {
             this.Title = title;
             this.Room = room;

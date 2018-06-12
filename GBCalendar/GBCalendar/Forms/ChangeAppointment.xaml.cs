@@ -14,9 +14,11 @@ namespace GBCalendar
 	{
         public Appointment SelectedAppointment { get; private set; }
         public string Alldayevent { get; private set; }
-        public string StartTime { get; private set; }
-        public string EndTime { get; private set; }
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
         public List<Room> Rooms { get; private set; }
+
+        
 
         public ChangeAppointment (Appointment appointment)
 		{
@@ -38,9 +40,9 @@ namespace GBCalendar
                 this.AppointmentTitel.Text = this.SelectedAppointment.Title;
                 this.AppointmentDescription.Text = this.SelectedAppointment.Description;
                 Roompicker.SelectedIndex = Roompicker.Items.IndexOf(this.SelectedAppointment.Room.RoomName);
-                DatePicker.Date = new DateTime(int.Parse(SelectedAppointment.StartTime.Substring(6, 4)), int.Parse(SelectedAppointment.StartTime.Substring(3, 2)), int.Parse(SelectedAppointment.StartTime.Substring(0, 2)));
-                TimePickerStart_Time.Time = TimeSpan.Parse(SelectedAppointment.StartTime.Substring(11, 5));
-                TimePickerEnd_Time.Time = TimeSpan.Parse(SelectedAppointment.EndTime.Substring(11, 5));
+                DatePicker.Date = SelectedAppointment.StartTime.Date;
+                TimePickerStart_Time.Time = TimeSpan.Parse(SelectedAppointment.StartTime.Hour + ":" + SelectedAppointment.StartTime.Minute);
+                TimePickerEnd_Time.Time = TimeSpan.Parse(SelectedAppointment.EndTime.Hour + ":" + SelectedAppointment.EndTime.Minute);
                 Alldayevent = SelectedAppointment.AllDayEvent;
 
 
@@ -120,14 +122,13 @@ namespace GBCalendar
             //Werte setzen für Alldayevent
             if (Alldayevent == "N")
             {
-                StartTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
-                EndTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
-
+                StartTime = DatePicker.Date + TimePickerStart_Time.Time;
+                EndTime = DatePicker.Date + TimePickerEnd_Time.Time;
             }
             else
             {
-                StartTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "00:00:00";
-                EndTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + "23:59:59";
+                StartTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
+                EndTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
             }
 
             //Werte für Appointment anpassen

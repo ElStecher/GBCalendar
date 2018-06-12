@@ -160,20 +160,22 @@ namespace GBCalendar
 
                     if (endTimeObj > DateTime.Now)
                     {
-                        string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                        //string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
 
                         DateTime startTimeObj = reader.GetDateTime(5);
-                        string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                        //string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
                         
                         // Instanzierung Person
                         Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
                         //Instanzierung Appointment
                         Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
-                          startTime, endTime, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
+                          startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
                         appointmentList.Add(a);
                     }
+
+                    SortAscending(appointmentList);
                 }
 
                 reader.Close();
@@ -230,6 +232,12 @@ namespace GBCalendar
             {
                 return false;
             }
+        }
+
+        static List<Appointment> SortAscending(List<Appointment> list)
+        {
+            list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+            return list;
         }
         #endregion
     }

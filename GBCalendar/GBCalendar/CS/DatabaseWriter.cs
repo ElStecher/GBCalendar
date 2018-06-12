@@ -19,7 +19,11 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "INSERT INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  Alldayevent, Person_idPerson) VALUES('" + appointment.Title + "', " + appointment.SchoolClass.IdClass + ", " + appointment.Room.IdRoom + ", '" + appointment.StartTime + "', '" + appointment.EndTime + "', '" + appointment.Description + "', '" + appointment.AllDayEvent + "', " + appointment.Creator.IdPerson + ")";
+                command.CommandText = "INSERT INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  " +
+                    "Alldayevent, Person_idPerson) " + "VALUES('" + appointment.Title + "', " + appointment.SchoolClass.IdClass + ", " + 
+                    appointment.Room.IdRoom + ", '" + appointment.StartTime.ToString("yyyy-MM-dd HH:mm") + "', '" 
+                    + appointment.EndTime.ToString("yyyy-MM-dd HH:mm") + "', '" + appointment.Description + "', '" + appointment.AllDayEvent + 
+                    "', " + appointment.Creator.IdPerson + ")";
                 command.ExecuteNonQuery();
                 Id = (int)command.LastInsertedId;
 
@@ -42,7 +46,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "UPDATE Appointment SET Title ='" + appointment.Title + "', Room_idRoom=" + appointment.Room.IdRoom + ", Start_Time='" + appointment.StartTime + "', End_Time='" + appointment.EndTime + "', Description= '" + appointment.Description + "', Alldayevent='" + appointment.AllDayEvent + "' WHERE idAppointment=" + appointment.IdAppointment + ";";
+                command.CommandText = "UPDATE Appointment SET Title ='" + appointment.Title + "', Room_idRoom=" + appointment.Room.IdRoom + ", Start_Time='" + appointment.StartTime.ToString("yyyy-MM-dd HH:mm") + "', End_Time='" + appointment.EndTime.ToString("yyyy-MM-dd HH:mm") + "', Description= '" + appointment.Description + "', Alldayevent='" + appointment.AllDayEvent + "' WHERE idAppointment=" + appointment.IdAppointment + ";";
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
 

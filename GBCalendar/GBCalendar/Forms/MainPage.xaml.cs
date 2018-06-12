@@ -108,21 +108,17 @@ namespace GBCalendar
             {
                 foreach (Appointment appointment in Selectedclass.AppointmentList)
                 {
-                    string appointmentDate = appointment.StartTime.Remove(11, 8);
-                    string appointmentStart = "";
-                    string appointmentEnd = "";
+                    string appointmentDate = appointment.StartTime.ToString("dd.MM.yyyy");
+                    string appointmentStart = appointment.StartTime.ToString("HH:mm");
+                    string appointmentEnd = appointment.EndTime.ToString("HH:mm");
                     string showingText;
 
-                    if (appointment.StartTime.Contains("00:00") && appointment.EndTime.Contains("23:59"))
+                    if (appointmentStart.Contains("00:00") && appointmentEnd.Contains("23:59"))
                     {
                         showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
                     }
                     else
                     {
-                        appointmentDate = appointment.StartTime.Remove(11, 8);
-                        appointmentStart = appointment.StartTime.Remove(0, 11).Remove(5, 3);
-                        appointmentEnd = appointment.EndTime.Remove(0, 11).Remove(5, 3);
-
                         showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
                     }
 
