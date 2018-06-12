@@ -25,8 +25,33 @@ namespace GBCalendar
             try
             {
                 InitializeComponent();
+
+                if (App.UserLoggedIn.Role == 0 || App.UserLoggedIn.IdPerson != appointment.Creator.IdPerson)
+                {
+                    AppointmentTitel.IsEnabled = false;
+                    AppointmentDescription.IsEnabled = false;
+                    Roompicker.IsEnabled = false;
+                    DatePicker.IsEnabled = false;
+                    AllDayEventSwitch.IsEnabled = false;
+                    TimePickerStart_Time.IsEnabled = false;
+                    TimePickerEnd_Time.IsEnabled = false;
+                    ButtonDeleteAppointment.IsVisible = false;
+                    ButtonSaveAppointment.IsVisible = false;
+                    AppointmentCreator.IsEnabled = false;
+                }
+                else
+                {
+                    AppointmentLabelCreator.IsVisible = false;
+                    AppointmentCreator.IsVisible = false;
+                    
+                };
+
                 // Ausgewähltes appointment setzen
-                this.SelectedAppointment = appointment;
+                SelectedAppointment = appointment;
+
+
+                //Page Bennenen
+                Title = SelectedAppointment.Title;
 
                 // Räume auslesen und abfüllen
                 DatabaseReader readerrooms = new DatabaseReader();
@@ -44,7 +69,7 @@ namespace GBCalendar
                 TimePickerStart_Time.Time = TimeSpan.Parse(SelectedAppointment.StartTime.Hour + ":" + SelectedAppointment.StartTime.Minute);
                 TimePickerEnd_Time.Time = TimeSpan.Parse(SelectedAppointment.EndTime.Hour + ":" + SelectedAppointment.EndTime.Minute);
                 Alldayevent = SelectedAppointment.AllDayEvent;
-
+                AppointmentCreator.Text = SelectedAppointment.Creator.FirstName + " " + SelectedAppointment.Creator.LastName;
 
                 if (Alldayevent == "Y")
                 {

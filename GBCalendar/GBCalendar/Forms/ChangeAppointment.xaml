@@ -30,7 +30,6 @@
                    VerticalOptions="FillAndExpand"/>
 
                 <Entry x:Name="AppointmentCreator"
-                   Placeholder="z.B Verben, Adjektive gemäss Kapitel 5"
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"/>
 
