@@ -171,7 +171,10 @@ namespace GBCalendar
 
             //Geändertes Appointment übergeben
             MainPage.Selectedclass.EditAppointment(SelectedAppointment);
-            Application.Current.MainPage.Navigation.PopAsync();
+
+            //Naviegieren
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            Navigation.PopAsync();
 
             // problem: refresh der Seite mit Appointments muss noch implementiert werden
 
@@ -181,10 +184,12 @@ namespace GBCalendar
 
         async void OnDeleteAppointmentClicked(object sender, EventArgs args)
         {
-            DatabaseWriter databaseWriter = new DatabaseWriter();
-            databaseWriter.DelteAppointment(this.SelectedAppointment);
+            MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
             await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
-            await Navigation.PushAsync(new MainPage());
+
+            //Naviegieren
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            await Navigation.PopAsync();
         }
 
     }

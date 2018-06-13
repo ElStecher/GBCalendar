@@ -95,7 +95,7 @@ namespace GBCalendar
 
 
             //Wert für Room setzen
-            Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+            Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
 
             //Werte setzen für Alldayevent
             if (alldayevent == "N")
@@ -110,10 +110,10 @@ namespace GBCalendar
             }
 
             //instanzierung Appointment
+            Appointment appointment = new Appointment(AppointmentTitel.Text, selectedroom, MainPage.Selectedclass, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
 
 
-
-            MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
+            MainPage.Selectedclass.AddAppointment(appointment);
 
 
             Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht

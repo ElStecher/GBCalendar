@@ -23,23 +23,19 @@ namespace GBCalendar
             this.ClassName = className;
         }
 
-        public void AddAppointment(string title, SchoolClass schoolClass, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
+       
+        public void AddAppointment(Appointment appointment)
         {
             try
             { 
-                // Id als Rückgabewert von Appointment welches in Datenbankgeschrieben wird
-                int appointmentId;
-
-                Appointment newAppointmentWithoutId = new Appointment(title, room, schoolClass, startTime, endTime, allDayEvent, description, creator);
 
                 //Zuerst in Datenbank schreiben
                 DatabaseWriter Writer = new DatabaseWriter();
                 //als Rückgabewert Appointment ID
-                appointmentId = Writer.WriteAppointment(newAppointmentWithoutId);
+                appointment.IdAppointment = Writer.WriteAppointment(appointment);
 
                 // Appointment zur Liste ergänzen
-                Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description, creator);
-                AppointmentList.Add(newAppointment);
+                AppointmentList.Add(appointment);
 
             }
             catch (Exception)
@@ -70,6 +66,25 @@ namespace GBCalendar
                 throw;
             }
         }
+
+        public void DeleteAppointment(Appointment appointment)
+        {
+            try
+            {
+                // Zuerst in Datenbank löschen
+                DatabaseWriter Writer = new DatabaseWriter();
+                Writer.DelteAppointment(appointment);
+
+                // Appointment in Liste löschen 
+                MainPage.Selectedclass.AppointmentList.RemoveAt(MainPage.Selectedclass.AppointmentList.FindIndex(a => a.IdAppointment == appointment.IdAppointment));
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #endregion
     }
 }
