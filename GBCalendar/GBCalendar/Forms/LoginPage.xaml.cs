@@ -27,7 +27,7 @@ namespace GBCalendar
 
                 if (isValid)
                 {
-                    Navigation.InsertPageBefore(new MainPage(), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                    Navigation.InsertPageBefore(new MainPage(), this);
                     await Navigation.PopAsync();
                 }
                 else

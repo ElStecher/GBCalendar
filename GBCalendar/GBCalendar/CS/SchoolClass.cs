@@ -9,7 +9,7 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse Class
         public int IdClass { get; private set; }
         public string ClassName { get; private set; }
-        public List<Appointment> AppointmentList { get; set; }
+        public List<Appointment> AppointmentList { get; set; } = new List<Appointment>();
         #endregion
 
         #region Methoden der Klasse Class

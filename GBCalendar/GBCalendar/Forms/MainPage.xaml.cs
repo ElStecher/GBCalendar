@@ -171,7 +171,8 @@ namespace GBCalendar
 
          public void ShowAppointments()
         {
-            
+            SortAscending(Selectedclass.AppointmentList);
+
             var scrollView = new ScrollView();
 
             var layout = new StackLayout
@@ -207,16 +208,14 @@ namespace GBCalendar
                     }
                     else
                     {
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
+                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " - " + appointmentEnd;
                     }
 
                     var button = new Button
                     {
                         Text = showingText,
-                        BackgroundColor = Color.LightGray,
-                        BorderWidth = 0.5,
+                        BackgroundColor = Color.WhiteSmoke,
                         CornerRadius = 0,
-                        BorderColor = Color.Black,
                         Margin = new Thickness(10, 0, 10, 0)
                     };
 
@@ -226,6 +225,12 @@ namespace GBCalendar
                     layout.Children.Add(button);
                 }
             }
+        }
+
+        static List<Appointment> SortAscending(List<Appointment> list)
+        {
+            list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+            return list;
         }
     }
 }

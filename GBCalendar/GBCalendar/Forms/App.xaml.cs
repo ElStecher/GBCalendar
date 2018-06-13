@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,8 @@ namespace GBCalendar
 	public partial class App : Application
 	{
         public static Person UserLoggedIn { get; set; }
+        private Stopwatch stopWatch = new Stopwatch();
+        private TimeSpan countDown = new TimeSpan(0, 3, 0);
 
         public App ()
 		{
@@ -23,25 +26,26 @@ namespace GBCalendar
             MainPage = new NavigationPage(new StartPage());
         }
 
-		protected override void OnSleep ()
-		{
+        protected override void OnSleep()
+        {
             // Handle when your app sleeps
-            System.Threading.Thread.Sleep(300000);
-            UserLoggedIn = null;
+            
+            stopWatch.Start();
         }
 
 		protected override void OnResume ()
         {
             // Handle when your app resumes
             //Sets the right starter page
-            if (UserLoggedIn != null)
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+
+            if (ts > countDown)
             {
+                UserLoggedIn = null;
                 MainPage = new NavigationPage(new StartPage());
             }
-            else
-            {
-                MainPage = new NavigationPage(new MainPage());
-            }
+            
         }
 	}
 }
