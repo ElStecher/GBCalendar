@@ -102,10 +102,16 @@ namespace GBCalendar
         /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Appointments für Klasse</returns>
-        public List<Appointment> ReadAppointments(SchoolClass schoolClass)
+        public void ReadAppointments(SchoolClass schoolClass)
         {
+
+           
+
             try
             {
+                // Liste säubern
+                schoolClass.AppointmentList.Clear();
+
                 //instanzierung
                 DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
@@ -136,24 +142,24 @@ namespace GBCalendar
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
                         startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
-                        schoolClass.AppointmentList.Add(a);
-                    }
-
-                    
+                    schoolClass.AppointmentList.Add(a);
                 }
 
+                    
                 
+            
 
-                reader.Close();
+
+                    reader.Close();
 
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return schoolClass.AppointmentList;
+  
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.ToString());
+               
                 throw;
             }
         }

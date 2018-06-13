@@ -110,6 +110,9 @@ namespace GBCalendar
             }
 
             //instanzierung Appointment
+
+
+
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
 
 

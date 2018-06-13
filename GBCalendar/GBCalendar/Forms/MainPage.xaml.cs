@@ -164,8 +164,8 @@ namespace GBCalendar
         {
 
             DatabaseReader dbr = new DatabaseReader();
-            Selectedclass.AppointmentList = dbr.ReadAppointments(Selectedclass);
 
+            dbr.ReadAppointments(Selectedclass);
             ShowAppointments();
         }
 
