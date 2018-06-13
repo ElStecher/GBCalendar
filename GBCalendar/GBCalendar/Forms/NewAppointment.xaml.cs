@@ -12,16 +12,22 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
+        #region Felder der Page NewAppointment
         private string alldayevent = "N";
         private DateTime startTime;
         private DateTime endTime;
         private List<Room> rooms;
+        #endregion
 
+        #region Methoden der Page NewAppointment
+        /// <summary>
+        /// Initialisierung
+        /// </summary>
         public NewAppointment ()
 		{
+            // Initialiserung
             InitializeComponent();
             
-
             try
             {
                 //Fill up Rooms for Appointment
@@ -35,27 +41,32 @@ namespace GBCalendar
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;
             }
         }
 
-        void OnToggled(object sender, ToggledEventArgs e)
+        /// <summary>
+        /// Wird der Switch-Button angeklickt ändert sich der Zustand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        void OnToggled(object sender, ToggledEventArgs args)
         {
-            if (e.Value == true)
+            // Ist das Appointment ein ganztägiges Ereignis, werden die Informationen der Start- und Endzeit ausgeblendet
+            if (args.Value == true)
             {
                 LabelBegin.IsVisible = false;
                 TimePickerStart_Time.IsVisible = false;
                 LabelEnd.IsVisible = false;
                 TimePickerEnd_Time.IsVisible = false;
-
-
                 alldayevent = "Y";
             }
 
-            if (e.Value == false)
+            // Ansonsten sind die Informationen zu den Zeiten wieder sichtbar
+            if (args.Value == false)
             {
                 LabelBegin.IsVisible = true;
                 TimePickerStart_Time.IsVisible = true;
@@ -65,6 +76,11 @@ namespace GBCalendar
             }
         }
 
+        /// <summary>
+        /// Wenn der Benutzer das erstellte Ereigniss speichern möchte
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
             DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
@@ -92,8 +108,6 @@ namespace GBCalendar
                 return;
             };
 
-
-
             //Wert für Room setzen
             Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
 
@@ -115,12 +129,14 @@ namespace GBCalendar
 
             MainPage.Selectedclass.AddAppointment(appointment);
 
-
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
             Navigation.PopAsync();
 
             DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
            
         }
+        
+        #endregion
     }
 }

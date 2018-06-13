@@ -12,22 +12,30 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ChangeAppointment : ContentPage
 	{
+        #region Felder der Page ChangeAppointment
         public Appointment SelectedAppointment { get; private set; }
         public string Alldayevent { get; private set; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
         public List<Room> Rooms { get; private set; }
+        #endregion
 
-        
-
+        #region Methoden der Page ChangeAppointment
+        /// <summary>
+        /// Initialisierung
+        /// </summary>
+        /// <param name="appointment">Das zu bearbeitende Appointment</param>
         public ChangeAppointment (Appointment appointment)
 		{
             try
             {
+                // Initialisierung
                 InitializeComponent();
 
+                // Ist der angemeldete Benutzer ein Schüler oder nicht der Ersteller des Appointments, kann das Appointment nicht bearbeitet werden 
                 if (App.UserLoggedIn.Role == 0 || App.UserLoggedIn.IdPerson != appointment.Creator.IdPerson)
                 {
+                    // Alle Felder deaktivieren
                     AppointmentTitel.IsEnabled = false;
                     AppointmentDescription.IsEnabled = false;
                     Roompicker.IsEnabled = false;
@@ -41,14 +49,14 @@ namespace GBCalendar
                 }
                 else
                 {
+                    // Ist der angemeldete Benutzer auch der Ersteller des Appointments, kann dieser das Appointment auch löschen oder speichern
                     AppointmentLabelCreator.IsVisible = false;
                     AppointmentCreator.IsVisible = false;
                     
-                };
-
+                }
+                
                 // Ausgewähltes appointment setzen
                 SelectedAppointment = appointment;
-
 
                 //Page Bennenen
                 Title = SelectedAppointment.Title;
@@ -71,9 +79,12 @@ namespace GBCalendar
                 Alldayevent = SelectedAppointment.AllDayEvent;
                 AppointmentCreator.Text = SelectedAppointment.Creator.FirstName + " " + SelectedAppointment.Creator.LastName;
 
+                // Dauert das Appointment den ganzen Tag, kann keine Start- und Endzeit gesetzt werden
                 if (Alldayevent == "Y")
                 {
                     this.AllDayEventSwitch.IsToggled = true;
+
+                    // Informationen zu Start- und Endzeit verbergen
                     LabelBegin.IsVisible = false;
                     TimePickerStart_Time.IsVisible = false;
                     LabelEnd.IsVisible = false;
@@ -82,13 +93,8 @@ namespace GBCalendar
                 }
                 else
                 {
-                    this.AllDayEventSwitch.IsToggled = false;
-                   
+                    this.AllDayEventSwitch.IsToggled = false;   
                 }
-
-
-
-                // Siehe in OnSaveAppointmentClicked()
             }
             catch (Exception e)
             {
@@ -96,20 +102,25 @@ namespace GBCalendar
             }
         }
 
-        void OnToggled(object sender, ToggledEventArgs e)
+        /// <summary>
+        /// Wenn der Benutzer den Switch-Button betätigt, wird der Zustand geändert
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
+        void OnToggled(object sender, ToggledEventArgs args)
         {
-            if (e.Value == true)
+            // Wenn der Switch-Button getätigt wurde, dauert das Appointment den ganzen Tag
+            if (args.Value == true)
             {
                 LabelBegin.IsVisible = false;
                 TimePickerStart_Time.IsVisible = false;
                 LabelEnd.IsVisible = false;
                 TimePickerEnd_Time.IsVisible = false;
-
-
                 Alldayevent = "Y";
             }
 
-            if (e.Value == false)
+            // Ansonsten dauert es über eine definierte Zeit
+            if (args.Value == false)
             {
                 LabelBegin.IsVisible = true;
                 TimePickerStart_Time.IsVisible = true;
@@ -120,6 +131,11 @@ namespace GBCalendar
 
         }
 
+        /// <summary>
+        /// Wenn der Benutzer das Appointment fertig bearbeitet hat, kann er es speichern
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         void OnSaveAppointmentClicked(object sender, EventArgs args)
         {
             //Abfragen ob felder Korrekt/Ausgefüllt
@@ -143,8 +159,6 @@ namespace GBCalendar
                 DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
                 return;
             };
-
-
 
             //Wert für Room setzen
             Room selectedRoom = Rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
@@ -173,24 +187,29 @@ namespace GBCalendar
             MainPage.Selectedclass.EditAppointment(SelectedAppointment);
 
             //Naviegieren
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
             Navigation.PopAsync();
-
-            // problem: refresh der Seite mit Appointments muss noch implementiert werden
-
             DisplayAlert("Ereignis geändert!", "Das Ereignis wurde erfolgreich geändert.", "OK");
-
         }
 
+        /// <summary>
+        /// Wenn der Benutzer den "Löschen"-Button geklickt hat, wird das Appointment gelöscht
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         async void OnDeleteAppointmentClicked(object sender, EventArgs args)
         {
             MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
             await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
 
             //Naviegieren
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
             await Navigation.PopAsync();
         }
+
+        #endregion
 
     }
 }

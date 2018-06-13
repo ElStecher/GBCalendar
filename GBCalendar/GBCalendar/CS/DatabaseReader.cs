@@ -11,10 +11,9 @@ namespace GBCalendar
         #region Felder und Eigenschaften der Klasse DatabaseReader
         public List<SchoolClass> ClassList { get; private set; } = new List<SchoolClass>();
         public List<Room> roomList { get; private set; } = new List<Room>();
-
-        //private List<Appointment> appointmentList = new List<Appointment>();
-        private List<string> userList = new List<string>();
+        private List<string> userList { get; set; } = new List<string>();
         #endregion
+
         #region Methoden der Klasse DatabaseReader
 
         /// <summary>
@@ -31,6 +30,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
+
                 // query liest nur bestimmte Klassen einer Person Aus!
                 command.CommandText = "SELECT * FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson + ");";
 
@@ -91,9 +91,9 @@ namespace GBCalendar
 
                 return roomList;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
+                throw new Exception("Fehler beim lesen der Räume: " + e.Message.ToString());
             }
         }
 
@@ -112,13 +112,14 @@ namespace GBCalendar
                 // Liste säubern
                 schoolClass.AppointmentList.Clear();
 
-                //instanzierung
+                // Instanzierung
                 DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                // query liest nur bestimmte Klassen einer Person Aus!
-                //command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+
+                // command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+                // Liest alle Appointments aus, welche nach dem heutigen Datum stattfinden und den  dazugehörigen creator, sowie den Raum in dem das Appointment stattfindet
                 command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname, r.Roomname " +
                     "FROM Person AS p, Appointment AS a, Room AS r " +
                     "WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + " AND r.idRoom = a.Room_idRoom AND a.Start_Time >= curdate();";
@@ -135,22 +136,17 @@ namespace GBCalendar
                     // Instanzierung Person
                     Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
-                    //Instanzierung Room
+                    // Instanzierung Room
                     Room room = new Room((int)reader.GetValue(4), (string)reader.GetValue(11));
 
-                    //Instanzierung Appointment
+                    // Instanzierung Appointment
                     Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
                         startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
                     schoolClass.AppointmentList.Add(a);
                 }
 
-                    
-                
-            
-
-
-                    reader.Close();
+                reader.Close();
 
                 //Connection schliessen
                 Connect.CloseConnection();
@@ -176,11 +172,13 @@ namespace GBCalendar
             int idPerson = 0;
             string firstName = null;
             string lastName = null;
-            //instanzierung
+
+            // Instanzierung
             DatabaseConnector Connect = new DatabaseConnector();
             Connect.OpenConnection();
 
             MySqlCommand command = Connect.Connection.CreateCommand();
+
             // query liest nur bestimmte Klassen einer Person Aus!
             command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
 
@@ -189,7 +187,6 @@ namespace GBCalendar
 
             while (reader.Read())
             {
-                //userList.Add(reader.GetValue(0).ToString());
                 idPerson = (int)reader.GetValue(0);
                 firstName = (string)reader.GetValue(1);
                 lastName = (string)reader.GetValue(2);
@@ -205,7 +202,6 @@ namespace GBCalendar
                 return false;
             }
         }
-
         
         #endregion
     }

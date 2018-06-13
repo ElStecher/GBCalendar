@@ -22,6 +22,17 @@ namespace GBCalendar
 
         #region Methoden der Klasse Appointment
 
+        /// <summary>
+        /// Konstruktor zum auslesen der Appointments aus der Datenbank
+        /// </summary>
+        /// <param name="idAppointment">ID des Appointments</param>
+        /// <param name="title">Title des Appointments</param>
+        /// <param name="room">Raum in dem das Appointment stattfindet</param>
+        /// <param name="startTime">Startzeit des Appointments</param>
+        /// <param name="endTime">Endzeit des Appointments</param>
+        /// <param name="allDayEvent">Booelan falls das Appointment den ganzen Tag dauert</param>
+        /// <param name="description">Beschreibung des Appointments</param>
+        /// <param name="creator">Lehrer der das Appointment erstellt hat</param>
         public Appointment(int idAppointment, string title, Room room, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
         {
             this.IdAppointment = idAppointment;
@@ -34,6 +45,17 @@ namespace GBCalendar
             this.Creator = creator;
         }
 
+        /// <summary>
+        /// Konstruktor um ein Appointment in die Datenbank zuschreiben
+        /// </summary>
+        /// <param name="title">Title des Appointments</param>
+        /// <param name="room">Raum des Appointments</param>
+        /// <param name="schoolClass">Schulklasse für die das Appointment gilt</param>
+        /// <param name="startTime">Startzeit des Appointments</param>
+        /// <param name="endTime">Endzeit des Appointments</param>
+        /// <param name="allDayEvent">Booelan falls das Appointment den ganzen Tag dauert</param>
+        /// <param name="description">Beschreibung zum Appointment</param>
+        /// <param name="creator">Lehrer der das Appointment erstellt hat</param>
         public Appointment(string title, Room room, SchoolClass schoolClass, DateTime startTime, DateTime endTime, string allDayEvent, string description, Person creator)
         {
             this.Title = title;

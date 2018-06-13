@@ -9,7 +9,7 @@ namespace GBCalendar
 {
     class DatabaseConnector
     {
-        #region Felder und Eigenschaften der Klasse DatabaseConnector
+        #region Felder der Klasse DatabaseConnector
         public MySqlConnection Connection { get; private set; }
 
         #region Eigenschaften um Verbindung mit Datenbank herzustellen
@@ -21,9 +21,8 @@ namespace GBCalendar
         private string connectionString;
         #endregion
         #endregion
-        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
-        #region Methoden der Klasse DatabaseConnector
 
+        #region Methoden der Klasse DatabaseConnector
         /// <summary>
         /// Öffnet eine Verbindung mir der definierten Datenbank
         /// </summary>
@@ -31,10 +30,10 @@ namespace GBCalendar
         {
             try
             {
-                connectionString = "SERVER=" + server + ";" + "PORT=" + port + ";" + "DATABASE=" +
-                database + ";" + "UID=" + user + ";" + "PASSWORD=" + password + ";";
-                Connection = new MySqlConnection(connectionString);
-                Connection.Open();
+                this.connectionString = "SERVER=" + this.server + ";" + "PORT=" + this.port + ";" + "DATABASE=" +
+                this.database + ";" + "UID=" + this.user + ";" + "PASSWORD=" + this.password + ";";
+                this.Connection = new MySqlConnection(this.connectionString);
+                this.Connection.Open();
 
             }
             catch (Exception e)
