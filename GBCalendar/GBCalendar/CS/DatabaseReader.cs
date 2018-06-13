@@ -12,7 +12,7 @@ namespace GBCalendar
         public List<SchoolClass> ClassList { get; private set; } = new List<SchoolClass>();
         public List<Room> roomList { get; private set; } = new List<Room>();
 
-        private List<Appointment> appointmentList = new List<Appointment>();
+        //private List<Appointment> appointmentList = new List<Appointment>();
         private List<string> userList = new List<string>();
         #endregion
         #region Methoden der Klasse DatabaseReader
@@ -43,7 +43,7 @@ namespace GBCalendar
 
                 foreach(SchoolClass schoolClass in ClassList)
                 {
-                    schoolClass.AppointmentList = ReadAppointments(schoolClass);
+                    ReadAppointments(schoolClass);
                 }
 
                 reader.Close();
@@ -179,18 +179,20 @@ namespace GBCalendar
                         Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
                           startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
-                        appointmentList.Add(a);
+                        schoolClass.AppointmentList.Add(a);
                     }
 
-                    SortAscending(appointmentList);
+                    
                 }
+
+                
 
                 reader.Close();
 
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return appointmentList;
+                return schoolClass.AppointmentList;
             }
             catch (Exception e)
             {
@@ -241,11 +243,7 @@ namespace GBCalendar
             }
         }
 
-        static List<Appointment> SortAscending(List<Appointment> list)
-        {
-            list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
-            return list;
-        }
+        
         #endregion
     }
 }
