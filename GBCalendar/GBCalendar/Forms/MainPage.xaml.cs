@@ -20,17 +20,7 @@ namespace GBCalendar
 
             InitializeComponent();
 
-            if (App.UserLoggedIn.Role == 1)
-            {
-                ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
-                {
-                    Text = "Ereignis erstellen",
-                    Order = ToolbarItemOrder.Secondary,
-                    Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
-                };
-
-                this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
-            }
+            
             try
             {
                 //Fill up Classes for Appointment
@@ -67,10 +57,22 @@ namespace GBCalendar
 
 
         async void OnClassSelectedClicked(object sender, EventArgs args)
-        {
-
+        { 
             //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
             string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
+
+            if (App.UserLoggedIn.Role == 1 && ToolbarItemClass.Text == "Klasse Auswählen")
+            {
+                ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                {
+                    Text = "Ereignis erstellen",
+                    Order = ToolbarItemOrder.Secondary,
+                    Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+                };
+
+                this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+            }
+           
 
             if (action != "Cancel" && action != null)
             {
