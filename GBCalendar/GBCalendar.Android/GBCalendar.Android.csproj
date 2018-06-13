@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GBCalendar.Droid</RootNamespace>
     <AssemblyName>GBCalendar.Android</AssemblyName>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -87,6 +87,9 @@
       <Project>{9AEA748C-89E4-4A96-BE4A-418A6663BB95}</Project>
       <Name>GBCalendar</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\GBC.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
