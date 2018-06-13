@@ -111,10 +111,11 @@ namespace GBCalendar
 
             //instanzierung Appointment
             MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
-            Application.Current.MainPage.Navigation.PopAsync();
 
-            // problem: refresh der Seite mit Appointments muss noch implementiert werden
-            
+
+            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+            Navigation.PopAsync();
+
             DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
            
         }

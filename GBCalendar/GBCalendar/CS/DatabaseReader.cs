@@ -97,44 +97,7 @@ namespace GBCalendar
             }
         }
 
-        
-        public Room ReadRoom(int idRoom)
-        {
-
-            try
-            {
-                string roomName = null;
-
-                //instanzierung
-                DatabaseConnector Connect = new DatabaseConnector();
-                Connect.OpenConnection();
-
-                MySqlCommand command = Connect.Connection.CreateCommand();
-                // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT * FROM Room WHERE idRoom = " + idRoom + ";";
-
-                MySqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    roomName = (string)reader.GetValue(1);
-                }
-
-                reader.Close();
-
-                //Connection schliessen
-                Connect.CloseConnection();
-
-                Room room = new Room(idRoom, roomName);
-                return room;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
-            }
-        }
-
-
+       
         /// <summary>
         /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
         /// </summary>
@@ -152,36 +115,30 @@ namespace GBCalendar
                 //command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
                 command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname, r.Roomname " +
                     "FROM Person AS p, Appointment AS a, Room AS r " +
-                    "WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + " AND r.idRoom = a.Room_idRoom;";
+                    "WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + " AND r.idRoom = a.Room_idRoom AND a.Start_Time >= curdate();";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read())
                 {
-                    //-- muss über Select abgefangen werden
-
+                    // Zeiten auslesen und Formatieren
                     DateTime endTimeObj = reader.GetDateTime(6);
-
-                    if (endTimeObj > DateTime.Now)
-                    {
-                        //string endTime = endTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
-
-                        DateTime startTimeObj = reader.GetDateTime(5);
-                        //string startTime = startTimeObj.ToString("dd.MM.yyyy HH:mm:ss");
+                    DateTime startTimeObj = reader.GetDateTime(5);
                         
-                        // Instanzierung Person
-                        Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
+                        
+                    // Instanzierung Person
+                    Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
-                        //Instanzierung Room
-                        Room room = new Room((int)reader.GetValue(4), (string)reader.GetValue(11));
+                    //Instanzierung Room
+                    Room room = new Room((int)reader.GetValue(4), (string)reader.GetValue(11));
 
-                        //Instanzierung Appointment
-                        Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
-                          startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
+                    //Instanzierung Appointment
+                    Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
+                        startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
-                        appointmentList.Add(a);
-                    }
-
+                    appointmentList.Add(a);
+                   
+                    //Appointmentlist sortieren(nach datum)
                     SortAscending(appointmentList);
                 }
 

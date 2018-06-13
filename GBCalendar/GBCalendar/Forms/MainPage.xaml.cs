@@ -12,15 +12,11 @@ namespace GBCalendar
         public List<SchoolClass> classes;
         public static SchoolClass Selectedclass { get; private set; }
 
-
-
         public MainPage()
         {
             NavigationPage.SetHasBackButton(this, false);
 
-            InitializeComponent();
-
-            
+            InitializeComponent();  
             try
             {
                 //Fill up Classes for Appointment
@@ -34,7 +30,66 @@ namespace GBCalendar
                 throw;
 
             }
+
         }
+
+
+        /// <summary>
+        /// Konstruktor für aufruf nach NewAppointment
+        /// </summary>
+        /// <param name="selectedclass"></param>
+
+        public MainPage(SchoolClass selectedclass)
+        {
+
+            NavigationPage.SetHasBackButton(this, false);
+            InitializeComponent();
+
+
+            try
+            {
+                //Fill up Classes for Appointment
+                DatabaseReader readerclasses = new DatabaseReader();
+                classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
+
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+
+
+
+            //Elemente für toolbar bereitstellen
+            ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+            {
+                Text = "Ereignis erstellen",
+                Order = ToolbarItemOrder.Secondary,
+                Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+            };
+
+            ToolbarItem toolBarItemRefresh = new ToolbarItem
+            {
+                Icon = "refresh.png",
+                Text = "Ereignisse aktualisieren",
+                Order = ToolbarItemOrder.Primary,
+                Command = new Command(() => this.OnRefreshClicked(null, null)),
+            };
+
+            this.ToolbarItems.Add(toolBarItemRefresh);
+            this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+
+            // name wieder auf vorherige ausgewählte klasse setzen
+            ToolbarItemClass.Text = selectedclass.ClassName;
+            Selectedclass = selectedclass;
+            ShowAppointments();
+
+        }
+
+
+
+
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
@@ -70,9 +125,28 @@ namespace GBCalendar
                     Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
                 };
 
+
                 this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+                
             }
-           
+
+
+            if (ToolbarItemClass.Text == "Klasse Auswählen")
+            {
+                ToolbarItem toolBarItemRefresh = new ToolbarItem
+                {
+                    Icon = "refresh.png",
+                    Text = "Ereignisse aktualisieren",
+                    Order = ToolbarItemOrder.Primary,
+                    
+                    Command = new Command(() => this.OnRefreshClicked(null, null)),
+                };
+
+                this.ToolbarItems.Add(toolBarItemRefresh);
+
+
+            }
+
 
             if (action != "Cancel" && action != null)
             {
@@ -86,7 +160,16 @@ namespace GBCalendar
             await Navigation.PushAsync(new NewAppointment());
         }
 
-        void ShowAppointments()
+        private void OnRefreshClicked(object sender, EventArgs e)
+        {
+
+            DatabaseReader dbr = new DatabaseReader();
+            Selectedclass.AppointmentList = dbr.ReadAppointments(Selectedclass);
+
+            ShowAppointments();
+        }
+
+         public void ShowAppointments()
         {
             
             var scrollView = new ScrollView();
@@ -97,8 +180,11 @@ namespace GBCalendar
                 Margin = 0,
                 Spacing = 0
             };
+
             scrollView.Content = layout;
             Content = scrollView;
+
+
 
             if (Selectedclass.AppointmentList.Count == 0)
             {
