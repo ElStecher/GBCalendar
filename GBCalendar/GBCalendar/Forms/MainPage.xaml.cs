@@ -121,7 +121,7 @@ namespace GBCalendar
                     }
                     else
                     {
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " -" + appointmentEnd;
+                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " - " + appointmentEnd;
                     }
 
                     var button = new Button
