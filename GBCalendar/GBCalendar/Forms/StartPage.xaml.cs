@@ -19,6 +19,14 @@ namespace GBCalendar
         public StartPage ()
 		{
 			InitializeComponent ();
+            Label copyrightLabel = new Label()
+            {
+                Text = "Copyright © 2018 by Dario Berther, Samuel Maissen and Fabio Stecher. " + Environment.NewLine + "All rights reserved.",
+                FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+            stackLayout.Children.Add(copyrightLabel);
 		}
 
         async void OnStudentClicked(object sender, EventArgs args)
