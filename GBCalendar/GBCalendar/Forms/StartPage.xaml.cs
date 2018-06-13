@@ -18,20 +18,45 @@ namespace GBCalendar
 
         public StartPage ()
 		{
-			InitializeComponent ();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+           
 		}
 
         async void OnStudentClicked(object sender, EventArgs args)
         {
-            IdRole = 2;
-            await Navigation.PushAsync(new LoginPage(IdRole));
+            try
+            {
+                IdRole = 2;
+                await Navigation.PushAsync(new LoginPage(IdRole));
+
+            }
+            catch (Exception e)
+            {
+               await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+
+
+
         }
 
         async void OnTeacherClicked(object sender, EventArgs args)
         {
-            IdRole = 1;
-            await Navigation.PushAsync(new LoginPage(IdRole));
+            try
+            {
+                IdRole = 1;
+                await Navigation.PushAsync(new LoginPage(IdRole));
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
-
     }
 }

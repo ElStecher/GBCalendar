@@ -19,7 +19,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                command.CommandText = "INSERT INTO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  " +
+                command.CommandText = "INSERT INO Appointment(Title, Class_idClass, Room_idRoom, Start_Time, End_Time, Description,  " +
                     "Alldayevent, Person_idPerson) " + "VALUES('" + appointment.Title + "', " + appointment.SchoolClass.IdClass + ", " + 
                     appointment.Room.IdRoom + ", '" + appointment.StartTime.ToString("yyyy-MM-dd HH:mm") + "', '" 
                     + appointment.EndTime.ToString("yyyy-MM-dd HH:mm") + "', '" + appointment.Description + "', '" + appointment.AllDayEvent + 
@@ -51,7 +51,7 @@ namespace GBCalendar
                 Connect.CloseConnection();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -69,7 +69,7 @@ namespace GBCalendar
                 command.ExecuteNonQuery();
                 Connect.CloseConnection();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }

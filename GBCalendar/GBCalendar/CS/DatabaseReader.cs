@@ -53,9 +53,9 @@ namespace GBCalendar
 
                 return ClassList;
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                throw new Exception("Fehler beim lesen der Klassen: " + e.Message.ToString());
+                throw;
             }
             
         }
@@ -91,9 +91,9 @@ namespace GBCalendar
 
                 return roomList;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
+                throw;
             }
         }
 
@@ -145,19 +145,14 @@ namespace GBCalendar
                     schoolClass.AppointmentList.Add(a);
                 }
 
-                    
-                
-            
-
-
-                    reader.Close();
+                reader.Close();
 
                 //Connection schliessen
                 Connect.CloseConnection();
 
   
             }
-            catch (Exception e)
+            catch (Exception)
             {
                
                 throw;
@@ -173,40 +168,46 @@ namespace GBCalendar
         /// <returns>user object</returns>
         public bool AreUserCredentialsCorrect(string email, string password, int idRole)
         {
-            int idPerson = 0;
-            string firstName = null;
-            string lastName = null;
-            //instanzierung
-            DatabaseConnector Connect = new DatabaseConnector();
-            Connect.OpenConnection();
-
-            MySqlCommand command = Connect.Connection.CreateCommand();
-            // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
-
-            MySqlDataReader reader = command.ExecuteReader();
-
-
-            while (reader.Read())
+            try
             {
-                //userList.Add(reader.GetValue(0).ToString());
-                idPerson = (int)reader.GetValue(0);
-                firstName = (string)reader.GetValue(1);
-                lastName = (string)reader.GetValue(2);
-            }
+                int idPerson = 0;
+                string firstName = null;
+                string lastName = null;
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
 
-            if (idPerson != 0)
-            {
-                App.UserLoggedIn = new Person(idPerson, firstName, lastName,  email, password, idRole);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+                MySqlCommand command = Connect.Connection.CreateCommand();
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
 
-        
+                MySqlDataReader reader = command.ExecuteReader();
+
+
+                while (reader.Read())
+                {
+                    //userList.Add(reader.GetValue(0).ToString());
+                    idPerson = (int)reader.GetValue(0);
+                    firstName = (string)reader.GetValue(1);
+                    lastName = (string)reader.GetValue(2);
+                }
+
+                if (idPerson != 0)
+                {
+                    App.UserLoggedIn = new Person(idPerson, firstName, lastName, email, password, idRole);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }    
         #endregion
     }
 }

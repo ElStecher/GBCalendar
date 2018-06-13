@@ -21,7 +21,6 @@ namespace GBCalendar
 		{
             InitializeComponent();
             
-
             try
             {
                 //Fill up Rooms for Appointment
@@ -35,10 +34,10 @@ namespace GBCalendar
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
 
@@ -67,60 +66,67 @@ namespace GBCalendar
 
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
-            DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
-
-            //Abfragen ob felder Korrekt/Ausgefüllt
-            if (AppointmentTitel.Text == null)
+            try
             {
-                DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
-                return;
+                DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
+
+                //Abfragen ob felder Korrekt/Ausgefüllt
+                if (AppointmentTitel.Text == null)
+                {
+                    DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (AppointmentDescription.Text == null)
+                {
+                    DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+                {
+                    DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
+                    return;
+                }
+
+                else if (Roompicker.SelectedItem == null)
+                {
+                    DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
+                    return;
+                };
+
+
+
+                //Wert für Room setzen
+                Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+
+                //Werte setzen für Alldayevent
+                if (alldayevent == "N")
+                {
+                    startTime = date + TimePickerStart_Time.Time;
+                    endTime = date + TimePickerEnd_Time.Time;
+                }
+                else
+                {
+                    startTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
+                    endTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
+                }
+
+                //instanzierung Appointment
+                Appointment appointment = new Appointment(AppointmentTitel.Text, selectedroom, MainPage.Selectedclass, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
+
+
+                MainPage.Selectedclass.AddAppointment(appointment);
+
+
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.PopAsync();
+
+                DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
+
             }
-            else if (AppointmentDescription.Text == null)
+            catch (Exception e)
             {
-                DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
-                return;
-            }
-            else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
-            {
-                DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
-                return;
-            }
-
-            else if (Roompicker.SelectedItem == null)
-            {
-                DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
-                return;
-            };
-
-
-
-            //Wert für Room setzen
-            Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-
-            //Werte setzen für Alldayevent
-            if (alldayevent == "N")
-            {
-                startTime = date + TimePickerStart_Time.Time;
-                endTime = date + TimePickerEnd_Time.Time;
-            }
-            else
-            {
-                startTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
-                endTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
-            }
-
-            //instanzierung Appointment
-            Appointment appointment = new Appointment(AppointmentTitel.Text, selectedroom, MainPage.Selectedclass, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
-
-
-            MainPage.Selectedclass.AddAppointment(appointment);
-
-
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            Navigation.PopAsync();
-
-            DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
-           
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }    
         }
     }
 }

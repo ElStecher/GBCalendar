@@ -85,14 +85,10 @@ namespace GBCalendar
                     this.AllDayEventSwitch.IsToggled = false;
                    
                 }
-
-
-
-                // Siehe in OnSaveAppointmentClicked()
             }
             catch (Exception e)
             {
-                throw;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
 
@@ -117,79 +113,94 @@ namespace GBCalendar
                 TimePickerEnd_Time.IsVisible = true;
                 Alldayevent = "N";
             }
-
         }
 
         void OnSaveAppointmentClicked(object sender, EventArgs args)
         {
-            //Abfragen ob felder Korrekt/Ausgefüllt
-            if (AppointmentTitel.Text == null)
+            try
             {
-                DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
-                return;
+                //Abfragen ob felder Korrekt/Ausgefüllt
+                if (AppointmentTitel.Text == null)
+                {
+                    DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (AppointmentDescription.Text == null)
+                {
+                    DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+                {
+                    DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
+                    return;
+                }
+                else if (Roompicker.SelectedItem == null)
+                {
+                    DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
+                    return;
+                };
+
+
+
+                //Wert für Room setzen
+                Room selectedRoom = Rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+
+                //Werte setzen für Alldayevent
+                if (Alldayevent == "N")
+                {
+                    StartTime = DatePicker.Date + TimePickerStart_Time.Time;
+                    EndTime = DatePicker.Date + TimePickerEnd_Time.Time;
+                }
+                else
+                {
+                    StartTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
+                    EndTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
+                }
+
+                //Werte für Appointment anpassen
+                SelectedAppointment.Title = AppointmentTitel.Text;
+                SelectedAppointment.Description = AppointmentDescription.Text;
+                SelectedAppointment.Room = selectedRoom;
+                SelectedAppointment.AllDayEvent = Alldayevent;
+                SelectedAppointment.StartTime = StartTime;
+                SelectedAppointment.EndTime = EndTime;
+
+                //Geändertes Appointment übergeben
+                MainPage.Selectedclass.EditAppointment(SelectedAppointment);
+
+                //Naviegieren
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.PopAsync();
+
+                // problem: refresh der Seite mit Appointments muss noch implementiert werden
+
+                DisplayAlert("Ereignis geändert!", "Das Ereignis wurde erfolgreich geändert.", "OK");
+
             }
-            else if (AppointmentDescription.Text == null)
+            catch (Exception e)
             {
-                DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
-                return;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
-            else if(TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
-            {
-                DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
-                return;
-            }
-            else if (Roompicker.SelectedItem == null)
-            {
-                DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
-                return;
-            };
-
-
-
-            //Wert für Room setzen
-            Room selectedRoom = Rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-
-            //Werte setzen für Alldayevent
-            if (Alldayevent == "N")
-            {
-                StartTime = DatePicker.Date + TimePickerStart_Time.Time;
-                EndTime = DatePicker.Date + TimePickerEnd_Time.Time;
-            }
-            else
-            {
-                StartTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
-                EndTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
-            }
-
-            //Werte für Appointment anpassen
-            SelectedAppointment.Title = AppointmentTitel.Text;
-            SelectedAppointment.Description = AppointmentDescription.Text;
-            SelectedAppointment.Room = selectedRoom;
-            SelectedAppointment.AllDayEvent = Alldayevent;
-            SelectedAppointment.StartTime = StartTime;
-            SelectedAppointment.EndTime = EndTime;
-
-            //Geändertes Appointment übergeben
-            MainPage.Selectedclass.EditAppointment(SelectedAppointment);
-
-            //Naviegieren
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            Navigation.PopAsync();
-
-            // problem: refresh der Seite mit Appointments muss noch implementiert werden
-
-            DisplayAlert("Ereignis geändert!", "Das Ereignis wurde erfolgreich geändert.", "OK");
 
         }
 
         async void OnDeleteAppointmentClicked(object sender, EventArgs args)
         {
-            MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
-            await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
+            try
+            {
+                MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
+                await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
 
-            //Naviegieren
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            await Navigation.PopAsync();
+                //Naviegieren
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                await Navigation.PopAsync();
+
+            }
+            catch (Exception e)
+            {
+               await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
     }

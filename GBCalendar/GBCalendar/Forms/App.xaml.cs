@@ -30,7 +30,8 @@ namespace GBCalendar
         {
             // Handle when your app sleeps
             
-            stopWatch.Start();
+                stopWatch.Start();
+               
         }
 
 		protected override void OnResume ()

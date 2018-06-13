@@ -42,7 +42,6 @@ namespace GBCalendar
             {
                 throw;
             }
-
         }
 
         /// <summary>
