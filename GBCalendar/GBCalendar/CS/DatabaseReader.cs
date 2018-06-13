@@ -150,7 +150,9 @@ namespace GBCalendar
                 MySqlCommand command = Connect.Connection.CreateCommand();
                 // query liest nur bestimmte Klassen einer Person Aus!
                 //command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
-                command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname FROM Person AS p, Appointment AS a WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + ";";
+                command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname, r.Roomname " +
+                    "FROM Person AS p, Appointment AS a, Room AS r " +
+                    "WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + " AND r.idRoom = a.Room_idRoom;";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
@@ -170,8 +172,11 @@ namespace GBCalendar
                         // Instanzierung Person
                         Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
+                        //Instanzierung Room
+                        Room room = new Room((int)reader.GetValue(4), (string)reader.GetValue(11));
+
                         //Instanzierung Appointment
-                        Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
+                        Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
                           startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
 
                         appointmentList.Add(a);

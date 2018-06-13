@@ -122,7 +122,7 @@ namespace GBCalendar
 
         void OnSaveAppointmentClicked(object sender, EventArgs args)
         {
-            //Abfragen ob felder Ausgefüllt
+            //Abfragen ob felder Korrekt/Ausgefüllt
             if (AppointmentTitel.Text == null)
             {
                 DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
@@ -131,6 +131,11 @@ namespace GBCalendar
             else if (AppointmentDescription.Text == null)
             {
                 DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
+                return;
+            }
+            else if(TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+            {
+                DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
                 return;
             }
             else if (Roompicker.SelectedItem == null)

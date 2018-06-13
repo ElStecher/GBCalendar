@@ -68,7 +68,8 @@ namespace GBCalendar
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
             DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
-            //Abfragen ob felder Ausgefüllt
+
+            //Abfragen ob felder Korrekt/Ausgefüllt
             if (AppointmentTitel.Text == null)
             {
                 DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
@@ -79,6 +80,12 @@ namespace GBCalendar
                 DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
                 return;
             }
+            else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+            {
+                DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
+                return;
+            }
+
             else if (Roompicker.SelectedItem == null)
             {
                 DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
