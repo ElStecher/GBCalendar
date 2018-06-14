@@ -140,12 +140,12 @@ namespace GBCalendar
             try
             {
                 //Abfragen ob felder Korrekt/Ausgefüllt
-                if (AppointmentTitel.Text == null)
+                if (AppointmentTitel.Text == null || AppointmentTitel.Text == "")
                 {
                     DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
                     return;
                 }
-                else if (AppointmentDescription.Text == null)
+                else if (AppointmentDescription.Text == null || AppointmentTitel.Text == "")
                 {
                     DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
                     return;
