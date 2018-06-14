@@ -25,11 +25,11 @@ namespace GBCalendar
         /// </summary>
         public NewAppointment ()
 		{
-            // Initialiserung
-            InitializeComponent();
-            
             try
             {
+                // Initialiserung
+                InitializeComponent();
+
                 //Fill up Rooms for Appointment
                 DatabaseReader readerrooms = new DatabaseReader();
 
@@ -43,7 +43,6 @@ namespace GBCalendar
             }
             catch (Exception e)
             {
-
                 DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
@@ -110,8 +109,8 @@ namespace GBCalendar
                     return;
                 };
 
-            //Wert für Room setzen
-            Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+                //Wert für Room setzen
+                Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
 
                 //Werte setzen für Alldayevent
                 if (alldayevent == "N")
@@ -131,14 +130,18 @@ namespace GBCalendar
 
                 MainPage.Selectedclass.AddAppointment(appointment);
 
-            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
-            Navigation.PopAsync();
+                // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
+                Navigation.PopAsync();
 
-            DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
-           
-        }
-        
+                DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
+
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+        }     
         #endregion
     }
 }

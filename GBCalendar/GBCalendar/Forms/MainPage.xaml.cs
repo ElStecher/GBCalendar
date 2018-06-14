@@ -20,12 +20,13 @@ namespace GBCalendar
         /// </summary>
         public MainPage()
         {
-            NavigationPage.SetHasBackButton(this, false);
-
-            // Initialisierung
-            InitializeComponent();  
             try
             {
+                NavigationPage.SetHasBackButton(this, false);
+
+                // Initialisierung
+                InitializeComponent();
+
                 // Füllt die Klassen für das Appointment
                 DatabaseReader readerclasses = new DatabaseReader();
 
@@ -53,25 +54,20 @@ namespace GBCalendar
                 InitializeComponent();
 
 
-            try
-            {
+          
                 //Fill up Classes for Appointment
                 DatabaseReader readerclasses = new DatabaseReader();
                 classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
-            }
-            catch (Exception e)
-            {
-                throw;
+        
+     
 
-            }
-
-            //Elemente für toolbar bereitstellen
-            ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
-            {
-                Text = "Ereignis erstellen",
-                Order = ToolbarItemOrder.Secondary,
-                Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
-            };
+                //Elemente für toolbar bereitstellen
+                ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                {
+                    Text = "Ereignis erstellen",
+                    Order = ToolbarItemOrder.Secondary,
+                    Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+                };
 
                 ToolbarItem toolBarItemRefresh = new ToolbarItem
                 {
@@ -134,43 +130,50 @@ namespace GBCalendar
                 //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
                 string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
-            // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
-            if (App.UserLoggedIn.Role == 1 && ToolbarItemClass.Text == "Klasse Auswählen")
-            {
-                ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
+                if (App.UserLoggedIn.Role == 1 && ToolbarItemClass.Text == "Klasse Auswählen")
                 {
-                    Text = "Ereignis erstellen",
-                    Order = ToolbarItemOrder.Secondary,
-                    Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
-                };
+                    ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                    {
+                        Text = "Ereignis erstellen",
+                        Order = ToolbarItemOrder.Secondary,
+                        Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+                    };
 
 
-                this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+                    this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
                 
-            }
+                }
             
-            // Nachdem eine Klasse ausgewählt wurde, kann der Benutzer die Daten aktualisieren
-            if (ToolbarItemClass.Text == "Klasse Auswählen")
-            {
-                ToolbarItem toolBarItemRefresh = new ToolbarItem
+                // Nachdem eine Klasse ausgewählt wurde, kann der Benutzer die Daten aktualisieren
+                if (ToolbarItemClass.Text == "Klasse Auswählen")
                 {
-                    Icon = "refresh.png",
-                    Text = "Ereignisse aktualisieren",
-                    Order = ToolbarItemOrder.Primary,
+                    ToolbarItem toolBarItemRefresh = new ToolbarItem
+                    {
+                        Icon = "refresh.png",
+                        Text = "Ereignisse aktualisieren",
+                        Order = ToolbarItemOrder.Primary,
                     
-                    Command = new Command(() => this.OnRefreshClicked(null, null)),
-                };
+                        Command = new Command(() => this.OnRefreshClicked(null, null)),
+                    };
 
-                this.ToolbarItems.Add(toolBarItemRefresh);
+                    this.ToolbarItems.Add(toolBarItemRefresh);
+                }
+
+                // Hat der Benutzer die Klasse ausgewählt, werden die Ereignisse der Klasse aufgelistet
+                if (action != "Cancel" && action != null)
+                {
+                    ToolbarItemClass.Text = action;
+                    Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                    ShowAppointments();
+                }
+
             }
-
-            // Hat der Benutzer die Klasse ausgewählt, werden die Ereignisse der Klasse aufgelistet
-            if (action != "Cancel" && action != null)
+            catch (Exception e)
             {
-                ToolbarItemClass.Text = action;
-                Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
-                ShowAppointments();
+               await  DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
+
         }
 
         /// <summary>
@@ -178,10 +181,18 @@ namespace GBCalendar
         /// </summary>
         /// <param name="sender">Autogeneriert</param>
         /// <param name="args">Autogeneriert</param>
-        private async void OnCallNewAppointmentPageClicked(object sender, EventArgs args)
+        async void OnCallNewAppointmentPageClicked(object sender, EventArgs args)
         {
-            // Navigiert zur Seite
-            await Navigation.PushAsync(new NewAppointment());
+            try
+            {
+                // Navigiert zur Seite
+                await Navigation.PushAsync(new NewAppointment());
+
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
         /// <summary>
@@ -189,13 +200,23 @@ namespace GBCalendar
         /// </summary>
         /// <param name="sender">Autogeneriert</param>
         /// <param name="args">Autogeneriert</param>
-        private void OnRefreshClicked(object sender, EventArgs args)
+        void OnRefreshClicked(object sender, EventArgs args)
         {
-            // Instanzierung
-            DatabaseReader databaseReader = new DatabaseReader();
+            try
+            {
+                // Instanzierung
+                DatabaseReader databaseReader = new DatabaseReader();
 
-            databaseReader.ReadAppointments(Selectedclass);
-            ShowAppointments();
+                databaseReader.ReadAppointments(Selectedclass);
+                ShowAppointments();
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+
+
+
         }
 
         /// <summary>
@@ -203,72 +224,78 @@ namespace GBCalendar
         /// </summary>
         public void ShowAppointments()
         {
-            // Sortiert die Liste nach Datum
-            SortAscending(Selectedclass.AppointmentList);
-
-            ScrollView scrollView = new ScrollView();
-
-            StackLayout layout = new StackLayout
+            try
             {
-                Padding = 0,
-                Margin = 0,
-                Spacing = 0
-            };
+                // Sortiert die Liste nach Datum
+                SortAscending(Selectedclass.AppointmentList);
+
+                ScrollView scrollView = new ScrollView();
+
+                StackLayout layout = new StackLayout
+                {
+                    Padding = 0,
+                    Margin = 0,
+                    Spacing = 0
+                };
 
                 scrollView.Content = layout;
                 Content = scrollView;
 
-            // Wenn keine Ereignisse für die ausgewählte Klasse gefunden wurde, wirde eine Meldung ausgegeben
-            if (Selectedclass.AppointmentList.Count == 0)
-            {
-                // https://forums.xamarin.com/discussion/69446/adding-label-to-page
-                Label label = new Label
+                // Wenn keine Ereignisse für die ausgewählte Klasse gefunden wurde, wirde eine Meldung ausgegeben
+                if (Selectedclass.AppointmentList.Count == 0)
                 {
-                    Text = "Keine Ereignisse gefunden",
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                };
-                Content = label;
-            }
-            else
-            {
-                // Formatiert die Informationen des Appointments für die Anzeige
-                // Erstellt ein Button für jedes Appointment
-                foreach (Appointment appointment in Selectedclass.AppointmentList)
-                {
-                    // Fromatierung des Datums und der Zeiten
-                    string appointmentDate = appointment.StartTime.ToString("dd.MM.yyyy");
-                    string appointmentStart = appointment.StartTime.ToString("HH:mm");
-                    string appointmentEnd = appointment.EndTime.ToString("HH:mm");
-                    string showingText;
-
-                    // Wenn es sich um ein ganztägiges Ereignis handelt, wird im Button dies angezeigt
-                    if (appointmentStart.Contains("00:00") && appointmentEnd.Contains("23:59"))
+                    // https://forums.xamarin.com/discussion/69446/adding-label-to-page
+                    Label label = new Label
                     {
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
-                    }
-                    else
-                    {
-                        showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " - " + appointmentEnd;
-                    }
-
-                    // Erstellen des Buttons
-                    Button button = new Button
-                    {
-                        Text = showingText,
-                        BackgroundColor = Color.WhiteSmoke,
-                        CornerRadius = 0,
-                        Margin = new Thickness(10, 0, 10, 0)
+                        Text = "Keine Ereignisse gefunden",
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center
                     };
+                    Content = label;
+                }
+                else
+                {
+                    // Formatiert die Informationen des Appointments für die Anzeige
+                    // Erstellt ein Button für jedes Appointment
+                    foreach (Appointment appointment in Selectedclass.AppointmentList)
+                    {
+                        // Fromatierung des Datums und der Zeiten
+                        string appointmentDate = appointment.StartTime.ToString("dd.MM.yyyy");
+                        string appointmentStart = appointment.StartTime.ToString("HH:mm");
+                        string appointmentEnd = appointment.EndTime.ToString("HH:mm");
+                        string showingText;
 
-                   
-                    button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+                        // Wenn es sich um ein ganztägiges Ereignis handelt, wird im Button dies angezeigt
+                        if (appointmentStart.Contains("00:00") && appointmentEnd.Contains("23:59"))
+                        {
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
+                        }
+                        else
+                        {
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " - " + appointmentEnd;
+                        }
 
-                   // Button zum Layout hinzufügen
-                    layout.Children.Add(button);
+                        // Erstellen des Buttons
+                        Button button = new Button
+                        {
+                            Text = showingText,
+                            BackgroundColor = Color.WhiteSmoke,
+                            CornerRadius = 0,
+                            Margin = new Thickness(10, 0, 10, 0)
+                        };
+
+
+                        button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+
+                        // Button zum Layout hinzufügen
+                        layout.Children.Add(button);
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
         /// <summary>

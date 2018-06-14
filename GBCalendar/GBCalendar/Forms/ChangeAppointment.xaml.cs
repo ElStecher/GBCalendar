@@ -161,8 +161,8 @@ namespace GBCalendar
                     return;
                 };
 
-            //Wert für Room setzen
-            Room selectedRoom = Rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+                //Wert für Room setzen
+                Room selectedRoom = Rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
 
                 //Werte setzen für Alldayevent
                 if (Alldayevent == "N")
@@ -187,11 +187,18 @@ namespace GBCalendar
                 //Geändertes Appointment übergeben
                 MainPage.Selectedclass.EditAppointment(SelectedAppointment);
 
-            //Naviegieren
-            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
-            Navigation.PopAsync();
-            DisplayAlert("Ereignis geändert!", "Das Ereignis wurde erfolgreich geändert.", "OK");
+                //Naviegieren
+                // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
+                Navigation.PopAsync();
+                DisplayAlert("Ereignis geändert!", "Das Ereignis wurde erfolgreich geändert.", "OK");
+
+
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
         /// <summary>
@@ -206,13 +213,18 @@ namespace GBCalendar
                 MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
                 await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
 
-            //Naviegieren
-            // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-            Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
-            await Navigation.PopAsync();
+                //Naviegieren
+                // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
+                await Navigation.PopAsync();
+
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
         #endregion
-
     }
 }

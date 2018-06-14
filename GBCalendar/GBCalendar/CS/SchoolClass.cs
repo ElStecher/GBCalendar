@@ -43,7 +43,7 @@ namespace GBCalendar
                 AppointmentList.Add(appointment);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -66,7 +66,7 @@ namespace GBCalendar
                 MainPage.Selectedclass.AppointmentList.Add(appointment);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -93,7 +93,6 @@ namespace GBCalendar
                 throw;
             }
         }
-
         #endregion
     }
 }
