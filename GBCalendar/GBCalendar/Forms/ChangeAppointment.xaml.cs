@@ -145,7 +145,7 @@ namespace GBCalendar
                     DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
                     return;
                 }
-                else if (AppointmentDescription.Text == null || AppointmentTitel.Text == "")
+                else if (AppointmentDescription.Text == null || AppointmentDescription.Text == "")
                 {
                     DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
                     return;
