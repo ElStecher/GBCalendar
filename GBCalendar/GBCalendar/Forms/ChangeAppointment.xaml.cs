@@ -150,9 +150,9 @@ namespace GBCalendar
                     DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
                     return;
                 }
-                else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+                else if (Alldayevent == "N" && TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
                 {
-                    DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
+                    DisplayAlert("Zeitspanne ungültig", "Beginn darf nicht grösser als Ende sein.", "OK");
                     return;
                 }
                 else if (Roompicker.SelectedItem == null)
@@ -210,13 +210,24 @@ namespace GBCalendar
         {
             try
             {
-                MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
-                await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
+                if (await DisplayAlert("Ereignis löschen?", "Wollen Sie das Ereignis wirklich löschen?", "OK", "Cancel") == true)
+                {
+                    MainPage.Selectedclass.DeleteAppointment(this.SelectedAppointment);
 
-                //Naviegieren
-                // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
-                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
-                await Navigation.PopAsync();
+                    await DisplayAlert("Ereignis gelöscht", "Das ausgewählte Ereignis wurde erfolgreich gelöscht!", "OK");
+
+                    //Naviegieren
+                    // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                    Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this);
+                    await Navigation.PopAsync();
+
+                }
+                else
+                {
+                    // Kehrt zu Ereignis zurück
+                    return;
+
+                }
 
             }
             catch (Exception e)

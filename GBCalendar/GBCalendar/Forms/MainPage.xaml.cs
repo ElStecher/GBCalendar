@@ -130,39 +130,37 @@ namespace GBCalendar
                 //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
                 string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
-                // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
-                if (App.UserLoggedIn.Role == 1 && ToolbarItemClass.Text == "Klasse Auswählen")
-                {
-                    ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
-                    {
-                        Text = "Ereignis erstellen",
-                        Order = ToolbarItemOrder.Secondary,
-                        Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
-                    };
-
-
-                    this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
-                
-                }
-            
-                // Nachdem eine Klasse ausgewählt wurde, kann der Benutzer die Daten aktualisieren
-                if (ToolbarItemClass.Text == "Klasse Auswählen")
-                {
-                    ToolbarItem toolBarItemRefresh = new ToolbarItem
-                    {
-                        Icon = "refresh.png",
-                        Text = "Ereignisse aktualisieren",
-                        Order = ToolbarItemOrder.Primary,
-                    
-                        Command = new Command(() => this.OnRefreshClicked(null, null)),
-                    };
-
-                    this.ToolbarItems.Add(toolBarItemRefresh);
-                }
-
                 // Hat der Benutzer die Klasse ausgewählt, werden die Ereignisse der Klasse aufgelistet
                 if (action != "Cancel" && action != null)
                 {
+                    // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
+                    if (App.UserLoggedIn.Role == 1 && ToolbarItems.FirstOrDefault(item => item.Text == "Ereignis erstellen") == null)
+                    {
+                        ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                        {
+                            Text = "Ereignis erstellen",
+                            Order = ToolbarItemOrder.Secondary,
+                            Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+                        };
+
+                        this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+                    }
+
+                    // Nachdem eine Klasse ausgewählt wurde, kann der Benutzer die Daten aktualisieren
+                    if (ToolbarItems.FirstOrDefault(item => item.Text == "Ereignisse aktualisieren") == null)
+                    {
+                        ToolbarItem toolBarItemRefresh = new ToolbarItem
+                        {
+                            Icon = "refresh.png",
+                            Text = "Ereignisse aktualisieren",
+                            Order = ToolbarItemOrder.Primary,
+
+                            Command = new Command(() => this.OnRefreshClicked(null, null)),
+                        };
+
+                        this.ToolbarItems.Add(toolBarItemRefresh);
+                    }
+
                     ToolbarItemClass.Text = action;
                     Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
                     ShowAppointments();

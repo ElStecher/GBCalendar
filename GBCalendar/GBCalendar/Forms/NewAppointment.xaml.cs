@@ -97,9 +97,9 @@ namespace GBCalendar
                     DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
                     return;
                 }
-                else if (TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+                else if (alldayevent == "N" && TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
                 {
-                    DisplayAlert("Zeitspanne ungültig", "Begin darf nicht grösser als Ende sein.", "OK");
+                    DisplayAlert("Zeitspanne ungültig", "Beginn darf nicht grösser als Ende sein.", "OK");
                     return;
                 }
 

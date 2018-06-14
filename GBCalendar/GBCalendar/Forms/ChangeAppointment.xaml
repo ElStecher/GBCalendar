@@ -75,7 +75,7 @@
                     IsToggled="False"
                     />
 
-                <Label Text="Begin:" 
+                <Label Text="Beginn:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"
                    x:Name="LabelBegin"/>
