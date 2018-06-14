@@ -53,9 +53,9 @@ namespace GBCalendar
 
                 return ClassList;
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                throw new Exception("Fehler beim lesen der Klassen: " + e.Message.ToString());
+                throw;
             }
             
         }
@@ -153,7 +153,7 @@ namespace GBCalendar
 
   
             }
-            catch (Exception e)
+            catch (Exception)
             {
                
                 throw;
@@ -176,13 +176,21 @@ namespace GBCalendar
             // Instanzierung
             DatabaseConnector Connect = new DatabaseConnector();
             Connect.OpenConnection();
+            try
+            {
+                int idPerson = 0;
+                string firstName = null;
+                string lastName = null;
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
 
             MySqlCommand command = Connect.Connection.CreateCommand();
 
             // query liest nur bestimmte Klassen einer Person Aus!
             command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
 
-            MySqlDataReader reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
@@ -192,17 +200,22 @@ namespace GBCalendar
                 lastName = (string)reader.GetValue(2);
             }
 
-            if (idPerson != 0)
-            {
-                App.UserLoggedIn = new Person(idPerson, firstName, lastName,  email, password, idRole);
-                return true;
+                if (idPerson != 0)
+                {
+                    App.UserLoggedIn = new Person(idPerson, firstName, lastName, email, password, idRole);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+
+                throw;
             }
-        }
-        
+        }    
         #endregion
     }
 }

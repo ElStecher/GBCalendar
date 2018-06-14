@@ -34,12 +34,10 @@ namespace GBCalendar
             }
             catch (Exception e)
             {
-                throw;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
 
             }
-
         }
-
 
         /// <summary>
         /// Konstruktor für aufruf nach NewAppointment
@@ -48,12 +46,16 @@ namespace GBCalendar
         public MainPage(SchoolClass selectedclass)
         {
 
-            NavigationPage.SetHasBackButton(this, false);
-            InitializeComponent();
+            try
+            {
+
+                NavigationPage.SetHasBackButton(this, false);
+                InitializeComponent();
+
 
             try
             {
-                // Füllt die Klassen für das Appointment
+                //Fill up Classes for Appointment
                 DatabaseReader readerclasses = new DatabaseReader();
                 classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
             }
@@ -71,22 +73,27 @@ namespace GBCalendar
                 Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
             };
 
-            ToolbarItem toolBarItemRefresh = new ToolbarItem
+                ToolbarItem toolBarItemRefresh = new ToolbarItem
+                {
+                    Icon = "refresh.png",
+                    Text = "Ereignisse aktualisieren",
+                    Order = ToolbarItemOrder.Primary,
+                    Command = new Command(() => this.OnRefreshClicked(null, null)),
+                };
+
+                this.ToolbarItems.Add(toolBarItemRefresh);
+                this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+
+                // name wieder auf vorherige ausgewählte klasse setzen
+                ToolbarItemClass.Text = selectedclass.ClassName;
+                Selectedclass = selectedclass;
+                ShowAppointments();
+
+            }
+            catch (Exception e)
             {
-                Icon = "refresh.png",
-                Text = "Ereignisse aktualisieren",
-                Order = ToolbarItemOrder.Primary,
-                Command = new Command(() => this.OnRefreshClicked(null, null)),
-            };
-
-            this.ToolbarItems.Add(toolBarItemRefresh);
-            this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
-
-            // name wieder auf vorherige ausgewählte klasse setzen
-            ToolbarItemClass.Text = selectedclass.ClassName;
-            Selectedclass = selectedclass;
-            ShowAppointments();
-
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
 
         /// <summary>
@@ -121,9 +128,11 @@ namespace GBCalendar
         /// <param name="sender">Autogeneriert</param>
         /// <param name="args">Autogeneriert</param>
         async void OnClassSelectedClicked(object sender, EventArgs args)
-        { 
-            //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
-            string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
+        {
+            try
+            {
+                //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
+                string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
 
             // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
             if (App.UserLoggedIn.Role == 1 && ToolbarItemClass.Text == "Klasse Auswählen")
@@ -206,8 +215,8 @@ namespace GBCalendar
                 Spacing = 0
             };
 
-            scrollView.Content = layout;
-            Content = scrollView;
+                scrollView.Content = layout;
+                Content = scrollView;
 
             // Wenn keine Ereignisse für die ausgewählte Klasse gefunden wurde, wirde eine Meldung ausgegeben
             if (Selectedclass.AppointmentList.Count == 0)
@@ -259,6 +268,7 @@ namespace GBCalendar
                     layout.Children.Add(button);
                 }
             }
+
         }
 
         /// <summary>
@@ -267,9 +277,9 @@ namespace GBCalendar
         /// <param name="list">Liste mit den Appointments für die ausgewählte Klasse</param>
         /// <returns></returns>
         static List<Appointment> SortAscending(List<Appointment> list)
-        {
-            list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
-            return list;
+        {        
+                list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+                return list;
         }
         #endregion
     }

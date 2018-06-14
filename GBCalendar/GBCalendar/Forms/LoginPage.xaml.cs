@@ -75,7 +75,7 @@ namespace GBCalendar
             }
             catch (Exception e)
             {
-                await DisplayAlert("Fehler", e.ToString(), "OK");
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
         #endregion

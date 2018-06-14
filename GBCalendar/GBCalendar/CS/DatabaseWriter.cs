@@ -71,7 +71,7 @@ namespace GBCalendar
                 Connect.CloseConnection();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -99,7 +99,7 @@ namespace GBCalendar
                 // Schliesst die Verbindung
                 Connect.CloseConnection();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
