@@ -9,28 +9,59 @@ namespace GBCalendar
 {
     public partial class MainPage : ContentPage
     {
-        private List<SchoolClass> classes;
-        private static SchoolClass selectedclass;
+        #region Felder der Page MainPage
+        public List<SchoolClass> classes { get; private set; }
+        public static SchoolClass Selectedclass { get; private set; }
+        #endregion
 
-        public static SchoolClass Selectedclass
+        #region Methoden der Page MainPage
+        /// <summary>
+        /// Initialisierung
+        /// </summary>
+        public MainPage()
         {
-            get
+            try
             {
-                return selectedclass;
+                NavigationPage.SetHasBackButton(this, false);
+
+                // Initialisierung
+                InitializeComponent();
+
+                // Füllt die Klassen für das Appointment
+                DatabaseReader readerclasses = new DatabaseReader();
+
+                classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
+
             }
-            private set
+            catch (Exception e)
             {
-                selectedclass = value;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+
             }
         }
 
-
-        public MainPage()
+        /// <summary>
+        /// Konstruktor für aufruf nach NewAppointment
+        /// </summary>
+        /// <param name="selectedclass">Ausgewählte Klasse</param>
+        public MainPage(SchoolClass selectedclass)
         {
-            InitializeComponent();
 
-            if (App.UserLoggedIn.Role == 1)
+            try
             {
+
+                NavigationPage.SetHasBackButton(this, false);
+                InitializeComponent();
+
+
+          
+                //Fill up Classes for Appointment
+                DatabaseReader readerclasses = new DatabaseReader();
+                classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
+        
+     
+
+                //Elemente für toolbar bereitstellen
                 ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
                 {
                     Text = "Ereignis erstellen",
@@ -38,66 +69,243 @@ namespace GBCalendar
                     Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
                 };
 
+                ToolbarItem toolBarItemRefresh = new ToolbarItem
+                {
+                    Icon = "refresh.png",
+                    Text = "Ereignisse aktualisieren",
+                    Order = ToolbarItemOrder.Primary,
+                    Command = new Command(() => this.OnRefreshClicked(null, null)),
+                };
+
+                this.ToolbarItems.Add(toolBarItemRefresh);
                 this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
-            }
-            try
-            {
-                //Fill up Classes for Appointment
-                DatabaseReader readerclasses = new DatabaseReader();
 
-                //"8" ist id des Techeachers. Muss später noch durch Person.idPers ersetzt werden
-                classes = readerclasses.ReadClasses(App.UserLoggedIn.IdPerson);
+                // name wieder auf vorherige ausgewählte klasse setzen
+                ToolbarItemClass.Text = selectedclass.ClassName;
+                Selectedclass = selectedclass;
+                ShowAppointments();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
-
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
 
-        async void OnLogoutButtonClicked(object sender, EventArgs e)
+        /// <summary>
+        /// Button damit sich der Benutzer abmelden kann
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
+        async void OnLogoutButtonClicked(object sender, EventArgs args)
         {
-            App.UserLoggedIn = null;
-            Navigation.InsertPageBefore(new StartPage(), this);
-            await Navigation.PopToRootAsync();
+            bool result = await DisplayAlert("Abmelden", "Sie werden abgemeldet", "OK", "Cancel");
+
+            // Falls der Button "Cancel" bedrückt wurde, wird der Benutzer abgemeldet
+            // https://forums.xamarin.com/discussion/71594/displayalert-detect-cancel-button-is-clicked-or-not
+            // Hat der Benutzer auf OK geklickt, wird er abgemeldet
+            if (result == true)
+            {
+                App.UserLoggedIn = null;
+                Navigation.InsertPageBefore(new StartPage(), this);
+                await Navigation.PopToRootAsync();
+            }
+            // Anonsten bleibt er auf der MainPage
+            else
+            {
+                // Kehrt zur MainPage zurück
+                return;
+            }
         }
 
-
+        /// <summary>
+        /// Nachdem der Benutzer eine Klasse ausgewählt hat, kann er ein neues Ereignis erstellen und die Ereignisse für die gewählte Klasse werden aufgelistet
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         async void OnClassSelectedClicked(object sender, EventArgs args)
         {
-
-            //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
-            string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
-
-            if (action != "Cancel")
+            try
             {
-                ToolbarItemClass.Text = action;
-                selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                //www.stackoverflow.com/questions/32313996/rendering-a-displayactionsheet-with-observablecollection-data-in-xamarin-cross-p?rq=1
+                string action = await DisplayActionSheet("Klasse wählen:", "Cancel", null, classes.Select(SchoolClass => SchoolClass.ClassName).ToArray());
+
+                // Hat der Benutzer die Klasse ausgewählt, werden die Ereignisse der Klasse aufgelistet
+                if (action != "Cancel" && action != null)
+                {
+                    // Wenn der angemeldete Benutzer ein Lehrer ist, kann dieser ein neues Ereignis erstellen
+                    if (App.UserLoggedIn.Role == 1 && ToolbarItems.FirstOrDefault(item => item.Text == "Ereignis erstellen") == null)
+                    {
+                        ToolbarItem toolBarItemCreateNewAppointment = new ToolbarItem
+                        {
+                            Text = "Ereignis erstellen",
+                            Order = ToolbarItemOrder.Secondary,
+                            Command = new Command(() => this.OnCallNewAppointmentPageClicked(null, null)),
+                        };
+
+                        this.ToolbarItems.Add(toolBarItemCreateNewAppointment);
+                    }
+
+                    // Nachdem eine Klasse ausgewählt wurde, kann der Benutzer die Daten aktualisieren
+                    if (ToolbarItems.FirstOrDefault(item => item.Text == "Ereignisse aktualisieren") == null)
+                    {
+                        ToolbarItem toolBarItemRefresh = new ToolbarItem
+                        {
+                            Icon = "refresh.png",
+                            Text = "Ereignisse aktualisieren",
+                            Order = ToolbarItemOrder.Primary,
+
+                            Command = new Command(() => this.OnRefreshClicked(null, null)),
+                        };
+
+                        this.ToolbarItems.Add(toolBarItemRefresh);
+                    }
+
+                    ToolbarItemClass.Text = action;
+                    Selectedclass = classes.Find(SchoolClass => SchoolClass.ClassName == action);
+                    ShowAppointments();
+                }
+
+            }
+            catch (Exception e)
+            {
+               await  DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+
+        }
+
+        /// <summary>
+        /// Wenn der Benutzer ein neues Ereignis erstellen möchte wird er auf die entsprechende Seite navigiert
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
+        async void OnCallNewAppointmentPageClicked(object sender, EventArgs args)
+        {
+            try
+            {
+                // Navigiert zur Seite
+                await Navigation.PushAsync(new NewAppointment());
+
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
+        }
+
+        /// <summary>
+        /// Will der Benutzer die Daten aktualisieren, kann er den Button klicken 
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
+        void OnRefreshClicked(object sender, EventArgs args)
+        {
+            try
+            {
+                // Instanzierung
+                DatabaseReader databaseReader = new DatabaseReader();
+
+                databaseReader.ReadAppointments(Selectedclass);
                 ShowAppointments();
             }
-        }
-        private async void OnCallNewAppointmentPageClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new NewAppointment());
-        }
-
-        void ShowAppointments()
-        { 
-            var layout = new StackLayout();
-            foreach (var item in selectedclass.AppointmentList)
+            catch (Exception e)
             {
-               
-                var button = new Button
-                {
-                Text = item.Title + "\n" + item.StartTime.Remove(11, 8) + "\n" +
-                item.StartTime.Remove(0,11).Remove(5,3) + " -" + item.EndTime.Remove(0, 10).Remove(5, 3)
-                };
-                button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(item)); };
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
 
-                layout.Children.Add(button);
-                Content = layout;
+
+
+        }
+
+        /// <summary>
+        /// Zeigt die Appointments der ausgewählten Klasse an
+        /// </summary>
+        public void ShowAppointments()
+        {
+            try
+            {
+                // Sortiert die Liste nach Datum
+                SortAscending(Selectedclass.AppointmentList);
+
+                ScrollView scrollView = new ScrollView();
+
+                StackLayout layout = new StackLayout
+                {
+                    Padding = 0,
+                    Margin = 0,
+                    Spacing = 0
+                };
+
+                scrollView.Content = layout;
+                Content = scrollView;
+
+                // Wenn keine Ereignisse für die ausgewählte Klasse gefunden wurde, wirde eine Meldung ausgegeben
+                if (Selectedclass.AppointmentList.Count == 0)
+                {
+                    // https://forums.xamarin.com/discussion/69446/adding-label-to-page
+                    Label label = new Label
+                    {
+                        Text = "Keine Ereignisse gefunden",
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center
+                    };
+                    Content = label;
+                }
+                else
+                {
+                    // Formatiert die Informationen des Appointments für die Anzeige
+                    // Erstellt ein Button für jedes Appointment
+                    foreach (Appointment appointment in Selectedclass.AppointmentList)
+                    {
+                        // Fromatierung des Datums und der Zeiten
+                        string appointmentDate = appointment.StartTime.ToString("dd.MM.yyyy");
+                        string appointmentStart = appointment.StartTime.ToString("HH:mm");
+                        string appointmentEnd = appointment.EndTime.ToString("HH:mm");
+                        string showingText;
+
+                        // Wenn es sich um ein ganztägiges Ereignis handelt, wird im Button dies angezeigt
+                        if (appointmentStart.Contains("00:00") && appointmentEnd.Contains("23:59"))
+                        {
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + "Ganztägiges Ereignis";
+                        }
+                        else
+                        {
+                            showingText = appointment.Title + "\n" + appointmentDate + "\n" + appointmentStart + " - " + appointmentEnd;
+                        }
+
+                        // Erstellen des Buttons
+                        Button button = new Button
+                        {
+                            Text = showingText,
+                            BackgroundColor = Color.WhiteSmoke,
+                            CornerRadius = 0,
+                            Margin = new Thickness(10, 0, 10, 0)
+                        };
+
+
+                        button.Clicked += async delegate { await Navigation.PushAsync(new ChangeAppointment(appointment)); };
+
+                        // Button zum Layout hinzufügen
+                        layout.Children.Add(button);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
+
+        /// <summary>
+        /// Sortiert eine Liste von Appointments nach dem Datum
+        /// </summary>
+        /// <param name="list">Liste mit den Appointments für die ausgewählte Klasse</param>
+        /// <returns></returns>
+        static List<Appointment> SortAscending(List<Appointment> list)
+        {        
+                list.Sort((a, b) => a.StartTime.CompareTo(b.StartTime));
+                return list;
+        }
+        #endregion
     }
 }

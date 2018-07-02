@@ -6,114 +6,92 @@ namespace GBCalendar
 {
     public class SchoolClass
     {
-        #region Felder und Eigenschaften der Klasse Class
-        private int idClass;
-        private string className;
-        public List<Appointment> AppointmentList { get; set; }
-
-        public int IdClass
-        {
-            get
-            {
-                return this.idClass;
-            }
-            private set
-            {
-                this.idClass = IdClass;
-            }
-        }
-
-        public string ClassName
-        {
-            get
-            {
-                return this.className;
-            }
-            private set
-            {
-                this.className = ClassName;
-            }
-        }
-
-        //public List<Appointment> AppointmentList1
-        //{
-        //    get
-        //    {
-        //        return this.appointmentList;
-        //    }
-        //    set
-        //    {
-        //        this.appointmentList = AppointmentList1;
-        //    }
-        //}
+        #region Felder und Eigenschaften der Klasse SchoolClass
+        public int IdClass { get; private set; }
+        public string ClassName { get; private set; }
+        public List<Appointment> AppointmentList { get; set; } = new List<Appointment>();
         #endregion
 
-        #region Methoden der Klasse Class
+        #region Methoden der Klasse SchoolClass
+        
         /// <summary>
-        /// Konstruktor
+        /// Standart Konstruktor
         /// </summary>
-        /// <param name="className">Name der Schulklasse</param>
+        /// <param name="idClass">ID der Klasse</param>
+        /// <param name="className">Klassenname bzw. -bezeichnung</param>
         public SchoolClass(int idClass, string className)
         {
-            this.idClass = idClass;
-            this.className = className;
+            this.IdClass = idClass;
+            this.ClassName = className;
         }
 
-        /// <summary>
-        /// Listet alle Appointments der ausgewählten Schulklasse auf
-        /// </summary>
-        private void ListAppointments()
+       /// <summary>
+       /// Fügt ein ausgewähltes Appointment zur Liste der Appointments einer Klasse und zur Datenbank hinzu
+       /// </summary>
+       /// <param name="appointment">Appointment das zur Liste hinzugefügt werden soll</param>
+        public void AddAppointment(Appointment appointment)
         {
-
-        }
-
-        /// <summary>
-        /// Löscht einen Termin aus der Liste 
-        /// und aktualisiert die Datensätze in der Datenbank
-        /// </summary>
-        public void RemoveAppointment()
-        {
-
-        }
-
-        /// <summary>
-        /// Fügt einen neuen Termin zur Liste
-        /// und zur Datenbank hinzu
-        /// </summary>
-        public void AddAppointment(string title, SchoolClass schoolClass, Room room, string startTime, string endTime, string allDayEvent, string description, Person creator)
-        {
-
             try
-            {
-                //Id als Rückgabewert von Appointment welches in Datenbankgeschrieben wird
-                int appointmentId;
-
-                Appointment newAppointmentWithoutId = new Appointment(title, room, schoolClass, startTime, endTime, allDayEvent, description, creator);
+            { 
                 //Zuerst in Datenbank schreiben
                 DatabaseWriter Writer = new DatabaseWriter();
-                appointmentId = Writer.WriteAppointment(newAppointmentWithoutId);
 
+                //als Rückgabewert Appointment ID
+                appointment.IdAppointment = Writer.WriteAppointment(appointment);
 
-                //Appointment zur Liste ergänzen
-                Appointment newAppointment = new Appointment(appointmentId, title, room, startTime, endTime, allDayEvent, description);
-
-                AppointmentList.Add(newAppointment);
+                // Appointment zur Liste ergänzen
+                AppointmentList.Add(appointment);
 
             }
             catch (Exception)
             {
-
                 throw;
             }
-
         }
 
         /// <summary>
-        /// Bearbeitet einen ausgewählten Termin
+        /// Speichert ein bearbeitetes Appointment auch in der Datenbank
         /// </summary>
-        public void EditAppointment()
+        /// <param name="appointment">Das zu bearbeitende Appointment</param>
+        public void EditAppointment(Appointment appointment)
         {
-        
+            try
+            {
+                // Zuerst in Datenbank schreiben
+                DatabaseWriter Writer = new DatabaseWriter();
+                Writer.UpdateAppointment(appointment);
+
+                // Appointment in Liste bearbeiten(löschen und neu Hinzufügen)
+                MainPage.Selectedclass.AppointmentList.RemoveAt(MainPage.Selectedclass.AppointmentList.FindIndex(a => a.IdAppointment == appointment.IdAppointment));
+                MainPage.Selectedclass.AppointmentList.Add(appointment);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Löscht ein ausgewähltes Appointment aus der Liste und der Datenbank
+        /// </summary>
+        /// <param name="appointment">Das zu löschende Appointment</param>
+        public void DeleteAppointment(Appointment appointment)
+        {
+            try
+            {
+                // Zuerst in Datenbank löschen
+                DatabaseWriter Writer = new DatabaseWriter();
+                Writer.DelteAppointment(appointment);
+
+                // Appointment in Liste löschen 
+                MainPage.Selectedclass.AppointmentList.RemoveAt(MainPage.Selectedclass.AppointmentList.FindIndex(a => a.IdAppointment == appointment.IdAppointment));
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         #endregion
     }

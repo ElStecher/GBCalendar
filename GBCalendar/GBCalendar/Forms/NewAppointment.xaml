@@ -59,14 +59,16 @@
                     Text="Ganztägiges Ereignis:" 
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Start" />
+                    HorizontalTextAlignment="Start" 
+                    />
+                
                 <Switch
                     HorizontalOptions="Start"
                     Toggled="OnToggled"
                     IsToggled="False"
                     />
 
-                <Label Text="Begin:" 
+                <Label Text="Beginn:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"
                    x:Name="LabelBegin"/>

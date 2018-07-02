@@ -5,7 +5,7 @@
              x:Class="GBCalendar.StartPage"
              Title="GBCalendar">
 
-    <StackLayout Padding="20">
+    <StackLayout x:Name="stackLayout" Padding="20">
 
         <Label Text="Melden Sie sich mit einem dieser Konten an." 
                HorizontalOptions="Center"/>

@@ -9,35 +9,11 @@ namespace GBCalendar
     class DatabaseReader
     {
         #region Felder und Eigenschaften der Klasse DatabaseReader
-        private List<SchoolClass> classList = new List<SchoolClass>();
-        private List<Room> roomList = new List<Room>();
-        private List<Appointment> appointmentList = new List<Appointment>();
-        private List<string> userList = new List<string>();
-
-        public List<SchoolClass> ClassList
-        {
-            get
-            {
-                return this.classList;
-            }
-            private set
-            {
-                this.classList = ClassList;
-            }
-        }
-        public List<Room> RoomList
-        {
-            get
-            {
-                return this.roomList;
-            }
-            private set
-            {
-                this.roomList = RoomList;
-            }
-        }
+        public List<SchoolClass> ClassList { get; private set; } = new List<SchoolClass>();
+        public List<Room> roomList { get; private set; } = new List<Room>();
+        private List<string> userList { get; set; } = new List<string>();
         #endregion
-        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
+
         #region Methoden der Klasse DatabaseReader
 
         /// <summary>
@@ -54,6 +30,7 @@ namespace GBCalendar
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
+
                 // query liest nur bestimmte Klassen einer Person Aus!
                 command.CommandText = "SELECT * FROM Class WHERE idclass IN(SELECT Class_idClass FROM Class_has_Person WHERE Person_idPerson LIKE " + IdPerson + ");";
 
@@ -61,12 +38,12 @@ namespace GBCalendar
 
                 while (reader.Read())
                 {
-                    classList.Add(new SchoolClass((int)reader.GetValue(0), reader.GetValue(1).ToString()));
+                    ClassList.Add(new SchoolClass((int)reader.GetValue(0), reader.GetValue(1).ToString()));
                 }
 
-                foreach(SchoolClass schoolClass in classList)
+                foreach(SchoolClass schoolClass in ClassList)
                 {
-                    schoolClass.AppointmentList = ReadAppointments(schoolClass);
+                    ReadAppointments(schoolClass);
                 }
 
                 reader.Close();
@@ -74,11 +51,11 @@ namespace GBCalendar
                 //Connection schliessen
                 Connect.CloseConnection();
 
-                return classList;
+                return ClassList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("Fehler beim lesen der Klassen: " + e.Message.ToString());
+                throw;
             }
             
         }
@@ -114,93 +91,65 @@ namespace GBCalendar
 
                 return roomList;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
+                throw;
             }
         }
 
-        
-        public Room ReadRoom(int idRoom)
-        {
-
-            try
-            {
-                string roomName = null;
-
-                //instanzierung
-                DatabaseConnector Connect = new DatabaseConnector();
-                Connect.OpenConnection();
-
-                MySqlCommand command = Connect.Connection.CreateCommand();
-                // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT * FROM Room WHERE idRoom = " + idRoom + ";";
-
-                MySqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    roomName = (string)reader.GetValue(1);
-                }
-
-                reader.Close();
-
-                //Connection schliessen
-                Connect.CloseConnection();
-
-                Room room = new Room(idRoom, roomName);
-                return room;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Fehler beim lesen der Räume: " + ex.Message.ToString());
-            }
-        }
-
+       
         /// <summary>
         /// List alle in der Datenbank Appointments heraus und fügt diese zu einer Liste hinzu
         /// </summary>
         /// <returns>Liste aller vorhandenen Appointments für Klasse</returns>
-        public List<Appointment> ReadAppointments(SchoolClass schoolClass)
+        public void ReadAppointments(SchoolClass schoolClass)
         {
             try
             {
-                //instanzierung
+                // Liste säubern
+                schoolClass.AppointmentList.Clear();
+
+                // Instanzierung
                 DatabaseConnector Connect = new DatabaseConnector();
                 Connect.OpenConnection();
 
                 MySqlCommand command = Connect.Connection.CreateCommand();
-                // query liest nur bestimmte Klassen einer Person Aus!
-                command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+
+                // command.CommandText = "SELECT * FROM Appointment WHERE Class_idClass=" + schoolClass.IdClass + ";";
+                // Liest alle Appointments aus, welche nach dem heutigen Datum stattfinden und den  dazugehörigen creator, sowie den Raum in dem das Appointment stattfindet
+                command.CommandText = "SELECT a.idAppointment, a.Title, a.Person_idPerson, a.Class_idClass, a.Room_idRoom, a.Start_Time, a.End_Time, a.Description, a.AllDayEvent, p.Name, p.Firstname, r.Roomname " +
+                    "FROM Person AS p, Appointment AS a, Room AS r " +
+                    "WHERE p.Role_idRole = 1 AND p.IdPerson = a.Person_idPerson AND  Class_idClass=" + schoolClass.IdClass + " AND r.idRoom = a.Room_idRoom AND a.Start_Time >= curdate();";
 
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read())
                 {
-                    //Formatierung Zeit/Datum
-                    DateTime startTimeObj = reader.GetDateTime(5);
-                    string startTime = startTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
-
+                    // Zeiten auslesen und Formatieren
                     DateTime endTimeObj = reader.GetDateTime(6);
-                    string endTime = endTimeObj.ToString("dd-MM-yyyy HH:mm:ss");
+                    DateTime startTimeObj = reader.GetDateTime(5);
+                        
+                        
+                    // Instanzierung Person
+                    Person creator = new Person((int)reader.GetValue(2), (string)reader.GetValue(9), (string)reader.GetValue(10));
 
-                    //Instanzierung
-                    Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), ReadRoom((int)reader.GetValue(4)),
-                      startTime, endTime, (string)reader.GetValue(9), (string)reader.GetValue(7));
+                    // Instanzierung Room
+                    Room room = new Room((int)reader.GetValue(4), (string)reader.GetValue(11));
 
-                    appointmentList.Add(a);
+                    // Instanzierung Appointment
+                    Appointment a = new Appointment((int)reader.GetValue(0), (string)reader.GetValue(1), room,
+                        startTimeObj, endTimeObj, (string)reader.GetValue(8), (string)reader.GetValue(7), creator);
+
+                    schoolClass.AppointmentList.Add(a);
                 }
 
                 reader.Close();
 
                 //Connection schliessen
                 Connect.CloseConnection();
-
-                return appointmentList;
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
+            catch (Exception)
+            { 
                 throw;
             }
         }
@@ -214,38 +163,45 @@ namespace GBCalendar
         /// <returns>user object</returns>
         public bool AreUserCredentialsCorrect(string email, string password, int idRole)
         {
-            int idPerson = 0;
-            string firstName = null;
-            string lastName = null;
-            //instanzierung
-            DatabaseConnector Connect = new DatabaseConnector();
-            Connect.OpenConnection();
-
-            MySqlCommand command = Connect.Connection.CreateCommand();
-            // query liest nur bestimmte Klassen einer Person Aus!
-            command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
-
-            MySqlDataReader reader = command.ExecuteReader();
-
-
-            while (reader.Read())
+            try
             {
-                //userList.Add(reader.GetValue(0).ToString());
-                idPerson = (int)reader.GetValue(0);
-                firstName = (string)reader.GetValue(1);
-                lastName = (string)reader.GetValue(2);
-            }
+                int idPerson = 0;
+                string firstName = null;
+                string lastName = null;
+                //instanzierung
+                DatabaseConnector Connect = new DatabaseConnector();
+                Connect.OpenConnection();
 
-            if (idPerson != 0)
-            {
-                App.UserLoggedIn = new Person(idPerson, firstName, lastName,  email, password, idRole);
-                return true;
+                MySqlCommand command = Connect.Connection.CreateCommand();
+
+                // query liest nur bestimmte Klassen einer Person Aus!
+                command.CommandText = "SELECT * FROM Person WHERE Email = '" + email + "' AND Password = '" + password + "' AND Role_idRole = '" + idRole.ToString() + "';";
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+
+                while (reader.Read())
+                {
+                    idPerson = (int)reader.GetValue(0);
+                    firstName = (string)reader.GetValue(1);
+                    lastName = (string)reader.GetValue(2);
+                }
+
+                if (idPerson != 0)
+                {
+                    App.UserLoggedIn = new Person(idPerson, firstName, lastName, email, password, idRole);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+                throw;
             }
-        }
+        }    
         #endregion
     }
 }

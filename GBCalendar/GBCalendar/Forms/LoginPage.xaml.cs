@@ -9,53 +9,75 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
 	{
-        private Int16 IdRole { get; set; }
-        private string Error = "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"; 
+        #region Felder der Page LoginPage
+        public Int16 IdRole { get; private set; }
+        private string Error { get; set; } = "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut";
+        #endregion
 
+        #region Methoden der Page LoginPage
+        /// <summary>
+        /// Initialisierung
+        /// </summary>
+        /// <param name="idRole">Rolle der angemeldeteten Person</param>
         public LoginPage(Int16 idRole)
         {
+            // Initialisierung
             InitializeComponent();
-
             this.IdRole = idRole;
         }
 
+        /// <summary>
+        /// Klickt der Benutzer auf den Button um sich anzumelden wird diese Methode aufgerufen
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         async void OnLoginClicked(object sender, EventArgs args)
         {
-
-            var isValid = AreCredentialsCorrect(); 
-
-            if (isValid)
+            try
             {
-                //App.UserLoggedIn = loggedInPerson;
-                Navigation.InsertPageBefore(new MainPage(), this); // ZUerst muss die KLasse ausgewählt werden können bevor es zur MainPage weitergeht
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                await DisplayAlert("Fehler", Error, "OK");
-            }
+                bool isValid = AreCredentialsCorrect();
 
-            bool AreCredentialsCorrect()
-            {
-                if (string.IsNullOrWhiteSpace(entryMail.Text) || string.IsNullOrWhiteSpace(entryPassword.Text))
+                // Wenn die Anmeldedaten korrekt sind, wird der Rest der App zugänglich
+                if (isValid)
                 {
-                    Error = "Keine Email oder Passwort eingegeben";
-                    return false;
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
                 }
                 else
                 {
-                    DatabaseReader checkUser = new DatabaseReader();
-                    if(checkUser.AreUserCredentialsCorrect(entryMail.Text, entryPassword.Text, IdRole))
+                    await DisplayAlert("Fehler", Error, "OK");
+                }
+
+                // Überprüfung der Anmeldedaten
+                bool AreCredentialsCorrect()
+                {
+                    // Wenn das Passwort oder die E-Mail leer ist oder Leerzeichen beinhaltet wird ein Fehler angezeigt
+                    if (string.IsNullOrWhiteSpace(entryMail.Text) || string.IsNullOrWhiteSpace(entryPassword.Text))
                     {
-                        return true;
+                        Error = "Keine Email oder Passwort eingegeben";
+                        return false;
                     }
                     else
                     {
-                        Error = "Passwort oder E-Mail nicht korrekt, bitte versuche es erneut und überprüfen Sie ob sie beim Start Schüler oder Lehrer ausgesucht haben.";
-                        return false;
+                        // DatabaseReader um die Daten zu überprüfen
+                        DatabaseReader checkUser = new DatabaseReader();
+                        if (checkUser.AreUserCredentialsCorrect(entryMail.Text, entryPassword.Text, IdRole))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Error = "Passwort oder E-Mail nicht korrekt, bitte versuche es erneut und überprüfen Sie ob sie beim Start Schüler oder Lehrer ausgesucht haben.";
+                            return false;
+                        }
                     }
                 }
-            }   
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
+            }
         }
-     }
+        #endregion
+    }
 }

@@ -12,19 +12,24 @@ namespace GBCalendar
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewAppointment : ContentPage
 	{
+        #region Felder der Page NewAppointment
         private string alldayevent = "N";
-        private string startTime;
-        private string endTime;
-
+        private DateTime startTime;
+        private DateTime endTime;
         private List<Room> rooms;
+        #endregion
 
+        #region Methoden der Page NewAppointment
+        /// <summary>
+        /// Initialisierung
+        /// </summary>
         public NewAppointment ()
 		{
-            InitializeComponent();
-            
-
             try
             {
+                // Initialiserung
+                InitializeComponent();
+
                 //Fill up Rooms for Appointment
                 DatabaseReader readerrooms = new DatabaseReader();
 
@@ -36,27 +41,31 @@ namespace GBCalendar
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
         }
 
-        void OnToggled(object sender, ToggledEventArgs e)
+        /// <summary>
+        /// Wird der Switch-Button angeklickt ändert sich der Zustand
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        void OnToggled(object sender, ToggledEventArgs args)
         {
-            if (e.Value == true)
+            // Ist das Appointment ein ganztägiges Ereignis, werden die Informationen der Start- und Endzeit ausgeblendet
+            if (args.Value == true)
             {
                 LabelBegin.IsVisible = false;
                 TimePickerStart_Time.IsVisible = false;
                 LabelEnd.IsVisible = false;
                 TimePickerEnd_Time.IsVisible = false;
-
-
                 alldayevent = "Y";
             }
 
-            if (e.Value == false)
+            // Ansonsten sind die Informationen zu den Zeiten wieder sichtbar
+            if (args.Value == false)
             {
                 LabelBegin.IsVisible = true;
                 TimePickerStart_Time.IsVisible = true;
@@ -66,50 +75,73 @@ namespace GBCalendar
             }
         }
 
+        /// <summary>
+        /// Wenn der Benutzer das erstellte Ereigniss speichern möchte
+        /// </summary>
+        /// <param name="sender">Autogeneriert</param>
+        /// <param name="args">Autogeneriert</param>
         void OnCreateAppointmentClicked(object sender, EventArgs args)
         {
-
-            //Abfragen ob felder Ausgefüllt
-            if (AppointmentTitel.Text == null)
+            try
             {
-                DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
-                return;
+                DateTime date = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day);
+
+                //Abfragen ob felder Korrekt/Ausgefüllt
+                if (AppointmentTitel.Text == null || AppointmentTitel.Text == "")
+                {
+                    DisplayAlert("Titel fehlt", "Bitte Titel für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (AppointmentDescription.Text == null || AppointmentDescription.Text == "")
+                {
+                    DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
+                    return;
+                }
+                else if (alldayevent == "N" && TimePickerStart_Time.Time > TimePickerEnd_Time.Time)
+                {
+                    DisplayAlert("Zeitspanne ungültig", "Beginn darf nicht grösser als Ende sein.", "OK");
+                    return;
+                }
+
+                else if (Roompicker.SelectedItem == null)
+                {
+                    DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
+                    return;
+                };
+
+                //Wert für Room setzen
+                Room selectedroom = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
+
+                //Werte setzen für Alldayevent
+                if (alldayevent == "N")
+                {
+                    startTime = date + TimePickerStart_Time.Time;
+                    endTime = date + TimePickerEnd_Time.Time;
+                }
+                else
+                {
+                    startTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 0, 0, 0);
+                    endTime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, 23, 59, 59);
+                }
+
+                //instanzierung Appointment
+                Appointment appointment = new Appointment(AppointmentTitel.Text, selectedroom, MainPage.Selectedclass, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
+
+
+                MainPage.Selectedclass.AddAppointment(appointment);
+
+                // Zuerst muss die Klasse ausgewählt werden können bevor es zur MainPage weitergeht
+                Navigation.InsertPageBefore(new MainPage(MainPage.Selectedclass), this); 
+                Navigation.PopAsync();
+
+                DisplayAlert("Ereignis erstellt!", "Das Ereignis wurde erfolgreich erstellt.", "OK");
+
             }
-            else if (AppointmentDescription.Text == null)
+            catch (Exception e)
             {
-                DisplayAlert("Beschreibung fehlt", "Bitte Beschreibung für Ereignis eintragen", "OK");
-                return;
+                DisplayAlert("Fehler", "Ein Fehler ist aufgetreten. Bitte wenden Sie sich an den Support: " + Environment.NewLine + e.Message, "OK");
             }
-            else if (Roompicker.SelectedItem == null)
-            {
-                DisplayAlert("Raum fehlt", "Bitte Raum auswählen", "OK");
-                return;
-            };
-
-
-
-            //Wert für Room setzen
-            Room r = rooms.Find(room => room.RoomName == Roompicker.SelectedItem.ToString());
-
-            //Werte setzen für Alldayevent
-            if (alldayevent == "N")
-            {
-                startTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerStart_Time.Time.ToString();
-                endTime = DatePicker.Date.ToString("yyyy-MM-dd") + " " + TimePickerEnd_Time.Time.ToString();
-
-            }
-            else
-            {
-                startTime = "00:00:00";
-                endTime = "23:59:59";
-            }
-
-            //instanzierung Appointment
-            MainPage.Selectedclass.AddAppointment(AppointmentTitel.Text, MainPage.Selectedclass, r, startTime, endTime, alldayevent, AppointmentDescription.Text, App.UserLoggedIn);
-            Application.Current.MainPage.Navigation.PopAsync();
-
-            // problem: refresh der Seite mit Appointments muss noch implementiert werden
-           
-        }
+        }     
+        #endregion
     }
 }

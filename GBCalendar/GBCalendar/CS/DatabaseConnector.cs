@@ -9,20 +9,8 @@ namespace GBCalendar
 {
     class DatabaseConnector
     {
-        #region Felder und Eigenschaften der Klasse DatabaseConnector
-        private MySqlConnection connection;
-
-        public MySqlConnection Connection
-        {
-            get
-            {
-                return this.connection;
-            }
-            private set
-            {
-                this.connection = Connection;
-            }
-        }
+        #region Felder der Klasse DatabaseConnector
+        public MySqlConnection Connection { get; private set; }
 
         #region Eigenschaften um Verbindung mit Datenbank herzustellen
         private string server = "maissen.internet-box.ch";
@@ -33,9 +21,8 @@ namespace GBCalendar
         private string connectionString;
         #endregion
         #endregion
-        // @Fabio ToDo: Schauen wie Singleton-Pattern genau umgesetzt wird und implementieren
-        #region Methoden der Klasse DatabaseConnector
 
+        #region Methoden der Klasse DatabaseConnector
         /// <summary>
         /// Öffnet eine Verbindung mir der definierten Datenbank
         /// </summary>
@@ -43,10 +30,10 @@ namespace GBCalendar
         {
             try
             {
-                connectionString = "SERVER=" + server + ";" + "PORT=" + port + ";" + "DATABASE=" +
-                database + ";" + "UID=" + user + ";" + "PASSWORD=" + password + ";";
-                connection = new MySqlConnection(connectionString);
-                connection.Open();
+                this.connectionString = "SERVER=" + this.server + ";" + "PORT=" + this.port + ";" + "DATABASE=" +
+                this.database + ";" + "UID=" + this.user + ";" + "PASSWORD=" + this.password + ";";
+                this.Connection = new MySqlConnection(this.connectionString);
+                this.Connection.Open();
 
             }
             catch (Exception e)
@@ -62,7 +49,7 @@ namespace GBCalendar
         {
             try
             {
-                this.connection.Close();
+                this.Connection.Close();
             }
             catch (Exception e)
             {

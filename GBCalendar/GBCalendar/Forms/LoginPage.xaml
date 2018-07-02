@@ -4,19 +4,26 @@
              x:Class="GBCalendar.LoginPage"
              Title="GBCalendar">
 
-    <StackLayout Padding = "20" >
+    <StackLayout x:Name="layout" Padding = "20" HorizontalOptions="Center" BackgroundColor="White">
 
+        <Image Source="GBC.jpg"/>
+        
         <Label Text = "Melden Sie sich mit Ihrer Email Adresse sowie mit Ihrem Kennwort an"
-               HorizontalOptions="Center"/>
+               VerticalOptions="Center" />
 
         <Entry x:Name="entryMail"
-               Placeholder="jemand@example.com" />
+               Placeholder="jemand@example.com" 
+               VerticalOptions="Center" />
 
         <Entry x:Name="entryPassword"
                Placeholder="Kennwort"
-               IsPassword="true"/>
+               IsPassword="true"
+               VerticalOptions="Center" />
 
-        <Button Text = "Anmelden"
-                Clicked="OnLoginClicked" />
+        <Button x:Name="LoginButton"
+                Text = "Anmelden"
+                Clicked="OnLoginClicked"
+                VerticalOptions="Center" />
+
     </StackLayout>
 </ContentPage>

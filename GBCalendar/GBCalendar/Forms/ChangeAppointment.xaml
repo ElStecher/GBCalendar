@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding = "20">
-                <Label Text="Titel für Ereignis:" 
+                <Label Text="Titel:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"/>
 
@@ -15,7 +15,7 @@
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"/>
 
-                <Label Text="Beschreibung für Ereignis:" 
+                <Label Text="Beschreibung:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"/>
 
@@ -24,7 +24,16 @@
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"/>
 
-                <Label Text="Raum auswählen:" 
+                <Label x:Name="AppointmentLabelCreator" 
+                   Text="Ersteller:" 
+                   HorizontalOptions="Start"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Entry x:Name="AppointmentCreator"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"/>
+
+                <Label Text="Raum:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"/>
 
@@ -60,12 +69,13 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start" />
                 <Switch
+                    x:Name="AllDayEventSwitch"
                     HorizontalOptions="Start"
                     Toggled="OnToggled"
                     IsToggled="False"
                     />
 
-                <Label Text="Begin:" 
+                <Label Text="Beginn:" 
                    HorizontalOptions="Start"
                    VerticalOptions="FillAndExpand"
                    x:Name="LabelBegin"/>
@@ -82,12 +92,14 @@
                     HorizontalOptions="FillAndExpand" 
                     VerticalOptions="FillAndExpand"/>
 
-                <Button Text="Ereignis speichern" 
+                <Button Text="Ereignis speichern"
+                    x:Name="ButtonSaveAppointment"   
                     HorizontalOptions="FillAndExpand"
                     Clicked="OnSaveAppointmentClicked"
                     VerticalOptions="FillAndExpand"/>
 
                 <Button Text="Ereignis löschen"
+                        x:Name="ButtonDeleteAppointment"
                         HorizontalOptions="FillAndExpand"
                         Clicked="OnDeleteAppointmentClicked"
                         VerticalOptions="FillAndExpand"/>
